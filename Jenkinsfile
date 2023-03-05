@@ -44,12 +44,7 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 script {
-                    if (JOB_BASE_NAME.contains('dev-')) {
-                        sh 'docker run -d --rm -p 80:80 --name ' + APPLICATION_NAME + ' ' + DOCKER_IMAGE_LATEST_TAG_NAME
-                    }
-                    if (JOB_BASE_NAME.contains('prod-')) {
-                        sh 'docker run -d --rm -p 80:80 --name ' + APPLICATION_NAME + ' ' + DOCKER_IMAGE_LATEST_TAG_NAME
-                    }
+                    sh 'docker run -d --rm -p 80:80 --name ' + APPLICATION_NAME + ' ' + DOCKER_IMAGE_LATEST_TAG_NAME
                 }
             }
         }

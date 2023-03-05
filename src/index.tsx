@@ -7,6 +7,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { StepsTheme as Steps } from 'chakra-ui-steps';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +16,10 @@ const root = ReactDOM.createRoot(
 const theme = extendTheme({
   fonts: {
     body: "Overpass, sans-serif"
-  }
+  },
+  components: {
+    Steps,
+  },
 })
 
 root.render(

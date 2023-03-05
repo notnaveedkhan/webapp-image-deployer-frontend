@@ -1,7 +1,9 @@
-
+import Auth from './Auth'
 
 export default function RootRoute() {
   return (
-    <div>RootRoute</div>
+    <>
+      <Auth/>
+    </>
   )
 }

@@ -1,9 +1,9 @@
 
-import Login from './pages/Login';
+import RootRoute from './routes/RootRoute';
 function App() {
   return (
     <>
-      <Login/>
+      <RootRoute/>
     </>
   );
 }

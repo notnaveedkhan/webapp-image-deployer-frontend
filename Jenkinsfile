@@ -30,6 +30,7 @@ pipeline {
         stage('Stop Container') {
             steps {
                 sh 'docker stop ' + APPLICATION_NAME + ' || true'
+                sh 'docker rm ' + APPLICATION_NAME + ' || true'
             }
         }
         stage('Remove Old Image') {

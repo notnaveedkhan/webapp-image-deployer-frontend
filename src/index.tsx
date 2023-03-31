@@ -15,7 +15,8 @@ const root = ReactDOM.createRoot(
 
 const theme = extendTheme({
   fonts: {
-    body: "Overpass, sans-serif"
+    body: "Overpass, sans-serif",
+    heading:"Overpass, sans-serif"
   },
   components: {
     Steps,

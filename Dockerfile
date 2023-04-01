@@ -1,9 +1,8 @@
-FROM node:18.14.2-slim as build
+FROM node:18.14.0 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY ./package.json /app/
-RUN npm cache clean --force
-RUN npm install --silent
+RUN npm install --force
 COPY . /app
 RUN npm run build
 

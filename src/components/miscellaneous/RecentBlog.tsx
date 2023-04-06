@@ -1,6 +1,7 @@
 import { Box, Divider, Heading, Link, Text } from "@chakra-ui/react";
 import { HiOutlineDotsVertical,HiOutlineExternalLink } from "react-icons/hi";
 import { RxDragHandleDots1 } from "react-icons/rx";
+import {Link as RouterLink } from 'react-router-dom';
 
 export default function RecentBlog() {
   return (
@@ -39,7 +40,7 @@ export default function RecentBlog() {
               </Box>
           </Box>
           <Divider mt={4}/>
-           <Link  paddingY={3} display="flex" justifyContent={"center"} alignItems="center" color={"blue.500"}>view all blog post<HiOutlineExternalLink/></Link>
+           <Link as={RouterLink} to={"/blogs"}  paddingY={3} display="flex" justifyContent={"center"} alignItems="center" color={"blue.500"}>view all blog post<HiOutlineExternalLink/></Link>
                 </Box>
   )
 }

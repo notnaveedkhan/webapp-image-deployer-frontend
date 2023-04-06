@@ -19,14 +19,18 @@ import {Link} from 'react-router-dom'
 import {useState} from "react";
 import KubernetesLogo from '../assets/logo.png';
 import {useFormik} from "formik";
-import Values from "../interfaces/FormValues.interface";
+import Values from "../interfaces/LoginFormValues.interface";
 import * as yup from 'yup';
 import { useLoginMutation } from "../services/auth.service";
-import { LoginBody } from "../services/auth.service";
-import {} from '@reduxjs/toolkit';
-import { log } from "console";
+import cookie from 'react-cookies';
+import { useDispatch } from "react-redux";
+import { addLoginInfo } from "../states/loginInfo";
+import { AppDispatch } from "../store";
+
+
 
 export default function Login() {
+    const dispatch:AppDispatch = useDispatch();
     const toast = useToast();
     const [login] = useLoginMutation();
     const [show, setShow] = useState(false);
@@ -58,7 +62,13 @@ export default function Login() {
                         position: "top",
                         status:"success"
                     })
-                    console.log(res.data);
+                    dispatch(addLoginInfo({
+                        login: true,
+                        token: res.data.token,
+                        expireAt: res.data.expiresAt
+                    }));
+                    const date = new Date(res.data.expiresAt);
+                    document.cookie = `token=${res.data.token}; expires=${date}; path=/`;
                 }
             })
         },

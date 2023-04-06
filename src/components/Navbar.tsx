@@ -1,11 +1,18 @@
-import { Box, Divider, Heading, Image, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Heading, Image, Link, Text } from "@chakra-ui/react";
 import LOGO from '../assets/logo.png'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {BsFillBellFill} from 'react-icons/bs'
 import { ChevronDownIcon } from "@chakra-ui/icons";
-
+import cookies from 'react-cookies'
 
 export default function Navbar() {
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        cookies.remove("token");
+        navigate("/", { replace: false });
+        window.location.reload();
+    }
+
     return (
         <Box
             w={"100%"}
@@ -40,6 +47,7 @@ export default function Navbar() {
                     <Text>notnaveedkhan</Text>
                     <ChevronDownIcon/>
                 </Box>
+                <Button onClick={handleLogout}>Logout</Button>
             </Box>
     </Box>
   )

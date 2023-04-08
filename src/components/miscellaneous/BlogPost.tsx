@@ -14,7 +14,7 @@ interface BlogPostProps{
 }
 export default function BlogPost(props:BlogPostProps) {
   return (
-      <Card
+  <Card
   direction={{ base: 'column', sm: 'row' }}
   overflow='hidden'
   variant='outline'

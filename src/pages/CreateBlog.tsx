@@ -1,4 +1,4 @@
-import { Box, Button, Divider, FormControl, FormHelperText, FormLabel, Heading, Input, Text, Textarea } from "@chakra-ui/react";
+import { Badge, Box, Button, Divider, FormControl, FormHelperText, FormLabel, Heading, Input, Stack, Text, Textarea } from "@chakra-ui/react";
 import {GoTextSize} from 'react-icons/go'
 import { FaBold } from 'react-icons/fa'
 import { BiItalic, BiSend } from 'react-icons/bi'
@@ -13,17 +13,19 @@ import * as Yup from 'yup';
 
 
 export default function CreateBlog() {
-    const [tags, setTags] = useState([]);
+    // const [tags, setTags] = useState([]);
     interface BlogDto{
         title: string,
         content: string,
-        tags:string[]
+        tags: string[],
+        tag:string
     }
 
     const initialValues: BlogDto = {
         title: "",
         content: "",
-        tags:[]
+        tags: [''],
+        tag:""
     }
 
     const Formik = useFormik({
@@ -34,14 +36,20 @@ export default function CreateBlog() {
         validationSchema: Yup.object({
             title: Yup.string().required("Title Field is Required"),
             content: Yup.string().min(100, "Minimum 100 lenght").required("content required"),
+            tags:Yup.array()
+      .of(Yup.string())
+      .min(1, 'At least one email address is required'),
         })
     })
 
 
     const handleEnterPress = (e:React.KeyboardEvent) => {
         if (e.key === "Enter") {
-            console.log("Enter Event Triggred")
-            console.log("WOW")
+            if (Formik.values.tag) {
+                if (!Formik.values.tags.includes(Formik.values.tag)) {
+                   Formik.values.tags.concat(Formik.values.tag) 
+                }
+            }
         }
     }
     
@@ -87,8 +95,14 @@ export default function CreateBlog() {
                     <Box mt={3} border="1px" p={3} borderColor={"gray.300"} borderRadius={"lg"}>
                         <FormControl>
                             <FormLabel>Tags</FormLabel>
-                            <Input onKeyDown={handleEnterPress} type={"search"} placeholder={"e.g (Deploment,Aws)"} />
-                        </FormControl>
+                            <Input value={Formik.values.tag} name="tag" onChange={Formik.handleChange} onBlur={Formik.handleBlur} onKeyDown={handleEnterPress} type={"search"} placeholder={"e.g (Deploment,Aws)"} />
+                            </FormControl>
+                            <Stack direction='row'>
+                                {Formik.values.tags.map(tag => {
+                                    return <Badge colorScheme='green'>{tag}</Badge>
+                               })}
+                                
+                            </Stack>
                         </Box>
                         
                     <Button mt={3} w="100%" bgColor={process.env.REACT_APP_NAVBAR_BG_COLOR} _hover={{}} color="white" rightIcon={<BiSend/>}>Publish</Button>

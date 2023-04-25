@@ -12,6 +12,7 @@ import {
     InputLeftElement,
     InputRightElement,
     Link as ChakraLink,
+    Spinner,
     Text,
     useToast
 } from "@chakra-ui/react";
@@ -30,6 +31,7 @@ import { AppDispatch } from "../store";
 
 
 export default function Login() {
+    const [submitLoading,setSubmitLoading] = useState(false);
     const dispatch:AppDispatch = useDispatch();
     const toast = useToast();
     const [login] = useLoginMutation();
@@ -43,7 +45,8 @@ export default function Login() {
     }
     const Formik = useFormik({
         initialValues: initialValues,
-        onSubmit:async (values) => {
+        onSubmit: async (values) => {
+            setSubmitLoading(true);
             login(values).then((res:any )=> {
                 if (res.error) {
                     toast({
@@ -53,8 +56,10 @@ export default function Login() {
                         position: "top",
                         status:"error"
                     }) 
+                    setSubmitLoading(false)
                 }
                 if (res.data) {
+                     setSubmitLoading(false)
                     toast({
                         title: "Login Successfully",
                         isClosable: true,
@@ -103,7 +108,7 @@ export default function Login() {
                         <FormErrorMessage>{Formik.errors.password}</FormErrorMessage>
                     </FormControl>
                     <Box p={3}>
-                        <Button type="submit" w={"100%"} colorScheme={"facebook"}>Login</Button>
+                        <Button type="submit" w={"100%"} colorScheme={"facebook"}>{submitLoading?<Spinner/>:"Login"}</Button>
                     </Box>
                 </form>
                 <Divider mt={5}/>

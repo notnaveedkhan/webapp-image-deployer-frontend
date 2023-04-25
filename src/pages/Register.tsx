@@ -13,6 +13,7 @@ import {
     InputLeftElement,
     InputRightElement,
     Link as ChakraLink,
+    Spinner,
     Text,
     useToast
 } from "@chakra-ui/react";
@@ -24,6 +25,7 @@ import Values from "../interfaces/RegisterFormValue.interface";
 import * as yup from 'yup';
 import {useRegisterMutation} from "../services/auth.service"
 export default function Register() {
+    const [submitLoading,setSubmitLoading] = useState(false);
     const navigate = useNavigate();
      const toast = useToast();
     const [show, setShow] = useState(false);
@@ -39,6 +41,7 @@ export default function Register() {
     const Formik = useFormik({
         initialValues: initialValues,
         onSubmit: async (values) => {
+             setSubmitLoading(true);
             register(values).then((res:any) => {
                 if (res.data) {
                     toast({
@@ -48,6 +51,7 @@ export default function Register() {
                         position: "top",
                         status:"success"
                     }) 
+                     setSubmitLoading(false);
                     setTimeout(() => {
                         navigate("/", { replace: true });
                     }, 3000);
@@ -59,7 +63,8 @@ export default function Register() {
                         duration: 3000,
                         position: "top",
                         status:"error"
-                    }) 
+                     }) 
+                    setSubmitLoading(false);
                 }
             })
         },
@@ -102,7 +107,7 @@ export default function Register() {
                         <FormErrorMessage>{Formik.errors.password}</FormErrorMessage>
                     </FormControl>
                     <Box p={3}>
-                        <Button type="submit" w={"100%"} colorScheme={"facebook"}>SignUp</Button>
+                        <Button type="submit" w={"100%"} colorScheme={"facebook"}>{submitLoading?<Spinner/>:"Register"}</Button>
                     </Box>
                 </form>
                 <Divider mt={5}/>

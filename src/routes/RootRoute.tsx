@@ -6,9 +6,11 @@ import { RootState } from '../store'
 import { useEffect } from 'react'
 import {load} from 'react-cookies'
 import { addLoginInfo } from '../states/loginInfo'
+// import { useNavigate } from 'react-router-dom'
 
 export default function RootRoute() {
   const dispatch = useDispatch();
+  // const navigate=useNavigate()
   const {login}=useSelector((state:RootState)=>state.login)
   useEffect(() => {
     const token = load("token");

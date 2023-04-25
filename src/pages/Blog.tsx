@@ -35,23 +35,7 @@ export default function Blog() {
       date: "26 june 2021",
       catogary: "Deployer",
       comments:"10 comments"
-    },
-    {
-      image: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-      heading: "AWS Approch",
-      content: "The Cluster Approach is used for coordinating in non-refugee humanitarian emergencies. Humanitarian organisations have agreed to lead certain clusters at global level (see the chart), and have defined a cluster structure for non-refugee humanitarian responses at country level",
-      date: "26 june 2022",
-      catogary: "AWS",
-      comments:"10 comments"
-    },
-    {
-      image: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-      heading: "Heroku Approch",
-      content: "The Cluster Approach is used for coordinating in non-refugee humanitarian emergencies. Humanitarian organisations have agreed to lead certain clusters at global level (see the chart), and have defined a cluster structure for non-refugee humanitarian responses at country level",
-      date: "26 june 2022",
-      catogary: "Heroku",
-      comments:"10 comments"
-     }
+    }
    ]
 
   const FormikCreateTopic = useFormik({

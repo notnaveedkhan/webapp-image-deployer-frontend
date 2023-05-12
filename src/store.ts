@@ -5,6 +5,7 @@ import LoginSlice from './states/loginInfo';
 import userSlice from './states/userState';
 import topicApi from './services/topic.service';
 import blogApi from './services/blog.service';
+import topicSlice from './states/topics';
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         [LoginSlice.name]: LoginSlice.reducer,
         [userSlice.name]: userSlice.reducer,
         [topicApi.reducerPath]: topicApi.reducer,
-        [blogApi.reducerPath]: blogApi.reducer
+        [blogApi.reducerPath]: blogApi.reducer,
+        [topicSlice.name]: topicSlice.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userApi.middleware, topicApi.middleware, blogApi.middleware)
 })

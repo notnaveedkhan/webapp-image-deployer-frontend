@@ -5,6 +5,7 @@ import {BsFillBellFill} from 'react-icons/bs'
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import cookies from 'react-cookies'
 
+
 export default function Navbar() {
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -17,7 +18,6 @@ export default function Navbar() {
         <Box
             w={"100%"}
             bgColor={process.env.REACT_APP_NAVBAR_BG_COLOR}
-            // bgColor={"blueviolet"}
             position={"fixed"}
             top={0}
             p={3}
@@ -35,9 +35,10 @@ export default function Navbar() {
                 <Divider orientation="vertical" />
                 <Box display={"flex"} gap={5} alignItems={"center"} cursor="pointer">
                     <Link as={RouterLink} to={"/"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Dashboard</Link>
-                    <Link as={RouterLink} to={"/"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Clusters</Link>
+                    <Link as={RouterLink} to={"/cluster"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Clusters</Link>
                     <Link as={RouterLink} to={"/"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Deploments</Link>
-                    <Link as={RouterLink} to={"/"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>About</Link>
+                    <Link as={RouterLink} to={"/about"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>About</Link>
+                    <Link as={RouterLink} to={"/fake"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Fake</Link>
                 </Box>
             </Box>
             <Box display={"flex"}  gap={2} alignItems={"center"}>

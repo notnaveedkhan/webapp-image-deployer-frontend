@@ -6,7 +6,7 @@ import { useAllTopicsQuery } from "../../services/topic.service";
 export default function BlogPostCategories() {
     const [inputShow, setInputShow] = useState(false);
     const { data, isFetching, isLoading } = useAllTopicsQuery({});
-    console.log(data)
+    // console.log(data)
   return (
       <Box>
           <Heading fontSize={"md"}>Topics</Heading>

@@ -8,7 +8,14 @@ export interface LoginBody {
 const userApi = createApi({
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_BASEURL
+        baseUrl: process.env.REACT_APP_BASEURL,
+        prepareHeaders: (headers) => {
+            headers.set("Access-Control-Allow-Origin", "*");
+            headers.set("Origin", "http://waidk8.com:2000");
+            headers.set("mode", "no-cors");
+            return headers;
+
+        }
     }),
     endpoints: (builder) => ({
         login: builder.mutation({

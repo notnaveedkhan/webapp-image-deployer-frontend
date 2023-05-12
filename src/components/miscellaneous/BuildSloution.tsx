@@ -57,8 +57,8 @@ export default function BuildSloution() {
           <Text p={2} color={"gray.500"}>Starts building with simple and wizard and automated workflows.</Text>
           <SimpleGrid columns={2} spacingX='20px' spacingY='10px'>
               {
-                  builSolutionOption.map((build: BuildSolutionOption) => {
-                      return <Box display={"flex"} alignItems="center" gap={3} p={3}>
+                  builSolutionOption.map((build: BuildSolutionOption,index:number) => {
+                      return <Box key={index} display={"flex"} alignItems="center" gap={3} p={3}>
                   <Image src={LOGO} h="20px" />
                   <Box>
                               <Heading fontSize={"md"}>{ build.heading}</Heading>

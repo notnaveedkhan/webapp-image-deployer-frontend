@@ -26,21 +26,25 @@ const blogApi = createApi({
             return headers;
         }
     }),
+    tagTypes: ['blogs'],
     endpoints: (builder) => ({
-        createBlog: builder.mutation({
-            query: (body: CreateBlogBody) => ({
-                url: "/api/v1/auth/private/blog/create",
-                body,
-                method: "POST"
-            })
-        }),
         getAllBlogs: builder.mutation({
             query: (body: DetailsBlogBody) => ({
                 url: "/api/v1/auth/private/blogs/details",
                 body,
                 method: "POST"
-            })
-        })
+            }),
+            invalidatesTags: ['blogs']
+        }),
+        createBlog: builder.mutation({
+            query: (body: CreateBlogBody) => ({
+                url: "/api/v1/auth/private/blog/create",
+                body,
+                method: "POST"
+            }),
+            invalidatesTags: ['blogs']
+        }),
+
     })
 });
 

@@ -49,6 +49,8 @@ export default function Login() {
             setSubmitLoading(true);
             login(values).then((res:any )=> {
                 if (res.error) {
+                    setSubmitLoading(false)
+                    console.log(res.error)
                     toast({
                         title: res.error.data.message,
                         isClosable: true,
@@ -56,7 +58,7 @@ export default function Login() {
                         position: "top",
                         status:"error"
                     }) 
-                    setSubmitLoading(false)
+                    console.log(res.error)
                 }
                 if (res.data) {
                      setSubmitLoading(false)

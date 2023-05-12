@@ -1,23 +1,29 @@
-import { Badge, Box, Button, Divider, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, Input, Spinner, Stack, Text, Textarea, useToast } from "@chakra-ui/react";
+import { Badge, Box, Button, Divider, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, Input, Menu, MenuButton, MenuItem, MenuList, Select, Spinner, Stack, Text, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
 import {GoTextSize} from 'react-icons/go'
 import { FaBold } from 'react-icons/fa'
 import { BiItalic, BiSend } from 'react-icons/bi'
 import { ImCross, ImLink } from 'react-icons/im'
 import { FaQuoteRight } from 'react-icons/fa'
-import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from "@chakra-ui/icons";
+import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, WarningIcon } from "@chakra-ui/icons";
 import { AiFillPicture, AiOutlineAlignCenter, AiOutlineOrderedList, AiOutlineUnorderedList } from "react-icons/ai";
 import { BsCardText, BsTable } from "react-icons/bs";
-import {useState} from "react";
+import React, {useLayoutEffect, useState} from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
+// import { useEffect} from 'react';
 import {useCreateBlogMutation,CreateBlogBody} from '../services/blog.service'
+import { useAllTopicsQuery } from "../services/topic.service";
 
 
 export default function CreateBlog() {
+    const [addedTopics,setAddedTopics] = useState<any[]>([]);
+    const [filterArray,setFilterArray]=useState([])
+    const [isOpen,setIsOpen]=useState(true)
     const [submitLoading,setSubmitLoading] = useState(false);
-    const [tags, setTags] = useState<String[]>([]);
     const [CreateBlog] = useCreateBlogMutation();
     const toast = useToast();
+    const { data, isSuccess } = useAllTopicsQuery({});
+   
     interface BlogDto{
         title: string,
         content: string,
@@ -34,15 +40,29 @@ export default function CreateBlog() {
         initialValues: initialValues,
         onSubmit: (value) => {
             setSubmitLoading(true)
+            const topics: number[] = []
+            addedTopics.map((topic) => {
+                topics.push(topic.id);
+            })
+
             const body: CreateBlogBody = {
                 title: value.title,
                 content: value.content,
-                topics:[1]
+                topics:topics
             }
+            console.log(body)
             CreateBlog(body).then((res:any) => {
                 if (res.data) {
                     console.table(res.data)
                     setSubmitLoading(false)
+                     toast({
+                        title: "Successfully Created Blog",
+                        position: "top",
+                        isClosable: true,
+                        duration: 3000,
+                        icon: <CheckIcon />,
+                        status:"success"
+                    })
                 }
                 if (res.error) {
                     toast({
@@ -64,30 +84,27 @@ export default function CreateBlog() {
         })
     })
 
-    const handleEnterPress = (e:React.KeyboardEvent) => {
-        if (e.key === "Enter") {           
-            if (Formik.values.tag) {
-                if (!tags.includes(Formik.values.tag)) {
-                    setTags([...tags, Formik.values.tag])
-                    // setFieldValue("tag",'')
-                }        
-            }   
-        }
+    const handleClickToAdded = (topic:any) => {
+        setAddedTopics([...addedTopics, topic])
+        setIsOpen(true)
     }
 
-    const handleRemoveTag = (tag:String): void => {
-        const tagIndex=tags.indexOf(tag);
-        console.log(tagIndex)
-        const updateTags = [...tags]
-        updateTags.splice(tagIndex, 1);
-        setTags(updateTags)
-        
+    const handleTopicOnChange = (e: React.ChangeEvent) => {
+        Formik.handleChange(e);
+        setIsOpen(false)
+        const newArray = data.filter((topic:any) => topic.name.toLowerCase().includes(Formik.values.tag.toLowerCase()));
+        setFilterArray(newArray)    
     }
+    const handleRemoveTag = (topic:any): void => {
+       const newArray=addedTopics.filter((item) => item.id !== topic.id)
+       setAddedTopics(newArray)
+    }
+
     
     return (
         <>
             <Heading textAlign={"center"}>Write Your Blog</Heading>
-            <form onSubmit={Formik.handleSubmit}>
+            <form onSubmit={Formik.handleSubmit} >
             <Box display={"flex"} w="100%" p={6} justifyContent="center">
           <Box mt={5} w="50%" bgColor={"white"} boxShadow="lg" borderRadius={"lg"} p={6} >
               <FormControl isInvalid={Formik.touched.title && Formik.errors.title?true:false}>
@@ -124,17 +141,29 @@ export default function CreateBlog() {
                                  <FormErrorMessage>{Formik.errors.content}</FormErrorMessage>
                         </FormControl>
                     </Box>
-                    
-                    <Box mt={3} border="1px" p={3} borderColor={"gray.300"} borderRadius={"lg"}>
-                        <FormControl>
-                            <FormLabel>Tags</FormLabel>
-                            <Input value={Formik.values.tag} name="tag" onChange={Formik.handleChange} onBlur={Formik.handleBlur} onKeyDown={handleEnterPress} type={"search"} placeholder={"e.g (Deploment,Aws)"} />
+                    <Box mt={3} border="1px" p={3} position="relative" borderColor={"gray.300"} borderRadius={"lg"}>
+                                 <FormControl>
+                                <FormLabel>Tags</FormLabel>
+                                <Input value={Formik.values.tag} name="tag" onChange={handleTopicOnChange} type={"search"} placeholder={"e.g (Deploment,Aws)"} />
                             </FormControl>
-                            <Flex wrap={"wrap"} gap={5} m={4}>
-                                {tags.map((tag,index) => {
-                                    return <Badge key={index} flex={"10%"} p={2} display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={4} borderRadius={"3xl"} colorScheme='green'>
-                                    {tag}
-                                    <ImCross style={{cursor:"pointer"}} onClick={()=>handleRemoveTag(tag)}/>
+                            <Box p={3} zIndex={1000} bgColor={"white"} boxShadow="lg" borderRadius={"lg"} display={isOpen ?"none":"block"} position={"absolute"}  w="50%">
+                                {
+                                    filterArray.length > 0 ? (
+                                        filterArray.map((topic: any) => {
+                                            return <Box p={2} _hover={{ bgColor: "gray.100" }} cursor={"pointer"} key={topic.id} onClick={() =>handleClickToAdded(topic)}>
+                                                <Text>{topic.name}</Text>
+                                            </Box>
+                                        
+                                         })
+                                    ):null
+                                }
+                                
+                            </Box>
+                            <Flex wrap={"wrap"} gap={2} m={4}>
+                                {addedTopics.map((topic:any) => {
+                                    return <Badge key={topic.id} w="fit-content" p={1} px={2} display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={1} borderRadius={"3xl"} colorScheme='green' textTransform={"capitalize"}>
+                                    {topic.name}
+                                    <ImCross size={"10px"} style={{cursor:"pointer"}} onClick={()=>handleRemoveTag(topic)}/>
                                 </Badge>
                                })}  
                             </Flex>

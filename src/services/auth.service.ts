@@ -5,7 +5,7 @@ export interface LoginBody {
     password: string
 }
 
-const userApi = createApi({
+const authApi = createApi({
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_BASEURL,
@@ -37,5 +37,5 @@ const userApi = createApi({
 
 
 
-export const { useLoginMutation, useRegisterMutation } = userApi;
-export default userApi;
+export const { useLoginMutation, useRegisterMutation } = authApi;
+export default authApi;

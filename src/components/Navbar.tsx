@@ -4,16 +4,29 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {BsFillBellFill} from 'react-icons/bs'
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import cookies from 'react-cookies'
+import { useLazyGetUserQuery } from "../services/user.service";
+import { useEffect,useState } from 'react';
 
 
 export default function Navbar() {
+    const [user,setUser] = useState<any>({});
     const navigate = useNavigate();
     const handleLogout = () => {
         cookies.remove("token");
         navigate("/", { replace: false });
         window.location.reload();
     }
+    const [getUser] = useLazyGetUserQuery();
 
+    useEffect(() => {
+        getUser({}).then(res => {
+            if (res.data) {
+                setUser(res.data);
+            }
+        }
+        );
+    }, [user])
+    
     return (
         <Box
             w={"100%"}
@@ -37,15 +50,15 @@ export default function Navbar() {
                     <Link as={RouterLink} to={"/"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Dashboard</Link>
                     <Link as={RouterLink} to={"/cluster"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Clusters</Link>
                     <Link as={RouterLink} to={"/"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Deploments</Link>
+                    <Link as={RouterLink} to={"/blogs"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Blogs</Link>
                     <Link as={RouterLink} to={"/about"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>About</Link>
-                    <Link as={RouterLink} to={"/fake"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Fake</Link>
                 </Box>
             </Box>
             <Box display={"flex"}  gap={2} alignItems={"center"}>
                 <BsFillBellFill cursor={"pointer"} color="white"  />
                 <Divider orientation="vertical" />
                 <Box cursor={"pointer"} color={"white"} display={"flex"} alignItems="center">
-                    <Text>notnaveedkhan</Text>
+                    <Text>{user.email}</Text>
                     <ChevronDownIcon/>
                 </Box>
                 <Button onClick={handleLogout}>Logout</Button>

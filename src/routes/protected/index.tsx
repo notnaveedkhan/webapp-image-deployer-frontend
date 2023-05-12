@@ -1,7 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import FakePage from "../../Helper/fakepage";
 import AboutUs from "../../pages/AboutUs";
 import Blog from "../../pages/Blog";
 import Cluster from "../../pages/Cluster";
@@ -20,7 +19,7 @@ export default function index() {
                   <Route path="/cluster" element={<Cluster />} />
                   <Route path="about" element={<AboutUs />} />
                   <Route path="/cluster" element={<Cluster />} />
-                  <Route path="/fake" element={<FakePage />} />
+                  <Route path="/blogs" element={<Blog />} />
               </Routes>
           </Box>
       </>

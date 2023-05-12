@@ -127,7 +127,7 @@ export default function Blog() {
           })
           }
           {
-            blogs.map((post:any) => {
+           blogs.length>0?blogs.map((post:any) => {
               const names: string[] = [];
               const { topics, title, content, commentsCount, comments, id, createdAt } = post;
               for (let index = 0; index < topics.length; index++) {
@@ -137,13 +137,13 @@ export default function Blog() {
             return <BlogPost
               image={"https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"}
               topics={names}
-              comments={commentsCount}
+              comments={`${commentsCount} comments`}
               content={content}
               date={ createdAt}
               heading={title}
               key={id}
             />
-          })
+          }):null
         } 
         <Box display={"flex"} gap={3}>
           <Button colorScheme={"blue"} leftIcon={<ArrowLeftIcon />}>Pervious</Button>

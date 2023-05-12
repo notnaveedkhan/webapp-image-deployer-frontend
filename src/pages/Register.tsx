@@ -110,7 +110,6 @@ export default function Register() {
                         <Button type="submit" w={"100%"} colorScheme={"facebook"}>{submitLoading?<Spinner/>:"Register"}</Button>
                     </Box>
                 </form>
-                <Divider mt={5}/>
                 <Box  mx={3} borderRadius={"lg"} display={"flex"} gap={2} justifyContent="center" paddingY={2} bgColor={"gray.100"}>
                     <Link to={"/"}><ChakraLink fontSize={"md"} color={"blue.500"}>Already have a Account?</ChakraLink></Link>
                 </Box>

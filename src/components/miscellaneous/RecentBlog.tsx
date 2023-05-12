@@ -2,23 +2,18 @@ import { Box, Divider, Heading, Link, Text } from "@chakra-ui/react";
 import { HiOutlineDotsVertical,HiOutlineExternalLink } from "react-icons/hi";
 import { RxDragHandleDots1 } from "react-icons/rx";
 import {Link as RouterLink } from 'react-router-dom';
-import {useLazyLatestBlogQuery} from "../../services/blog.service";
-import {useEffect, useState} from "react";
+import {useLatestBlogQuery} from "../../services/blog.service";
+import {useEffect, useLayoutEffect, useState} from "react";
 
 
 export default function RecentBlog() {
     const [latestBlog,setLatestBlog]=useState<any[]>([])
-    const [latestBlogQuery]=useLazyLatestBlogQuery()
-    useEffect(()=>{
-        latestBlogQuery({}).then((res:any)=>{
-            if(res.data){
-                setLatestBlog(res.data);
-            }
-            else {
-                console.log(res.error)
-            }
-        })
-    },[latestBlog,latestBlogQuery])
+    const {data,isSuccess}=useLatestBlogQuery({})
+    useLayoutEffect(()=> {
+        if (isSuccess) {
+            setLatestBlog(data)
+        }
+    },[isSuccess]);
 
   return (
       <Box w={"50%"}  minH="200px" boxShadow={"md"} bgColor="white">

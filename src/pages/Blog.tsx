@@ -153,7 +153,7 @@ export default function Blog() {
             <FormLabel>Create Topic</FormLabel>
           <InputGroup>
               <Input type={"search"} id="name" name="name" onChange={FormikCreateTopic.handleChange}
-                onBlur={FormikCreateTopic.handleBlur} value={FormikCreateTopic.values.name} placeholder="Enter your topic" />
+                onBlur={FormikCreateTopic.handleBlur} value={FormikCreateTopic.values.name} placeholder="Enter topic name" />
               <Tooltip label="Create Topic"><InputRightAddon bgColor={process.env.REACT_APP_NAVBAR_BG_COLOR} cursor="pointer" _hover={{bgColor:"gray.200"}} onClick={handleCreateTopic} ><AddIcon/></InputRightAddon></Tooltip>
           </InputGroup>
            </FormControl>

@@ -2,7 +2,6 @@ import {EmailIcon, LockIcon, ViewOffIcon, ViewIcon} from "@chakra-ui/icons";
 import {
     Box,
     Button,
-    Divider,
     FormControl,
     FormErrorMessage,
     FormLabel,
@@ -23,7 +22,6 @@ import {useFormik} from "formik";
 import Values from "../interfaces/LoginFormValues.interface";
 import * as yup from 'yup';
 import { useLoginMutation } from "../services/auth.service";
-import cookie from 'react-cookies';
 import { useDispatch } from "react-redux";
 import { addLoginInfo } from "../states/loginInfo";
 import { AppDispatch } from "../store";
@@ -113,7 +111,6 @@ export default function Login() {
                         <Button type="submit" w={"100%"} colorScheme={"facebook"}>{submitLoading?<Spinner/>:"Login"}</Button>
                     </Box>
                 </form>
-                <Divider mt={5}/>
                 <Box  mx={3} borderRadius={"lg"} display={"flex"} gap={2} justifyContent="center" paddingY={2} bgColor={"gray.100"}>
                     <Link to={"/register"}><ChakraLink fontSize={"md"} color={"blue.500"}>Create new account?</ChakraLink></Link>
                 </Box>

@@ -1,16 +1,15 @@
 import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
-import { Box, Button, FormControl, FormLabel, Heading, IconButton, Input, InputGroup, InputRightAddon, Link, Text, Tooltip, useSafeLayoutEffect, useToast } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Heading, Input, InputGroup, InputRightAddon, Link, Text, Tooltip, useToast } from "@chakra-ui/react";
 import BlogPost from "../components/miscellaneous/BlogPost";
 import BlogPostCategories from "../components/miscellaneous/BlogPostCategories";
 import PopularBlogs from "../components/miscellaneous/PopularBlogs";
 import {Link as RouterLink} from 'react-router-dom'
-import { useCreateTopicMutation } from "../services/topic.service";
+import { useCreateTopicMutation,useAllTopicsQuery } from "../services/topic.service";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import {useAllTopicsQuery} from '../services/topic.service'
 import { useGetAllBlogsMutation } from "../services/blog.service";
 import { useEffect, useState } from "react";
-import { forEachChild } from "typescript";
+
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
@@ -23,7 +22,7 @@ export default function Blog() {
   heading: string,
   content: string,
   date: string,
-  catogary: string[],
+  author: string,
   comments:string
 }
   let BlogPostsDto: BlogPost[] = [
@@ -32,16 +31,16 @@ export default function Blog() {
       heading: "Cluster Approch",
       content: "The Cluster Approach is used for coordinating in non-refugee humanitarian emergencies. Humanitarian organisations have agreed to lead certain clusters at global level (see the chart), and have defined a cluster structure for non-refugee humanitarian responses at country level",
       date: "26 june 2022",
-      catogary: ["cluster"],
-      comments:"10 comments"
+      author: "Naveed Khan",
+      comments:"10 Comments"
     },
     {
       image: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
       heading: "Image Deployer",
       content: "The Cluster Approach is used for coordinating in non-refugee humanitarian emergencies. Humanitarian organisations have agreed to lead certain clusters at global level (see the chart), and have defined a cluster structure for non-refugee humanitarian responses at country level",
       date: "26 june 2021",
-      catogary: ["Deployer"],
-      comments:"10 comments"
+      author: "Naveed Khan",
+      comments:"10 Comments"
     }
    ]
 
@@ -74,16 +73,13 @@ export default function Blog() {
     }
   }
   useEffect(() => {
-    console.log(data);
     const topics: number[] = [];
     data?.map((topic: any) => { 
-      topics.push(topic.id);
+      return topics.push(topic.id);
     })
     if (isError) {
       console.log(error);
-
     }
-    console.log(topics);
      if (isSuccess) {
        allBlogs({
          page: 0,     
@@ -92,6 +88,7 @@ export default function Blog() {
        }).then((res: any) => {
          if (res.data) {
            setBlogs(res.data);
+           console.log(res.data);
          }
          else {
             console.log(res);
@@ -117,7 +114,7 @@ export default function Blog() {
           BlogPostsDto.map((post,index) => {
             return <BlogPost
               image={post.image}
-              topics={post.catogary}
+              author={post.author}
               comments={post.comments}
               content={post.content}
               date={post.date}
@@ -128,16 +125,11 @@ export default function Blog() {
           }
           {
            blogs.length>0?blogs.map((post:any) => {
-              const names: string[] = [];
-              const { topics, title, content, commentsCount, comments, id, createdAt } = post;
-              for (let index = 0; index < topics.length; index++) {
-                 const topic = topics[index];
-                names.push(topic.name);
-              }
+              const { author, title, content, commentsCount, id, createdAt } = post;
             return <BlogPost
               image={"https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"}
-              topics={names}
-              comments={`${commentsCount} comments`}
+              author={author.name}
+              comments={`${commentsCount} Comments`}
               content={content}
               date={ createdAt}
               heading={title}

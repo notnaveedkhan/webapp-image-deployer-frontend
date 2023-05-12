@@ -9,7 +9,7 @@ interface BlogPostProps{
   heading: string,
   content: string,
   date: string,
-  topics: string[],
+  author: string,
   comments:string
 }
 export default function BlogPost(props:BlogPostProps) {
@@ -36,7 +36,7 @@ export default function BlogPost(props:BlogPostProps) {
             </Box>
             <Box display={"flex"} gap={2} alignItems={"center"}>
               <BsFolder2Open size={"14px"}/>
-              <Text fontSize={"sm"} color={"black"}>{ props.topics.map(topic => topic + "  ,")}</Text>
+              <Text fontSize={"sm"} color={"black"}>{props.author}</Text>
             </Box>
             <Box display={"flex"} gap={2} alignItems={"center"}>
               <BiCommentDetail size={"14px"}/>

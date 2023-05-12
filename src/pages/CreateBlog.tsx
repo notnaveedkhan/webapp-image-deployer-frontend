@@ -1,28 +1,28 @@
-import { Badge, Box, Button, Divider, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Heading, Input, Menu, MenuButton, MenuItem, MenuList, Select, Spinner, Stack, Text, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
+import { Badge, Box, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Spinner, Text, Textarea, useToast } from "@chakra-ui/react";
 import {GoTextSize} from 'react-icons/go'
-import { FaBold } from 'react-icons/fa'
+import { FaBold ,FaQuoteRight } from 'react-icons/fa'
 import { BiItalic, BiSend } from 'react-icons/bi'
 import { ImCross, ImLink } from 'react-icons/im'
-import { FaQuoteRight } from 'react-icons/fa'
 import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, WarningIcon } from "@chakra-ui/icons";
 import { AiFillPicture, AiOutlineAlignCenter, AiOutlineOrderedList, AiOutlineUnorderedList } from "react-icons/ai";
 import { BsCardText, BsTable } from "react-icons/bs";
-import React, {useLayoutEffect, useState} from "react";
+import React, { useState} from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-// import { useEffect} from 'react';
 import {useCreateBlogMutation,CreateBlogBody} from '../services/blog.service'
 import { useAllTopicsQuery } from "../services/topic.service";
+import {useNavigate} from "react-router-dom";
 
 
 export default function CreateBlog() {
+    const navigate = useNavigate();
     const [addedTopics,setAddedTopics] = useState<any[]>([]);
     const [filterArray,setFilterArray]=useState([])
     const [isOpen,setIsOpen]=useState(true)
     const [submitLoading,setSubmitLoading] = useState(false);
     const [CreateBlog] = useCreateBlogMutation();
     const toast = useToast();
-    const { data, isSuccess } = useAllTopicsQuery({});
+    const { data } = useAllTopicsQuery({});
    
     interface BlogDto{
         title: string,
@@ -41,10 +41,9 @@ export default function CreateBlog() {
         onSubmit: (value) => {
             setSubmitLoading(true)
             const topics: number[] = []
-            addedTopics.map((topic) => {
+            addedTopics.forEach((topic) => {
                 topics.push(topic.id);
             })
-
             const body: CreateBlogBody = {
                 title: value.title,
                 content: value.content,
@@ -63,6 +62,7 @@ export default function CreateBlog() {
                         icon: <CheckIcon />,
                         status:"success"
                     })
+                    navigate("/blogs",{replace:true});
                 }
                 if (res.error) {
                     toast({

@@ -1,12 +1,8 @@
-import { AddIcon } from "@chakra-ui/icons";
-import { Box, Button, Divider, Heading, Input, Text } from "@chakra-ui/react";
-import { useState} from 'react';
-import { useAllTopicsQuery } from "../../services/topic.service";
+
+import { Box, Divider, Heading, Text } from "@chakra-ui/react";
+
 
 export default function BlogPostCategories() {
-    const [inputShow, setInputShow] = useState(false);
-    const { data, isFetching, isLoading } = useAllTopicsQuery({});
-    // console.log(data)
   return (
       <Box>
           <Heading fontSize={"md"}>Topics</Heading>

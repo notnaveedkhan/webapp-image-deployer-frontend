@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Table, TableCaption, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Heading, Table, TableCaption, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import CreateClusterForm from "../components/Cluster/CreateClusterForm";
 
 export default function Cluster() {

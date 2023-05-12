@@ -44,11 +44,17 @@ const blogApi = createApi({
             }),
             invalidatesTags: ['blogs']
         }),
+        latestBlog: builder.query({
+            query: () => ({
+                url: "/api/v1/auth/private/latest/blogs/details",
+                method: "GET"
+            })
+        })
 
     })
 });
 
 
 
-export const { useCreateBlogMutation, useGetAllBlogsMutation } = blogApi;
+export const { useCreateBlogMutation, useGetAllBlogsMutation,useLazyLatestBlogQuery } = blogApi;
 export default blogApi;

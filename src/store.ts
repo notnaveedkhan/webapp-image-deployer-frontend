@@ -8,6 +8,7 @@ import blogApi from './services/blog.service';
 import topicSlice from './states/topics';
 import userApi from './services/user.service';
 
+
 export const store = configureStore({
     reducer: {
         [authApi.reducerPath]: authApi.reducer,
@@ -16,7 +17,7 @@ export const store = configureStore({
         [topicApi.reducerPath]: topicApi.reducer,
         [blogApi.reducerPath]: blogApi.reducer,
         [topicSlice.name]: topicSlice.reducer,
-        [userApi.reducerPath]: userApi.reducer
+        [userApi.reducerPath]: userApi.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, topicApi.middleware, blogApi.middleware, userApi.middleware)
 })

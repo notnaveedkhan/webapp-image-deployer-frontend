@@ -25,7 +25,7 @@ export default function Navbar() {
             }
         }
         );
-    }, [user])
+    }, [user,getUser])
     
     return (
         <Box
@@ -58,7 +58,7 @@ export default function Navbar() {
                 <BsFillBellFill cursor={"pointer"} color="white"  />
                 <Divider orientation="vertical" />
                 <Box cursor={"pointer"} color={"white"} display={"flex"} alignItems="center">
-                    <Text>{user.email}</Text>
+                    <Text>{user.name}</Text>
                     <ChevronDownIcon/>
                 </Box>
                 <Button onClick={handleLogout}>Logout</Button>

@@ -11,20 +11,20 @@ import RecentBlog from '../components/miscellaneous/RecentBlog'
 function Dashborad() {
 
     return (
-        <Box marginX={5} >
-            <Box marginY={3} display={"flex"} flexShrink="wrap" gap={2} w={"100%"} paddingX="20px" >
+        <Box marginX={{base:0,md:5}} >
+            <Box marginY={3} display={"flex"} flexDir={{base:'column',md:"row"}} gap={2} w={"100%"} paddingX="20px" >
                 <ResentVisted />
                 <WelcomeToWaidk8/>
             </Box>
-             <Box  display={"flex"} flexShrink="wrap" gap={2} w={"100%"} paddingX="20px" >
+             <Box  display={"flex"} flexDir={{base:'column',md:"row"}} gap={2} w={"100%"} paddingX="20px" >
                 <Waidk8Health/>
                 <CostAndusage/>
             </Box>
-            <Box  display={"flex"} mt={2} flexShrink="wrap" gap={2} w={"100%"} paddingX="20px" >
+            <Box  display={"flex"} mt={2} flexDir={{base:'column',md:"row"}} gap={2} w={"100%"} paddingX="20px" >
                 <BuildSloution/>
                  <TurstedAdvisor/>
             </Box>
-            <Box display={"flex"} mt={2} flexShrink="wrap" gap={2} w={"100%"} paddingX="20px" >
+            <Box display={"flex"} mt={2} flexDir={{base:'column',md:"row"}} gap={2} w={"100%"} paddingX="20px" >
                 <LatestAnnouncements />
                 <RecentBlog/>
             </Box>

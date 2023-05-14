@@ -1,22 +1,19 @@
 import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
-import { Box, Button, FormControl, FormLabel, Heading, Input, InputGroup, InputRightAddon, Link, Text, Tooltip, useToast } from "@chakra-ui/react";
+import { Box, Button, Heading, Link, Text } from "@chakra-ui/react";
 import BlogPost from "../components/miscellaneous/BlogPost";
 import BlogPostCategories from "../components/miscellaneous/BlogPostCategories";
 import PopularBlogs from "../components/miscellaneous/PopularBlogs";
 import {Link as RouterLink} from 'react-router-dom'
-import { useCreateTopicMutation,useAllTopicsQuery } from "../services/topic.service";
-import { useFormik } from "formik";
-import * as Yup from 'yup';
+import {useAllTopicsQuery } from "../services/topic.service";
 import { useGetAllBlogsMutation } from "../services/blog.service";
 import { useEffect, useState } from "react";
+import CreateTopic from "../components/miscellaneous/CreateTopic";
 
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
   const { data, isSuccess,isError,error } = useAllTopicsQuery({});
   const [allBlogs] = useGetAllBlogsMutation();
-  const toast = useToast();
-  const [topicApi] = useCreateTopicMutation();
   interface BlogPost{
   image: string,
   heading: string,
@@ -44,34 +41,7 @@ export default function Blog() {
     }
    ]
 
-  const FormikCreateTopic = useFormik({
-    initialValues: {
-      name:""
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-    validationSchema: Yup.object({
-      name:Yup.string().matches(/^[a-zA-Z\s]*$/, 'Name must only contain alphabetic characters')
-    })
-  })
 
-  const handleCreateTopic = () => {
-    if (FormikCreateTopic.errors.name) {
-      toast({
-        title: FormikCreateTopic.errors.name,
-        duration: 3000,
-        isClosable: true,
-        status: "warning",
-        position:"top"
-      })
-    }
-    else {
-      topicApi({ name: FormikCreateTopic.values.name }).then(res => {
-        console.log(res);
-      })
-    }
-  }
   useEffect(() => {
     const topics: number[] = [];
     data?.map((topic: any) => { 
@@ -103,11 +73,12 @@ export default function Blog() {
       <Heading textAlign={"center"}>Blogs</Heading>
       <Box
           display={"flex"}
+          flexDir={{base:"column",md:"row"}}
           w="100%"
           p={6}
           gap={9}
       >
-        <Box w={"70%"} display={"flex"} flexDir="column" gap={3}>
+        <Box w={{base:'100%',md:"70%"}} display={"flex"} flexDir="column" gap={3}>
           <Link w={"fit-content"} as={RouterLink} _hover={{}} to="/create-blog">
             <Button rightIcon={<AddIcon />} color="white" _hover={{}} bgColor={process.env.REACT_APP_NAVBAR_BG_COLOR}>Create Blog</Button></Link> 
         {
@@ -137,7 +108,7 @@ export default function Blog() {
             />
           }):null
         } 
-        <Box display={"flex"} gap={3}>
+        <Box display={"flex"} flexShrink={'wrap'} gap={3}>
           <Button colorScheme={"blue"} leftIcon={<ArrowLeftIcon />}>Pervious</Button>
           <Button colorScheme={"blue"} variant="outline">1</Button>
           <Button colorScheme={"blue"} variant="outline">2</Button>
@@ -148,19 +119,11 @@ export default function Blog() {
           <Button colorScheme={"blue"} rightIcon={<ArrowRightIcon />}>Next</Button>
            </Box>
       </Box>
-        <Box px={6} w={"30%"} display={"flex"} flexDir="column" gap={9}>
-          <FormControl>
-            <FormLabel>Create Topic</FormLabel>
-          <InputGroup>
-              <Input type={"search"} id="name" name="name" onChange={FormikCreateTopic.handleChange}
-                onBlur={FormikCreateTopic.handleBlur} value={FormikCreateTopic.values.name} placeholder="Enter topic name" />
-              <Tooltip label="Create Topic"><InputRightAddon bgColor={process.env.REACT_APP_NAVBAR_BG_COLOR} cursor="pointer" _hover={{bgColor:"gray.200"}} onClick={handleCreateTopic} ><AddIcon/></InputRightAddon></Tooltip>
-          </InputGroup>
-           </FormControl>
+        <Box px={{base:3,md:6}} w={{base:'100%',md:"30%"}} display={"flex"} flexDir="column" gap={9}>
+          <CreateTopic/>
         <Box>
            <BlogPostCategories/>
         </Box>
-            
         <Box>
            <PopularBlogs/>
         </Box>

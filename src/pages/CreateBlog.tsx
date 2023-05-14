@@ -105,8 +105,8 @@ export default function CreateBlog() {
         <>
             <Heading textAlign={"center"}>Write Your Blog</Heading>
             <form onSubmit={Formik.handleSubmit} >
-            <Box display={"flex"} w="100%" p={6} justifyContent="center">
-          <Box mt={5} w="50%" bgColor={"white"} boxShadow="lg" borderRadius={"lg"} p={6} >
+            <Box display={"flex"} w="100%" p={{base:2,md:6}} justifyContent="center">
+          <Box mt={5} w={{base:'100%',md: "50%"}} bgColor={"white"} boxShadow="lg" borderRadius={"lg"} p={6} >
               <FormControl isInvalid={Formik.touched.title && Formik.errors.title?true:false}>
                   <FormLabel>Title</FormLabel>
                             <Input onChange={Formik.handleChange} onBlur={Formik.handleBlur} name="title" id="title" type={"text"} placeholder="Title" />
@@ -114,7 +114,7 @@ export default function CreateBlog() {
               </FormControl>
                     <Box p={2} border={"1px"} borderColor={"gray.300"} borderRadius={"lg"} mt={3}>
                         <Box display={"flex"} justifyContent={"space-between"}>
-                            <Box display={"flex"} gap={2}>
+                            <Box display={"flex"} gap={{base:0,md:2}}>
                                 <GoTextSize />
                                 <FaBold />
                                 <BiItalic />

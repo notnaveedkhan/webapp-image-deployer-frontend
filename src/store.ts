@@ -8,7 +8,7 @@ import blogApi from './services/blog.service';
 import topicSlice from './states/topics';
 import userApi from './services/user.service';
 import regionApi from "./services/region.service";
-import clusterApi from "./services/cluster.service";
+import controlPlaneApi from "./services/controlPlane.service";
 
 
 export const store = configureStore({
@@ -21,9 +21,9 @@ export const store = configureStore({
         [topicSlice.name]: topicSlice.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [regionApi.reducerPath]: regionApi.reducer,
-        [clusterApi.reducerPath]: clusterApi.reducer,
+        [controlPlaneApi.reducerPath]: controlPlaneApi.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, topicApi.middleware, blogApi.middleware, userApi.middleware, regionApi.middleware,clusterApi.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, topicApi.middleware, blogApi.middleware, userApi.middleware, regionApi.middleware,controlPlaneApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>;

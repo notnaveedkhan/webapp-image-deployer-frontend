@@ -18,7 +18,7 @@ import {useGetAllRegionsQuery} from "../../services/region.service";
 import {useLayoutEffect, useState} from "react";
 import {useFormik} from "formik";
 import * as yup from 'yup'
-import {useCreatClusterMutation} from "../../services/cluster.service";
+import {useCreateControlPlaneMutation} from "../../services/controlPlane.service";
 
 interface Props{
     ButtonText: string;
@@ -26,7 +26,7 @@ interface Props{
 
 
 export default function CreateClusterForm(props: Props) {
-    const [createCluster]=useCreatClusterMutation();
+    const [createControlPlane] = useCreateControlPlaneMutation();
     const [countryName,setCountryName]=useState('');
     const [regionFieldError,setRegionFieldError]=useState(false)
     const [regionFieldTouched,setRegionFieldTouched]=useState(false)
@@ -44,13 +44,10 @@ export default function CreateClusterForm(props: Props) {
             name:''
         },
         onSubmit:(values,actions)=>{
-            if(countryName.length<=0){
-               setRegionFieldError(true)
-            }
             if(countryName.length>0){
                 const region:any=regionList.filter((region:any)=>region.name===countryName)[0]
                 console.log(region)
-               createCluster({
+                createControlPlane({
                    name:values.name,
                    region:region.id
                }).then((res:any)=>{

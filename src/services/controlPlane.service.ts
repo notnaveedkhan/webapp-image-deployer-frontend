@@ -6,7 +6,7 @@ export interface ICluster{
     region:string;
 }
 
-const clusterApi = createApi({
+const controlPlaneApi = createApi({
     reducerPath: 'clusterApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_BASEURL,
@@ -20,16 +20,19 @@ const clusterApi = createApi({
         }
     }),
     endpoints:(builder)=>({
-        creatCluster:builder.mutation({
+        createControlPlane:builder.mutation({
             query:(data:ICluster)=>({
                     url:"/api/v1/auth/private/control-plane/create",
                     method:"POST",
                     body:data
-            })
+            }),
+        }),
+        getAllControlPlane:builder.query({
+            query:()=>'/api/v1/auth/private/control-planes/details'
         })
     })
 })
 
 
-export default clusterApi;
-export const {useCreatClusterMutation} = clusterApi;
+export default controlPlaneApi;
+export const {useCreateControlPlaneMutation,useGetAllControlPlaneQuery} = controlPlaneApi;

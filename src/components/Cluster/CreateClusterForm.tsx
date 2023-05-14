@@ -1,5 +1,24 @@
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, useDisclosure } from "@chakra-ui/react"
-import { countryList } from "../../Helper/CountryList";
+import {
+    Button,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
+    useDisclosure
+} from "@chakra-ui/react"
+import {useGetAllRegionsQuery} from "../../services/region.service";
+import {useLayoutEffect, useState} from "react";
+import {useFormik} from "formik";
+import * as yup from 'yup'
+import {useCreatClusterMutation} from "../../services/cluster.service";
 
 interface Props{
     ButtonText: string;
@@ -7,40 +26,94 @@ interface Props{
 
 
 export default function CreateClusterForm(props: Props) {
+    const [createCluster]=useCreatClusterMutation();
+    const [countryName,setCountryName]=useState('');
+    const [regionFieldError,setRegionFieldError]=useState(false)
+    const [regionFieldTouched,setRegionFieldTouched]=useState(false)
+    const [regionList,setRegionList]=useState([])
+    const {data,isSuccess}=useGetAllRegionsQuery({})
     const { isOpen, onOpen, onClose } = useDisclosure()
+    useLayoutEffect(()=>{
+        if(isSuccess){
+            setRegionList(data)
+        }
+    },[data,isSuccess])
+
+    const Formik=useFormik({
+        initialValues:{
+            name:''
+        },
+        onSubmit:(values,actions)=>{
+            if(countryName.length<=0){
+               setRegionFieldError(true)
+            }
+            if(countryName.length>0){
+                const region:any=regionList.filter((region:any)=>region.name===countryName)[0]
+                console.log(region)
+               createCluster({
+                   name:values.name,
+                   region:region.id
+               }).then((res:any)=>{
+                   actions.resetForm();
+                   setRegionFieldError(false)
+                   setRegionFieldTouched(false)
+                   setCountryName('')
+                   onClose();
+                   console.log(res)
+               })
+            }
+        },
+        validationSchema:yup.object({
+            name:yup.string().required('Name is required').max(20,"Only 20 Character Require for name")
+        }),
+    })
+
     return (
         <>
-            <Button onClick={onOpen} bgColor="blueviolet" _hover={{}} color="white" >{props.ButtonText}</Button>
-
+            <Button size={{base:'sm', md:'md'}} mb={3}  onClick={onOpen} bgColor="blueviolet" _hover={{}} color="white" >{props.ButtonText}</Button>
             <Modal isOpen={isOpen} onClose={onClose} size='3xl' >
+                <form onSubmit={Formik.handleSubmit}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader >Create Cluster</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <FormControl>
+
+                        <FormControl isInvalid={Formik.touched.name && Formik.errors.name?true:false}>
                             <FormLabel>Cluster Name</FormLabel>
-                            <Input type="text" />
+                            <Input
+                                type="text"
+                                {...Formik.getFieldProps('name')}
+                            />
+                            <FormErrorMessage>{Formik.errors.name}</FormErrorMessage>
                         </FormControl>
-                        <FormControl>
+                        <FormControl isInvalid={regionFieldError||(regionFieldTouched && countryName.length<1)}>
                             <FormLabel>Regions</FormLabel>
-                            <Select placeholder='Select option'>
+                            <Select
+                                onChange={(e)=>setCountryName(e.target.value)}
+                                onBlur={()=>setRegionFieldTouched(true)}
+                                placeholder='Select option'
+                                isInvalid={regionFieldError||(regionFieldTouched && countryName.length<1)}
+                            >
                                 {
-                                    countryList.map((country, index) => {
-                                        return <option value={country} key={index}>{country}</option>
+                                    regionList.map((country:any, index) => {
+                                        return <option value={country.name} key={index}>{country.name}</option>
                                     })
                                 }
                             </Select>
+                            <FormErrorMessage>Region is required</FormErrorMessage>
                         </FormControl>
+
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} >
+                        <Button type={'submit'} colorScheme='blue' mr={3} >
                             Create
                         </Button>
                         <Button variant='ghost' onClick={onClose}>Cancel</Button>
                     </ModalFooter>
                 </ModalContent>
+            </form>
             </Modal>
         </>
     )

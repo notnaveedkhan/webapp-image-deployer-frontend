@@ -7,6 +7,8 @@ import topicApi from './services/topic.service';
 import blogApi from './services/blog.service';
 import topicSlice from './states/topics';
 import userApi from './services/user.service';
+import regionApi from "./services/region.service";
+import clusterApi from "./services/cluster.service";
 
 
 export const store = configureStore({
@@ -18,8 +20,10 @@ export const store = configureStore({
         [blogApi.reducerPath]: blogApi.reducer,
         [topicSlice.name]: topicSlice.reducer,
         [userApi.reducerPath]: userApi.reducer,
+        [regionApi.reducerPath]: regionApi.reducer,
+        [clusterApi.reducerPath]: clusterApi.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, topicApi.middleware, blogApi.middleware, userApi.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, topicApi.middleware, blogApi.middleware, userApi.middleware, regionApi.middleware,clusterApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>;

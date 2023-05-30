@@ -71,7 +71,6 @@ export default function Cluster() {
                               <Tr>
                                   <Th>ID</Th>
                                   <Th>Name</Th>
-                                  <Th>Node Group Name</Th>
                                   <Th >Instance Type</Th>
                                   <Th >Max Size</Th>
                                   <Th >status</Th>
@@ -85,8 +84,6 @@ export default function Cluster() {
                                       return <Tr key={item.id}>
                                           <Td>{item.id}</Td>
                                           <Td>{item.name}</Td>
-                                          <Td>{item.nodeGroupName}</Td>
-                                          <Td>{item.region}</Td>
                                           <Td>{item.nodeInstanceType }</Td>
                                           <Td>{item.nodeGroupMaxSize}</Td>
                                           <Td>{item.status}</Td>

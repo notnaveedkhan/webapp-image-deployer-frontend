@@ -87,7 +87,7 @@ export default function CreateNodeGroupForm(props: Props) {
         validationSchema:Yup.object({
             nodeGroupName:Yup.string().required("Node Group Name is required"),
             controlPlane:Yup.string().required("Control Plane is required"),
-            instanceTypes:Yup.string().required("Instance Types is required"),
+            instanceTypes:Yup.string().required("Instance Type is required"),
             maxSize:Yup.number().required("Max Size is required"),
             minSize:Yup.number().required("Min Size is required"),
             desiredSize:Yup.number().required("Desired Size is required"),
@@ -121,14 +121,13 @@ export default function CreateNodeGroupForm(props: Props) {
                     <ModalContent>
                         <ModalHeader>Create Node Group</ModalHeader>
                         <ModalCloseButton/>
-                        <ModalBody
-                        >
-                            <FormControl my={1} isInvalid={!!(Formik.touched.nodeGroupName && (Formik.errors.nodeGroupName))} >
+                        <ModalBody display={"flex"} flexFlow={"wrap"} gap={3}>
+                            <FormControl w={"45%"} my={1} isInvalid={!!(Formik.touched.nodeGroupName && (Formik.errors.nodeGroupName))} >
                                 <FormLabel>Node Group Name</FormLabel>
                                 <Input  {...Formik.getFieldProps('nodeGroupName')}  placeholder={'Node Group Name'}/>
                                 <FormErrorMessage>{Formik.errors.nodeGroupName}</FormErrorMessage>
                             </FormControl>
-                            <FormControl my={1} isInvalid={!!(Formik.touched.controlPlane && (Formik.errors.controlPlane))} >
+                            <FormControl w={"45%"} my={1} isInvalid={!!(Formik.touched.controlPlane && (Formik.errors.controlPlane))} >
                                 <FormLabel>Control Plane</FormLabel>
                                 <Select name={"controlPlane"} onChange={handleChangeControlPlane} onBlur={Formik.handleBlur} placeholder='Control Plane'>
                                     {
@@ -139,37 +138,37 @@ export default function CreateNodeGroupForm(props: Props) {
 
                                 </Select>
                             </FormControl>
-                            <FormControl my={1} isReadOnly={true} >
+                            <FormControl w={"45%"} my={1} isReadOnly={true} >
                                 <FormLabel>Region</FormLabel>
                                 <Input placeholder={'Region'} value={region}/>
                             </FormControl>
-                            <FormControl my={1}>
-                                <FormLabel>Instance Types (hardCodded)</FormLabel>
-                                <Select {...Formik.getFieldProps('instanceTypes')} placeholder='Instance Types'>
+                            <FormControl w={"45%"} my={1}>
+                                <FormLabel>Instance Type (hardCodded)</FormLabel>
+                                <Select {...Formik.getFieldProps('instanceTypes')} placeholder='Instance Type'>
                                     <option value='t3.small'>t3.small</option>
                                 </Select>
                             </FormControl>
-                            <FormControl my={1} isInvalid={!!(Formik.touched.maxSize && (Formik.errors.maxSize))}>
+                            <FormControl w={"45%"} my={1} isInvalid={!!(Formik.touched.maxSize && (Formik.errors.maxSize))}>
                                 <FormLabel>Max Size</FormLabel>
                                 <Input {...Formik.getFieldProps('maxSize')} type={'number'} placeholder={'Max Size'}/>
                                 <FormErrorMessage>{Formik.errors.maxSize}</FormErrorMessage>
                             </FormControl>
-                            <FormControl my={1} isInvalid={!!(Formik.touched.minSize && (Formik.errors.minSize))}>
+                            <FormControl w={"45%"} my={1} isInvalid={!!(Formik.touched.minSize && (Formik.errors.minSize))}>
                                 <FormLabel>Min Size</FormLabel>
                                 <Input {...Formik.getFieldProps('minSize')} type={'number'} placeholder={'Min Size'}/>
                                 <FormErrorMessage>{Formik.errors.minSize}</FormErrorMessage>
                             </FormControl>
-                            <FormControl my={1} isInvalid={!!(Formik.touched.desiredSize && (Formik.errors.desiredSize))}>
+                            <FormControl w={"45%"} my={1} isInvalid={!!(Formik.touched.desiredSize && (Formik.errors.desiredSize))}>
                                 <FormLabel>Desired Size</FormLabel>
                                 <Input {...Formik.getFieldProps('desiredSize')} type={'number'} placeholder={'Desired Size'}/>
                                 <FormErrorMessage>{Formik.errors.desiredSize}</FormErrorMessage>
                             </FormControl>
-                            <FormControl my={1} isInvalid={!!(Formik.touched.volumeSize && (Formik.errors.volumeSize))}>
+                            <FormControl w={"45%"} my={1} isInvalid={!!(Formik.touched.volumeSize && (Formik.errors.volumeSize))}>
                                 <FormLabel>Volume Size</FormLabel>
                                 <Input {...Formik.getFieldProps('volumeSize')} type={'number'} placeholder={'Volume Size'}/>
                                 <FormErrorMessage>{Formik.errors.volumeSize}</FormErrorMessage>
                             </FormControl>
-                            <FormControl my={1} isInvalid={!!(Formik.touched.imageId && (Formik.errors.imageId))}>
+                            <FormControl w={"45%"} my={1} isInvalid={!!(Formik.touched.imageId && (Formik.errors.imageId))}>
                                 <FormLabel>Image ID(hardCodded)</FormLabel>
                                 <Select {...Formik.getFieldProps('imageId')} placeholder='Image ID'>
                                     <option value='resolve:ssm:/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'>resolve:ssm:/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2</option>

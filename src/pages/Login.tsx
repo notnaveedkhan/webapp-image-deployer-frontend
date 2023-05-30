@@ -112,7 +112,7 @@ export default function Login() {
                     </Box>
                 </form>
                 <Box  mx={3} borderRadius={"lg"} display={"flex"} gap={2} justifyContent="center" paddingY={2} bgColor={"gray.100"}>
-                    <Link to={"/register"}><ChakraLink fontSize={"md"} color={"blue.500"}>Create new account?</ChakraLink></Link>
+                   <ChakraLink as={Link} to={"/register"} fontSize={"md"} color={"blue.500"}>Create new account?</ChakraLink>
                 </Box>
             </Box>
             <Box>

@@ -25,7 +25,7 @@ interface Props{
 }
 
 
-export default function CreateClusterForm(props: Props) {
+export default function CreateControlPlaneForm(props: Props) {
     const [createControlPlane] = useCreateControlPlaneMutation();
     const [countryName,setCountryName]=useState('');
     const [regionFieldError,setRegionFieldError]=useState(false)

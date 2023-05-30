@@ -1,5 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import {configureStore} from '@reduxjs/toolkit'
+import {setupListeners} from '@reduxjs/toolkit/dist/query';
 import authApi from './services/auth.service';
 import LoginSlice from './states/loginInfo';
 import userSlice from './states/userState';
@@ -9,6 +9,7 @@ import topicSlice from './states/topics';
 import userApi from './services/user.service';
 import regionApi from "./services/region.service";
 import controlPlaneApi from "./services/controlPlane.service";
+import nodeGroupService from "./services/nodeGroup.service";
 
 
 export const store = configureStore({
@@ -22,8 +23,9 @@ export const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [regionApi.reducerPath]: regionApi.reducer,
         [controlPlaneApi.reducerPath]: controlPlaneApi.reducer,
+        [nodeGroupService.reducerPath]: nodeGroupService.reducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, topicApi.middleware, blogApi.middleware, userApi.middleware, regionApi.middleware,controlPlaneApi.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, topicApi.middleware, blogApi.middleware, userApi.middleware, regionApi.middleware, controlPlaneApi.middleware, nodeGroupService.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -16,8 +16,6 @@ function App() {
                 navigate("/")
                 window.location.reload();
             }, timeUntilExpiration);
-
-            // Clear the timeout when the component unmounts or when the token cookie changes
             return () => clearTimeout(timeoutId);
         } else {
             console.log('Token expiration date not found.');

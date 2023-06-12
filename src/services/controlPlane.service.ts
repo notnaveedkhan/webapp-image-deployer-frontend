@@ -32,10 +32,17 @@ const controlPlaneApi = createApi({
         getAllControlPlane: builder.query({
             query: () => '/api/v1/auth/private/control-planes/details',
             providesTags: ['Cluster']
+        }),
+        deleteControlPlane: builder.mutation({
+            query: (id: string) => ({
+                url: "/api/v1/auth/private/control-plane/{id}/delete",
+                method: "DELETE",
+            }),
+            invalidatesTags: ['Cluster']
         })
     })
 })
 
 
 export default controlPlaneApi;
-export const { useCreateControlPlaneMutation, useGetAllControlPlaneQuery } = controlPlaneApi;
+export const { useCreateControlPlaneMutation, useGetAllControlPlaneQuery, useDeleteControlPlaneMutation } = controlPlaneApi;

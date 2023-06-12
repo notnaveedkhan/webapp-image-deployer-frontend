@@ -18,6 +18,8 @@ const theme = extendTheme({
     fonts: {
         body: "Overpass, sans-serif",
         heading: "Overpass, sans-serif"
+        // body: "'Poppins', sans-serif",
+        // heading: "'Poppins', sans-serif"
     },
     components: {
         Steps,
@@ -25,13 +27,15 @@ const theme = extendTheme({
 })
 
 root.render(
+    <React.StrictMode>
     <BrowserRouter>
         <Provider store={store}>
             <ChakraProvider theme={theme}>
                     <App/>
             </ChakraProvider>
         </Provider>
-    </BrowserRouter>
+        </BrowserRouter>
+        </React.StrictMode>
 );
 
 

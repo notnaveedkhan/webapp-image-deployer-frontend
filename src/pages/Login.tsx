@@ -45,7 +45,7 @@ export default function Login() {
         initialValues: initialValues,
         onSubmit: async (values) => {
             setSubmitLoading(true);
-            login(values).then((res:any )=> {
+           await login(values).then((res:any )=> {
                 if (res.error) {
                     setSubmitLoading(false)
                     console.log(res.error)
@@ -94,7 +94,7 @@ export default function Login() {
                         <FormLabel fontSize={"sm"} color={"gray.500"}>Email</FormLabel>
                         <InputGroup>
                             <InputLeftElement px={2}><EmailIcon/></InputLeftElement>
-                            <Input value={Formik.values.email} onBlur={Formik.handleBlur} name="email" id="email" onChange={Formik.handleChange} type={"email"} placeholder="Email Address"/>
+                            <Input autoComplete="email" value={Formik.values.email} onBlur={Formik.handleBlur} name="email" id="email" onChange={Formik.handleChange} type={"email"} placeholder="Email Address"/>
                         </InputGroup>
                         <FormErrorMessage>{Formik.errors.email}</FormErrorMessage>
                     </FormControl>
@@ -102,7 +102,7 @@ export default function Login() {
                         <FormLabel fontSize={"sm"} color={"gray.500"}>Password</FormLabel>
                         <InputGroup>
                             <InputLeftElement px={2}><LockIcon/></InputLeftElement>
-                            <Input value={Formik.values.password} onBlur={Formik.handleBlur}  name="password" onChange={Formik.handleChange} type={show ? "text" : "password"} placeholder="Password"/>
+                            <Input autoComplete="current-password" value={Formik.values.password} onBlur={Formik.handleBlur}  name="password" onChange={Formik.handleChange} type={show ? "text" : "password"} placeholder="Password"/>
                             <InputRightElement onClick={handleViewPassword}>{show ? <ViewOffIcon/> : <ViewIcon/>}</InputRightElement>
                         </InputGroup>
                         <FormErrorMessage>{Formik.errors.password}</FormErrorMessage>

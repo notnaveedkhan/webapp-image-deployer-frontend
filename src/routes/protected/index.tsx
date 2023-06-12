@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar";
 import AboutUs from "../../pages/AboutUs";
 import Blog from "../../pages/Blog";
 import Cluster from "../../pages/Cluster";
+import ClusterDetail from "../../pages/ClusterDetail";
 import CreateBlog from "../../pages/CreateBlog";
 import Dashborad from "../../pages/Dashborad";
 
@@ -19,6 +20,7 @@ export default function index() {
                   <Route path="/cluster" element={<Cluster />} />
                   <Route path="about" element={<AboutUs />} />
                   <Route path="/cluster" element={<Cluster />} />
+                  <Route path="/cluster/control-plane/:id" element={<ClusterDetail/>} />
                   <Route path="/blogs" element={<Blog />} />
               </Routes>
           </Box>

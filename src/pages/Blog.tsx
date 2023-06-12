@@ -67,7 +67,9 @@ export default function Blog() {
       )
     }
      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data,isError,isSuccess])
+  }, [data, isError, isSuccess])
+  
+  
   return (
     <>
       <Heading textAlign={"center"}>Blogs</Heading>

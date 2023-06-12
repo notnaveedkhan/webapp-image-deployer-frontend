@@ -14,7 +14,6 @@ import * as Yup from 'yup'
 import {useAddNodeGroupMutation,NodeGroup, useGetNodeGroupsQuery} from "../../services/nodeGroup.service"
 import {useGetAllRegionsQuery} from '../../services/region.service'
 import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
-import { on } from "events";
 
 interface Props {
     ButtonText: string
@@ -106,6 +105,7 @@ export default function CreateNodeGroupForm(props: Props) {
     const handleCancleForm = () => {
         onClose();
         Formik.resetForm();
+        setRegion("");
     }
 
     useEffect(() => {
@@ -119,7 +119,7 @@ export default function CreateNodeGroupForm(props: Props) {
                 <form onSubmit={Formik.handleSubmit}>
                     <ModalOverlay/>
                     <ModalContent>
-                        <ModalHeader>Create Node Group</ModalHeader>
+                        <ModalHeader textAlign={"center"}>Create Node Group</ModalHeader>
                         <ModalCloseButton/>
                         <ModalBody display={"flex"} flexFlow={"wrap"} gap={3}>
                             <FormControl w={"45%"} my={1} isInvalid={!!(Formik.touched.nodeGroupName && (Formik.errors.nodeGroupName))} >
@@ -180,7 +180,7 @@ export default function CreateNodeGroupForm(props: Props) {
                             <Button type={"submit"} colorScheme='blue' mr={3}>
                                 Create
                             </Button>
-                            <Button variant='ghost' onClick={onClose}>Cancel</Button>
+                            <Button variant='ghost' onClick={handleCancleForm}>Cancel</Button>
                         </ModalFooter>
                     </ModalContent>
                 </form>

@@ -14,7 +14,10 @@ function App() {
         if (tokenExpirationDate) {
             const timeUntilExpiration = tokenExpirationDate.getTime() - Date.now();
             const timeoutId = setTimeout(() => {
+                console.log("token expired");
+                // Reload the page to reset the state and clear the toke
                 navigate("/")
+                window.location.reload();
                 window.location.reload();
             }, timeUntilExpiration);
             return () => clearTimeout(timeoutId);

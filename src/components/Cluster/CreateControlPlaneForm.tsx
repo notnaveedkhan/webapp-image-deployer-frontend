@@ -72,7 +72,7 @@ export default function CreateControlPlaneForm(props: Props) {
                 <form onSubmit={Formik.handleSubmit}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader >Create Cluster</ModalHeader>
+                    <ModalHeader textAlign={"center"}>Create Cluster</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
 

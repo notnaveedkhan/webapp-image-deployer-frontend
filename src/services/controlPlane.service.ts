@@ -29,7 +29,7 @@ const controlPlaneApi = createApi({
             }),
             invalidatesTags: ['Cluster']
         }),
-        getAllControlPlane: builder.query({
+        getAllControlPlane: builder.query<any, void>({
             query: () => '/api/v1/auth/private/control-planes/details',
             providesTags: ['Cluster']
         }),

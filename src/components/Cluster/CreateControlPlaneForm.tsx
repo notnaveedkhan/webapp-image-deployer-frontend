@@ -46,18 +46,21 @@ export default function CreateControlPlaneForm(props: Props) {
         onSubmit:(values,actions)=>{
             if(countryName.length>0){
                 const region:any=regionList.filter((region:any)=>region.name===countryName)[0]
-                console.log(region)
                 createControlPlane({
-                   name:values.name,
-                   region:region.id
-               }).then((res:any)=>{
-                   actions.resetForm();
-                   setRegionFieldError(false)
-                   setRegionFieldTouched(false)
-                   setCountryName('')
-                   onClose();
-                   console.log(res)
-               })
+                    name: values.name,
+                    region: region.id
+                }).then((res: any) => {
+                    actions.resetForm();
+                    setRegionFieldError(false)
+                    setRegionFieldTouched(false)
+                    setCountryName('')
+                    onClose();
+                    console.log(res)
+                }).catch((err: any) => { 
+                    console.log(err)
+                    setRegionFieldError(true)
+                    setRegionFieldTouched(true)
+                })
             }
         },
         validationSchema:yup.object({

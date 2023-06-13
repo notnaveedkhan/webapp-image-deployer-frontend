@@ -22,7 +22,7 @@ interface Props {
 
 export default function CreateNodeGroupForm(props: Props) {
     const toast = useToast();
-    const { data: NodeGroupData } = useGetNodeGroupsQuery();
+    const [controlPlane, setControlPlane] = useState<any[]>([]);
     const [addNodeGroup]=useAddNodeGroupMutation();
     const {data}=useGetAllRegionsQuery({});
     const [region, setRegion]=useState<string>("");
@@ -109,8 +109,16 @@ export default function CreateNodeGroupForm(props: Props) {
     }
 
     useEffect(() => {
-      console.log(NodeGroupData)  
-    },[NodeGroupData])
+        let newControlPlane: any[] = [];
+        props.controlPlane.forEach(cp => {
+            if (cp.nodeGroups.length === 0 && cp.status==="CREATED") {
+                newControlPlane.push(cp); 
+            }
+        })
+        setControlPlane(newControlPlane);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
     return (
         <>
             <Button size={{base: 'sm', md: 'md'}} mb={3} onClick={onOpen} bgColor="blueviolet" _hover={{}}
@@ -131,7 +139,7 @@ export default function CreateNodeGroupForm(props: Props) {
                                 <FormLabel>Control Plane</FormLabel>
                                 <Select name={"controlPlane"} onChange={handleChangeControlPlane} onBlur={Formik.handleBlur} placeholder='Control Plane'>
                                     {
-                                        props.controlPlane.map((controlPlane: any) => {
+                                        controlPlane.map((controlPlane: any) => {
                                             return <option key={controlPlane.id} value={controlPlane.id}>{controlPlane.name}</option>
                                         })
                                     }

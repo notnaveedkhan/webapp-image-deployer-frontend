@@ -1,15 +1,18 @@
 import { Box, Button, Divider, Heading, Image, Link, Text } from "@chakra-ui/react";
 import LOGO from '../assets/logo.png'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom'
 import {BsFillBellFill} from 'react-icons/bs'
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import cookies from 'react-cookies'
 import { useLazyGetUserQuery } from "../services/user.service";
 import { useEffect,useState } from 'react';
 import HamBurgerMenu from "./HamBurgerMenu";
+import { color } from "framer-motion";
 
 
 export default function Navbar() {
+    const location = useLocation();
+    console.log(location.pathname);
     const [user,setUser] = useState<any>({});
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -22,11 +25,21 @@ export default function Navbar() {
     useEffect(() => {
         getUser({}).then(res => {
             if (res.data) {
+                console.log(res.data);
                 setUser(res.data);
             }
         }
-        );
-    }, [user,getUser])
+        ).catch(err => {
+            cookies.remove("token");
+            navigate("/", { replace: false });
+            window.location.reload();
+            console.log(err);
+        })
+    }, [user, getUser])
+    
+    useEffect(() => { 
+        
+    },[location.pathname])
     
     return (
         <Box
@@ -48,11 +61,11 @@ export default function Navbar() {
         
                 <Divider display={{base:'none',md:"block"}} orientation="vertical" />
                 <Box display={{base:"none",md:"flex"}} gap={5} alignItems={"center"} cursor="pointer">
-                    <Link as={RouterLink} to={"/"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Dashboard</Link>
-                    <Link as={RouterLink} to={"/cluster"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Clusters</Link>
-                    <Link as={RouterLink} to={"/"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Deploments</Link>
-                    <Link as={RouterLink} to={"/blogs"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>Blogs</Link>
-                    <Link as={RouterLink} to={"/about"} color={"whiteAlpha.800"} _hover={{ color: "white" }}>About</Link>
+                    <Link as={RouterLink} to={"/"} color={location.pathname === "/" ?"white":"whiteAlpha.800"} _hover={{ color: "white" }}>Dashboard</Link>
+                    <Link as={RouterLink} to={"/cluster"} color={location.pathname === "/cluster" ?"white": "whiteAlpha.800"} _hover={{ color: "white" }}>Clusters</Link>
+                    <Link as={RouterLink} to={"/deployments"} color={location.pathname === "/deployments" ?"white": "whiteAlpha.800"} _hover={{ color: "white" }}>Deploments</Link>
+                    <Link as={RouterLink} to={"/blogs"} color={location.pathname === "/blogs" ?"white": "whiteAlpha.800"} _hover={{ color: "white" }}>Blogs</Link>
+                    <Link as={RouterLink} to={"/about"} color={location.pathname === "/about" ?"white": "whiteAlpha.800"} _hover={{ color: "white" }}>About</Link>
                 </Box>
 
             </Box>

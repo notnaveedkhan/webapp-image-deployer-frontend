@@ -12,7 +12,7 @@ export default function Cluster() {
     const [controlPlane, setControlPlane] = useState<any[]>([]);
     const [nodeGroup, setNodeGroup] = useState<any[]>([]);
     const [deleteControlPlane,{isSuccess}]=useDeleteControlPlaneMutation()
-    const { data: controlPlaneData, isSuccess: controlPlaneDataSuccess, isLoading: controlPlaneDataLoading,refetch:refetchControlPlane } = useGetAllControlPlaneQuery({});
+    const { data: controlPlaneData, isSuccess: controlPlaneDataSuccess, isLoading: controlPlaneDataLoading,refetch:refetchControlPlane } = useGetAllControlPlaneQuery();
     const {data:nodeGroupData,isSuccess:nodeGroupDataSuccess,isLoading:nodeGroupDataLoading,refetch:refetchNodeGroup } = useGetNodeGroupsQuery();
     useEffect(() => {
         if (controlPlaneDataSuccess && nodeGroupDataSuccess) {

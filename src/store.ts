@@ -1,5 +1,5 @@
-import {configureStore} from '@reduxjs/toolkit'
-import {setupListeners} from '@reduxjs/toolkit/dist/query';
+import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import authApi from './services/auth.service';
 import LoginSlice from './states/loginInfo';
 import userSlice from './states/userState';
@@ -10,6 +10,8 @@ import userApi from './services/user.service';
 import regionApi from "./services/region.service";
 import controlPlaneApi from "./services/controlPlane.service";
 import nodeGroupService from "./services/nodeGroup.service";
+import deploymentApi from './services/deploment.service';
+import kbueServiceApi from './services/kubeService.service';
 
 
 export const store = configureStore({
@@ -23,9 +25,21 @@ export const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [regionApi.reducerPath]: regionApi.reducer,
         [controlPlaneApi.reducerPath]: controlPlaneApi.reducer,
-        [nodeGroupService.reducerPath]: nodeGroupService.reducer
+        [nodeGroupService.reducerPath]: nodeGroupService.reducer,
+        [deploymentApi.reducerPath]: deploymentApi.reducer,
+        [kbueServiceApi.reducerPath]: kbueServiceApi.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authApi.middleware, topicApi.middleware, blogApi.middleware, userApi.middleware, regionApi.middleware, controlPlaneApi.middleware, nodeGroupService.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
+        authApi.middleware,
+        topicApi.middleware,
+        blogApi.middleware,
+        userApi.middleware,
+        regionApi.middleware,
+        controlPlaneApi.middleware,
+        nodeGroupService.middleware,
+        deploymentApi.middleware,
+        kbueServiceApi.middleware
+    )
 })
 
 export type RootState = ReturnType<typeof store.getState>;

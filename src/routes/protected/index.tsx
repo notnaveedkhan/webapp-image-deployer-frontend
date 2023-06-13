@@ -7,6 +7,7 @@ import Cluster from "../../pages/Cluster";
 import ClusterDetail from "../../pages/ClusterDetail";
 import CreateBlog from "../../pages/CreateBlog";
 import Dashborad from "../../pages/Dashborad";
+import Deployment from "../../pages/Deployment";
 
 export default function index() {
   return (
@@ -22,6 +23,7 @@ export default function index() {
                   <Route path="/cluster" element={<Cluster />} />
                   <Route path="/cluster/control-plane/:id" element={<ClusterDetail/>} />
                   <Route path="/blogs" element={<Blog />} />
+                  <Route path="/deployments" element={<Deployment />} />
               </Routes>
           </Box>
       </>

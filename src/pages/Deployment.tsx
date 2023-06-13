@@ -8,7 +8,7 @@ import ServiceTable from "../components/Deployments/ServiceTable";
 export default function Deployment() {
     return (
           <Box mt={5} p={6}>
-            <NamespaceTable />
+            {/* <NamespaceTable /> */}
             <ServiceTable />
             <DeploymentTable/>
           </Box>

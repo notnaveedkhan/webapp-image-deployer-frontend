@@ -25,11 +25,15 @@ const kbueServiceApi = createApi({
 
         createKbueService: builder.mutation<any, KbueServiceBody>({
             query: (body: KbueServiceBody) => ({
-                url: "/kbueService",
+                url: "/api/v1/kube/kube-service/create",
                 method: "POST",
                 body
             }),
             invalidatesTags: ['KbueService']
+        }),
+        allKbueService: builder.query<any, void>({
+            query: () => "/api/v1/kube/kube-service/details",
+            providesTags: ['KbueService']
         })
 
     })
@@ -38,4 +42,4 @@ const kbueServiceApi = createApi({
 
 
 export default kbueServiceApi;
-export const { useCreateKbueServiceMutation } = kbueServiceApi;
+export const { useCreateKbueServiceMutation, useAllKbueServiceQuery } = kbueServiceApi;

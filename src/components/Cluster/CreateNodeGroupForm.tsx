@@ -14,7 +14,6 @@ import * as Yup from 'yup'
 import {useAddNodeGroupMutation,NodeGroup, useGetNodeGroupsQuery} from "../../services/nodeGroup.service"
 import {useGetAllRegionsQuery} from '../../services/region.service'
 import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
-import { useGetAllControlPlaneQuery } from "../../services/controlPlane.service";
 
 interface Props {
     ButtonText: string
@@ -26,7 +25,6 @@ export default function CreateNodeGroupForm(props: Props) {
     const [controlPlane, setControlPlane] = useState<any[]>([]);
     const [addNodeGroup]=useAddNodeGroupMutation();
     const { data } = useGetAllRegionsQuery({});
-    const { data: controlPlaneData } = useGetAllControlPlaneQuery();
     const [region, setRegion]=useState<string>("");
     const {isOpen, onOpen, onClose} = useDisclosure();
     const Formik = useFormik({
@@ -111,17 +109,15 @@ export default function CreateNodeGroupForm(props: Props) {
     }
 
     useEffect(() => {
-        console.log(props.controlPlane)
+        // console.log(props.controlPlane)
         let newControlPlane: any[] = [];
-        controlPlaneData.forEach((cp:any )=> {
+        props.controlPlane?.forEach((cp:any )=> {
             if (cp.nodeGroups.length === 0 && cp.status==="CREATED") {
                 newControlPlane.push(cp); 
             }
         })
         setControlPlane(newControlPlane);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[props.controlPlane])
     return (
         <>
             <Button size={{base: 'sm', md: 'md'}} mb={3} onClick={onOpen} bgColor="blueviolet" _hover={{}}

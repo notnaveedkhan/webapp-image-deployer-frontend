@@ -88,15 +88,15 @@ export default function DeploymentForm(props:DeploymentFormProps) {
                               <Input type={"text"} {...Formik.getFieldProps("image")} />
                               <FormErrorMessage>{Formik.errors.image}</FormErrorMessage>
                           </FormControl>
-                          <FormControl isInvalid={Formik.touched.replicas&&Formik.errors.replicas?true:false}>
-                              <FormLabel>Port</FormLabel>
-                              <Input type={"number"} {...Formik.getFieldProps("replicas")} />
-                              <FormErrorMessage>{Formik.errors.replicas}</FormErrorMessage>
-                          </FormControl>
                           <FormControl isInvalid={Formik.touched.port&&Formik.errors.port?true:false}>
-                              <FormLabel>Replicas</FormLabel>
+                              <FormLabel>Port</FormLabel>
                               <Input type={"number"} {...Formik.getFieldProps("port")} />
                               <FormErrorMessage>{Formik.errors.port}</FormErrorMessage>
+                          </FormControl>
+                          <FormControl isInvalid={Formik.touched.replicas&&Formik.errors.replicas?true:false}>
+                              <FormLabel>Replicas</FormLabel>
+                              <Input type={"number"} {...Formik.getFieldProps("replicas")} />
+                              <FormErrorMessage>{Formik.errors.replicas}</FormErrorMessage>
                           </FormControl>
                           <FormControl isInvalid={Formik.touched.controlPlane&&Formik.errors.controlPlane?true:false}>
                               <FormLabel>Cluster</FormLabel>

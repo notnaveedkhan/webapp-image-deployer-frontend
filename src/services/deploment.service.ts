@@ -12,7 +12,7 @@ interface DeploymentBody {
 const deploymentApi = createApi({
     reducerPath: "deploymentApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://waidk8.com:4000",
+        baseUrl: process.env.REACT_APP_BASEURL,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as { login: { token: string } }).login.token;
             if (token) {

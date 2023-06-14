@@ -10,12 +10,14 @@ interface NodeGroupProps{
 }
 
 export default function NodeGroupTables(props:NodeGroupProps) {
+
+    console.log(props.controlPlane)
   return (
                   <TableContainer mt={"5em"}>
                       <Heading textAlign={"center"}>Node Group Data</Heading>
          
           <Box display={'flex'} gap={2}>
-                         <CreateNodeGroupForm ButtonText={"Create Node Group"} controlPlane={props.controlPlane} />
+                         <CreateNodeGroupForm ButtonText={"Create Node Group"} controlPlane={props?.controlPlane} />
               <IconButton onClick={props.onRefresh} aria-label="Refresh" icon={<RepeatIcon color={"blueviolet"} />} borderColor="blueviolet"   variant="outline" p={3} />
                         
                       </Box>

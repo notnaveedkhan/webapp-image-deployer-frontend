@@ -11,7 +11,7 @@ import regionApi from "./services/region.service";
 import controlPlaneApi from "./services/controlPlane.service";
 import nodeGroupService from "./services/nodeGroup.service";
 import deploymentApi from './services/deploment.service';
-import kbueServiceApi from './services/kubeService.service';
+import kubeServiceApi from './services/kubeService.service';
 
 
 export const store = configureStore({
@@ -27,7 +27,7 @@ export const store = configureStore({
         [controlPlaneApi.reducerPath]: controlPlaneApi.reducer,
         [nodeGroupService.reducerPath]: nodeGroupService.reducer,
         [deploymentApi.reducerPath]: deploymentApi.reducer,
-        [kbueServiceApi.reducerPath]: kbueServiceApi.reducer,
+        [kubeServiceApi.reducerPath]: kubeServiceApi.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authApi.middleware,
@@ -38,7 +38,7 @@ export const store = configureStore({
         controlPlaneApi.middleware,
         nodeGroupService.middleware,
         deploymentApi.middleware,
-        kbueServiceApi.middleware
+        kubeServiceApi.middleware
     )
 })
 

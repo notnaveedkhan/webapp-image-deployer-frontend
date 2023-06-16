@@ -20,19 +20,19 @@ import {
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useGetAllControlPlaneQuery} from "../../services/controlPlane.service";
-import {useCreateDeploymentMutation} from '../../services/deploment.service';
+import {useCreateKubeServiceMutation} from '../../services/kubeService.service';
 
 interface DeploymentFormProps {
     children: JSX.Element;
 }
 
 
-export default function DeploymentForm(props: DeploymentFormProps) {
+export default function KubeServiceForm(props: DeploymentFormProps) {
     const toast = useToast()
+    const [createService] = useCreateKubeServiceMutation();
     const [controlPlane, setControlPlane] = useState<any[]>([])
     const {isOpen, onOpen, onClose} = useDisclosure()
     const {data, isSuccess} = useGetAllControlPlaneQuery();
-    const [createDeployment] = useCreateDeploymentMutation()
     useEffect(() => {
         if (isSuccess) {
             setControlPlane(data)
@@ -41,44 +41,43 @@ export default function DeploymentForm(props: DeploymentFormProps) {
     const Formik = useFormik({
         initialValues: {
             name: "",
-            image: "",
-            replicas: 0,
-            port: 0,
+            targetPort: 0,
             controlPlane: 0
         },
         onSubmit: (values) => {
-            console.log(values)
-            createDeployment(values).then((res: any) => {
-                    if (res.data) {
-                        toast({
-                            title: "Success",
-                            description: res.data.message,
-                            status: "success",
-                            duration: 5000,
-                            isClosable: true,
-                            position: "top",
-                            variant: "left-accent"
-                        })
-                    }
-                    if (res.error) {
-                        toast({
-                            title: "Error",
-                            description: res.error.data.message,
-                            status: "error",
-                            duration: 5000,
-                            isClosable: true,
-                            position: "top",
-                            variant: "left-accent"
-                        })
-                    }
+            createService({
+                name: values.name,
+                targetPort: values.targetPort,
+                controlPlane: values.controlPlane
+            }).then((res: any) => {
+                if (res.data) {
+                    toast({
+                        title: "Success",
+                        description: "Service created successfully",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "top",
+                    });
+                    onClose()
                 }
-            ).catch((err: any) => console.log(err))
+                if (res.error) {
+                    toast({
+                        title: "Error",
+                        description: res.error.data.message,
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "top",
+                    });
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Required"),
-            image: Yup.string().required("Required"),
-            replicas: Yup.number().required("Required"),
-            port: Yup.number().required("Required"),
+            targetPort: Yup.number().required("Required"),
             controlPlane: Yup.number().required("Required")
         })
     })
@@ -91,7 +90,7 @@ export default function DeploymentForm(props: DeploymentFormProps) {
                 <ModalContent>
                     <ModalCloseButton/>
                     <ModalBody>
-                        <ModalHeader textAlign={"center"}>Create Kubernetes Deployment</ModalHeader>
+                        <ModalHeader textAlign={"center"}>Create Kubernetes Service</ModalHeader>
                         <form onSubmit={Formik.handleSubmit}>
                             <Box>
                                 <FormControl my={2} isInvalid={!!(Formik.touched.name && Formik.errors.name)}>
@@ -99,34 +98,19 @@ export default function DeploymentForm(props: DeploymentFormProps) {
                                     <Input type={"text"} {...Formik.getFieldProps("name")} />
                                     <FormErrorMessage>{Formik.errors.name}</FormErrorMessage>
                                 </FormControl>
-                                <FormControl my={2} isInvalid={!!(Formik.touched.image && Formik.errors.image)}>
-                                    <FormLabel>Docker Image</FormLabel>
-                                    <Input type={"text"} {...Formik.getFieldProps("image")} />
-                                    <FormErrorMessage>{Formik.errors.image}</FormErrorMessage>
-                                </FormControl>
-                                <FormControl my={2} isInvalid={!!(Formik.touched.port && Formik.errors.port)}>
-                                    <FormLabel>Port</FormLabel>
-                                    <Input type={"number"} {...Formik.getFieldProps("port")} />
-                                    <FormErrorMessage>{Formik.errors.port}</FormErrorMessage>
-                                </FormControl>
                                 <FormControl my={2}
-                                             isInvalid={!!(Formik.touched.replicas && Formik.errors.replicas)}>
-                                    <FormLabel>Replicas</FormLabel>
-                                    <Input type={"number"} {...Formik.getFieldProps("replicas")} />
-                                    <FormErrorMessage>{Formik.errors.replicas}</FormErrorMessage>
+                                             isInvalid={!!(Formik.touched.targetPort && Formik.errors.targetPort)}>
+                                    <FormLabel>Target Port</FormLabel>
+                                    <Input type={"number"} {...Formik.getFieldProps("targetPort")} />
+                                    <FormErrorMessage>{Formik.errors.targetPort}</FormErrorMessage>
                                 </FormControl>
                                 <FormControl my={2}
                                              isInvalid={!!(Formik.touched.controlPlane && Formik.errors.controlPlane)}>
                                     <FormLabel>Cluster</FormLabel>
                                     <Select {...Formik.getFieldProps("controlPlane")} placeholder="Select Cluster">
-                                        {
-                                            controlPlane.map((item) => {
-                                                return (
-                                                    <option key={item.id} value={item.id}>{item.name}</option>
-                                                )
-                                            })
-                                        }
-
+                                        {controlPlane.map((item) => (
+                                            <option key={item.id} value={item.id}>{item.name}</option>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Box>

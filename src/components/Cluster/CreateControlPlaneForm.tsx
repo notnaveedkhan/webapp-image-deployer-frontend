@@ -76,7 +76,7 @@ export default function CreateControlPlaneForm(props: Props) {
                 <form onSubmit={Formik.handleSubmit}>
                     <ModalOverlay/>
                     <ModalContent>
-                        <ModalHeader textAlign={"center"}>Create Cluster</ModalHeader>
+                        <ModalHeader textAlign={"center"}>Create Kubernetes Cluster</ModalHeader>
                         <ModalCloseButton/>
                         <ModalBody>
 

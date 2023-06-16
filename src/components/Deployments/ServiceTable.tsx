@@ -1,9 +1,9 @@
-import {DeleteIcon, EditIcon, RepeatIcon, ViewIcon} from "@chakra-ui/icons";
+import {DeleteIcon, ExternalLinkIcon, RepeatIcon, ViewIcon} from "@chakra-ui/icons";
 import {
     Box,
     Button,
     Heading,
-    IconButton,
+    IconButton, Link,
     Table,
     TableCaption,
     TableContainer,
@@ -13,16 +13,16 @@ import {
     Thead,
     Tr
 } from "@chakra-ui/react";
-import KubeServiceForm from "./KbueServiceForm";
+import KubeServiceForm from "./KubeServiceForm";
 
 import {useState, useEffect} from "react";
-import {useAllKbueServiceQuery} from "../../services/kubeService.service";
+import {useAllKubeServiceQuery} from "../../services/kubeService.service";
 
 
 export default function ServiceTable() {
 
     const [services, setServices] = useState([])
-    const {data, isSuccess, isLoading, isError, error} = useAllKbueServiceQuery();
+    const {data, isSuccess, isLoading, isError, error} = useAllKubeServiceQuery();
     useEffect(() => {
         if (isSuccess) {
             setServices(data)
@@ -32,8 +32,8 @@ export default function ServiceTable() {
     }, [data])
 
     return (
-        <TableContainer mt={5}>
-            <Heading textAlign={'center'} mb={3}>Service Data</Heading>
+        <TableContainer>
+            <Heading textAlign={'center'}>Service Data</Heading>
             <Box display={'flex'} gap={2}>
                 <KubeServiceForm>
                     <Button size={{base: 'sm', md: 'md'}} mb={3} bgColor="blueviolet" _hover={{}}
@@ -42,7 +42,7 @@ export default function ServiceTable() {
                             variant="outline" p={3}/>
             </Box>
             <Table variant='simple' size={{base: "sm", md: "md"}}>
-                <TableCaption>Service Data</TableCaption>
+                <TableCaption>All Kubernetes Service Details are here</TableCaption>
                 <Thead>
                     <Tr>
                         <Th>ID</Th>
@@ -62,12 +62,18 @@ export default function ServiceTable() {
                                 <Td>{service.name}</Td>
                                 <Td>{service.port}</Td>
                                 <Td>{service.targetPort}</Td>
-                                <Td>{service.url === null ? "Not Available" : service.url}</Td>
+                                <Td>
+                                    <Link href={service.url} isExternal>
+                                        Link <ExternalLinkIcon mx='2px'/>
+                                    </Link>
+                                </Td>
                                 <Td>{service.createdAt}</Td>
 
                                 <Td>
-                                    <IconButton icon={<ViewIcon fontSize={"2xl"} />} colorScheme={'green'} aria-label='View' border={"none"} variant="link"/>
-                                    <IconButton icon={<DeleteIcon fontSize={"2xl"} />} colorScheme={'red'} aria-label='View' border={"none"} variant="link"/>
+                                    <IconButton icon={<ViewIcon fontSize={"2xl"}/>} colorScheme={'green'}
+                                                aria-label='View' border={"none"} variant="link"/>
+                                    <IconButton icon={<DeleteIcon fontSize={"2xl"}/>} colorScheme={'red'}
+                                                aria-label='View' border={"none"} variant="link"/>
                                 </Td>
                             </Tr>
                         })

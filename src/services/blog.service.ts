@@ -12,6 +12,12 @@ export interface DetailsBlogBody {
     topics: number[]
 }
 
+export interface CreateCommentBody {
+    blog: number | undefined,
+    comment?: number,
+    content: string
+}
+
 
 const blogApi = createApi({
     reducerPath: "blogApi",
@@ -26,7 +32,7 @@ const blogApi = createApi({
             return headers;
         }
     }),
-    tagTypes: ['blogs'],
+    tagTypes: ['blogs', 'comments'],
     endpoints: (builder) => ({
         getAllBlogs: builder.mutation({
             query: (body: DetailsBlogBody) => ({
@@ -36,6 +42,7 @@ const blogApi = createApi({
             }),
             invalidatesTags: ['blogs']
         }),
+
         createBlog: builder.mutation({
             query: (body: CreateBlogBody) => ({
                 url: "/api/v1/auth/private/blog/create",
@@ -44,17 +51,33 @@ const blogApi = createApi({
             }),
             invalidatesTags: ['blogs']
         }),
+
         latestBlog: builder.query({
             query: () => ({
                 url: "/api/v1/auth/private/latest/blogs/details",
                 method: "GET"
             })
+        }),
+
+        findById: builder.query<any, string | undefined>({
+            query: (id: string | undefined) => `/api/v1/auth/private/blog/${id}/detail`,
+            providesTags: ['comments']
+        }),
+
+        createComment: builder.mutation<any[], any>({
+            query: (body: any) => ({
+                url: "/api/v1/auth/private/comment/create",
+                method: "POST",
+                body
+            }),
+            invalidatesTags: ['comments']
         })
+
 
     })
 });
 
 
 
-export const { useCreateBlogMutation, useGetAllBlogsMutation,useLatestBlogQuery } = blogApi;
+export const { useCreateBlogMutation, useGetAllBlogsMutation, useLatestBlogQuery, useFindByIdQuery, useCreateCommentMutation } = blogApi;
 export default blogApi;

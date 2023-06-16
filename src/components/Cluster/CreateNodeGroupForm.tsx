@@ -11,7 +11,7 @@ import {
 import {useEffect, useState} from "react";
 import {useFormik} from "formik";
 import * as Yup from 'yup'
-import {useAddNodeGroupMutation,NodeGroup, useGetNodeGroupsQuery} from "../../services/nodeGroup.service"
+import {useAddNodeGroupMutation,NodeGroup} from "../../services/nodeGroup.service"
 import {useGetAllRegionsQuery} from '../../services/region.service'
 import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
 

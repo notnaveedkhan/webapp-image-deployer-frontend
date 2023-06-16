@@ -6,6 +6,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 
 interface BlogPostProps{
+  id:number,
   image: string,
   heading: string,
   content: string,
@@ -50,7 +51,7 @@ export default function BlogPost(props:BlogPostProps) {
     </CardBody>
 
     <CardFooter>
-      <Link as={RouterLink} letterSpacing={1} color="blue.600" to="/blog-details">
+      <Link as={RouterLink} letterSpacing={1} color="blue.600" to={`/blog/${props.id}`}>
             Read more
             <ArrowRightIcon fontSize={"x-small"}/>
       </Link>

@@ -41,7 +41,6 @@ export default function Blog() {
     }
    ]
 
-
   useEffect(() => {
     const topics: number[] = [];
     data?.map((topic: any) => { 
@@ -93,6 +92,7 @@ export default function Blog() {
               date={post.date}
               heading={post.heading}
               key={index}
+              id={index}
             />
           })
           }
@@ -103,9 +103,10 @@ export default function Blog() {
               image={"https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"}
               author={author.name}
               comments={`${commentsCount} Comments`}
-              content={content}
+              content={content.length>276?content.substring(0,276):content}
               date={ createdAt}
               heading={title}
+              id={id}
               key={id}
             />
           }):null

@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import AboutUs from "../../pages/AboutUs";
 import Blog from "../../pages/Blog";
+import BlogDetails from "../../pages/BlogDetails";
 import Cluster from "../../pages/Cluster";
 import ClusterDetail from "../../pages/ClusterDetail";
 import CreateBlog from "../../pages/CreateBlog";
@@ -24,6 +25,7 @@ export default function index() {
                   <Route path="/cluster/control-plane/:id" element={<ClusterDetail/>} />
                   <Route path="/blogs" element={<Blog />} />
                   <Route path="/deployments" element={<Deployment />} />
+                  <Route path="/blog/:id" element={<BlogDetails/>} />
               </Routes>
           </Box>
       </>

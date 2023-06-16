@@ -102,7 +102,7 @@ export default function CreateNodeGroupForm(props: Props) {
         setRegion(SelectedControlPlane.region);
     }
 
-    const handleCancleForm = () => {
+    const handleCancelForm = () => {
         onClose();
         Formik.resetForm();
         setRegion("");
@@ -113,7 +113,7 @@ export default function CreateNodeGroupForm(props: Props) {
         let newControlPlane: any[] = [];
         props.controlPlane?.forEach((cp:any )=> {
             if (cp.nodeGroups.length === 0 && cp.status==="CREATED") {
-                newControlPlane.push(cp); 
+                newControlPlane.push(cp);
             }
         })
         setControlPlane(newControlPlane);
@@ -187,7 +187,7 @@ export default function CreateNodeGroupForm(props: Props) {
                             <Button type={"submit"} colorScheme='blue' mr={3}>
                                 Create
                             </Button>
-                            <Button variant='ghost' onClick={handleCancleForm}>Cancel</Button>
+                            <Button variant='ghost' onClick={handleCancelForm}>Cancel</Button>
                         </ModalFooter>
                     </ModalContent>
                 </form>

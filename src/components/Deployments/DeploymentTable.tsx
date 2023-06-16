@@ -6,20 +6,20 @@ import DeploymentForm from "./DeploymentForm";
 
 export default function DeploymentTable() {
     const toast=useToast()
-    const [delployment, setDeployment] = useState < any[] > ([])
+    const [deployment, setDeployment] = useState < any[] > ([])
     const { data, isError, error, isSuccess,refetch } = useGetAllDeploymentsQuery();
     const [deleteDeployment]=useDeleteDeploymentMutation()
     useEffect(() => {
         if (isSuccess) {
             setDeployment(data)
         }
-        if (isError) { 
+        if (isError) {
             console.log(error)
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
-    
+
 
     const handleDelete = (id:string) => {
         deleteDeployment(id)
@@ -44,7 +44,7 @@ export default function DeploymentTable() {
              })
     }
 
-    const handleReftch =() => { 
+    const handleRefetch =() => {
         refetch().catch((err) => {
             console.log(err)
          })
@@ -52,13 +52,13 @@ export default function DeploymentTable() {
 
   return (
     <TableContainer mt={5}  >
-                      <Heading textAlign={'center'} mb={3}>Deployment Data</Heading>  
+                      <Heading textAlign={'center'} mb={3}>Deployment Data</Heading>
                        <Box display={'flex'} gap={2}>
               <DeploymentForm>
                   <Button size={{base: 'sm', md: 'md'}} mb={3}  bgColor="blueviolet" _hover={{}}
                     color="white">Create Deployment</Button>
                             </DeploymentForm>
-                        <IconButton onClick={handleReftch}  aria-label="Refresh" icon={<RepeatIcon color={"blueviolet"} />} borderColor="blueviolet"   variant="outline" p={3} />
+                        <IconButton onClick={handleRefetch}  aria-label="Refresh" icon={<RepeatIcon color={"blueviolet"} />} borderColor="blueviolet"   variant="outline" p={3} />
                       </Box>
                       <Table variant='simple' size={{ base: "sm", md: "md" }} >
                           <TableCaption>Deployment Data</TableCaption>
@@ -74,7 +74,7 @@ export default function DeploymentTable() {
                               </Tr>
                           </Thead>
                           <Tbody>
-                      {delployment.map((item: any) => {
+                      {deployment.map((item: any) => {
                           return <Tr key={item.id}>
                               <Td>{ item.id}</Td>
                               <Td>{ item.name}</Td>
@@ -83,20 +83,13 @@ export default function DeploymentTable() {
                               <Td >{item.replicas}</Td>
                               <Td >{item.createdAt}</Td>
                                 <Td>
-                                    <IconButton aria-label="edit" size={{base:"sm",md:"md"}} colorScheme={"blue"} variant={"ghost"}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton onClick={()=>handleDelete(item.id)} aria-label="delete" size={{base:"sm",md:"md"}} colorScheme={"red"} variant={"ghost"}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="view" size={{base:"sm",md:"md"}} colorScheme={"green"} variant={"ghost"}>
-                                        <ViewIcon />
-                                    </IconButton>
+                                    <IconButton icon={<ViewIcon fontSize={"2xl"} />} colorScheme={'green'} aria-label='View' border={"none"} variant="link"/>
+                                    <IconButton icon={<DeleteIcon onClick={()=>handleDelete(item.id)} fontSize={"2xl"} />} colorScheme={'red'} aria-label='View' border={"none"} variant="link"/>
                                 </Td>
                           </Tr>
                       })
                   }
-                               
+
                           </Tbody>
                       </Table>
         </TableContainer>

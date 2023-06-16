@@ -70,7 +70,7 @@ interface ReplyBoxProps {
   id: number;
 }
 
-function Reply(prpos: ReplyBoxProps) {
+function Reply(props: ReplyBoxProps) {
   const [show, setShow] = useState(false);
 
   const toast = useToast();
@@ -100,7 +100,7 @@ function Reply(prpos: ReplyBoxProps) {
         createComment({
           blog: Number(params?.id),
           content: values.content,
-          comment: prpos?.id,
+          comment: props?.id,
         })
           .then((res: any) => {
             if (res.data) {
@@ -134,11 +134,11 @@ function Reply(prpos: ReplyBoxProps) {
     },
   });
 
-  console.log(prpos.id);
+  console.log(props.id);
 
   return (
     <>
-      <span onClick={() => setShow(!show)}>{prpos.children}</span>
+      <span onClick={() => setShow(!show)}>{props.children}</span>
       <Box display={show ? "block" : "none"} ml={5}>
         <form onSubmit={Formik.handleSubmit}>
           <InputGroup mt={4} w="100%">

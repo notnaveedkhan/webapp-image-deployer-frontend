@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Divider,
@@ -15,10 +16,18 @@ import cookies from "react-cookies";
 import { useLazyGetUserQuery } from "../services/user.service";
 import { useEffect, useState } from "react";
 import HamBurgerMenu from "./HamBurgerMenu";
-import { color } from "framer-motion";
+import {
+  useGetAllNotificationsQuery,
+  Notification,
+} from "../services/notification.service";
+import NotificationMenu from "./miscellaneous/NotificationMenu";
 
 export default function Navbar() {
   const location = useLocation();
+
+  const { data, isSuccess } = useGetAllNotificationsQuery();
+
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const [user, setUser] = useState<any>({});
 
@@ -46,7 +55,11 @@ export default function Navbar() {
       });
   }, [user, getUser]);
 
-  useEffect(() => {}, [location.pathname]);
+  useEffect(() => {
+    if (isSuccess) {
+      setNotifications(data);
+    }
+  }, [data]);
 
   return (
     <Box
@@ -124,7 +137,19 @@ export default function Navbar() {
         </Box>
       </Box>
       <Box display={{ base: "none", md: "flex" }} gap={2} alignItems={"center"}>
-        <BsFillBellFill cursor={"pointer"} color="white" />
+        <Box position={"relative"}>
+          <NotificationMenu notifications={notifications}>
+            <BsFillBellFill cursor={"pointer"} color="white" />
+            <Badge
+              colorScheme={"red"}
+              borderRadius={"full"}
+              position={"absolute"}
+              top={-3}
+              right={-1}>
+              {notifications.length}
+            </Badge>
+          </NotificationMenu>
+        </Box>
         <Divider orientation="vertical" />
         <Box
           cursor={"pointer"}

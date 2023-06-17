@@ -12,7 +12,7 @@ import controlPlaneApi from "./services/controlPlane.service";
 import nodeGroupService from "./services/nodeGroup.service";
 import deploymentApi from './services/deploment.service';
 import kubeServiceApi from './services/kubeService.service';
-
+import notificationApi from './services/notification.service';
 
 export const store = configureStore({
     reducer: {
@@ -28,6 +28,7 @@ export const store = configureStore({
         [nodeGroupService.reducerPath]: nodeGroupService.reducer,
         [deploymentApi.reducerPath]: deploymentApi.reducer,
         [kubeServiceApi.reducerPath]: kubeServiceApi.reducer,
+        [notificationApi.reducerPath]: notificationApi.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authApi.middleware,
@@ -38,7 +39,8 @@ export const store = configureStore({
         controlPlaneApi.middleware,
         nodeGroupService.middleware,
         deploymentApi.middleware,
-        kubeServiceApi.middleware
+        kubeServiceApi.middleware,
+        notificationApi.middleware
     )
 })
 

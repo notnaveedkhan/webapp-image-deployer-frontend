@@ -19,20 +19,22 @@ import { color } from "framer-motion";
 
 export default function Navbar() {
   const location = useLocation();
-  console.log(location.pathname);
+
   const [user, setUser] = useState<any>({});
+
   const navigate = useNavigate();
+
   const handleLogout = () => {
     cookies.remove("token");
     window.location.href = "/";
   };
+
   const [getUser] = useLazyGetUserQuery();
 
   useEffect(() => {
     getUser({})
       .then((res) => {
         if (res.data) {
-          console.log(res.data);
           setUser(res.data);
         }
       })

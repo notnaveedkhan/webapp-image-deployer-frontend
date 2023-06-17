@@ -2,14 +2,14 @@
 import { Box} from "@chakra-ui/react";
 import DeploymentTable from "../components/Deployments/DeploymentTable";
 import NamespaceTable from "../components/Deployments/NamespaceTable";
-import ServiceTable from "../components/Deployments/ServiceTable";
+import KubeServiceTable from "../components/Deployments/KubeServiceTable";
 
 
 export default function Deployment() {
     return (
           <Box mt={5} p={6}>
             {/* <NamespaceTable /> */}
-            <ServiceTable />
+            <KubeServiceTable />
             <DeploymentTable/>
           </Box>
       

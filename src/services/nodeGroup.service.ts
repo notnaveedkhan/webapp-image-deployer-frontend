@@ -40,6 +40,13 @@ const nodeGroupApi = createApi({
             }),
             invalidatesTags: ['NodeGroup']
         }),
+        deleteDeployment: builder.mutation<any, string>({
+            query: (id: string) => ({
+                url: `/api/v1/auth/private/node-group/${id}/delete`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["NodeGroup"]
+        })
     })
 })
 

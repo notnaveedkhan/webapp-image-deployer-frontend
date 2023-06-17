@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 
 export interface ICluster {
@@ -10,7 +10,7 @@ const controlPlaneApi = createApi({
     reducerPath: 'clusterApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_BASEURL,
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: (headers, {getState}) => {
             const token = (getState() as { login: { token: string } }).login.token;
             if (token) {
                 headers.set("Authorization", token);
@@ -35,7 +35,7 @@ const controlPlaneApi = createApi({
         }),
         deleteControlPlane: builder.mutation({
             query: (id: string) => ({
-                url: "/api/v1/auth/private/control-plane/{id}/delete",
+                url: `/api/v1/auth/private/control-plane/${id}/delete`,
                 method: "DELETE",
             }),
             invalidatesTags: ['Cluster']
@@ -45,4 +45,8 @@ const controlPlaneApi = createApi({
 
 
 export default controlPlaneApi;
-export const { useCreateControlPlaneMutation, useGetAllControlPlaneQuery, useDeleteControlPlaneMutation } = controlPlaneApi;
+export const {
+    useCreateControlPlaneMutation,
+    useGetAllControlPlaneQuery,
+    useDeleteControlPlaneMutation
+} = controlPlaneApi;

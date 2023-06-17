@@ -66,7 +66,7 @@ export default function DeploymentTable() {
 
     return (
         <TableContainer mt={"5em"}>
-            <Heading textAlign={'center'}>Deployment Data</Heading>
+            <Heading textAlign={'center'}>Kubernetes Deployment Data</Heading>
             <Box display={'flex'} gap={2}>
                 <DeploymentForm>
                     <Button size={{base: 'sm', md: 'md'}} mb={3} bgColor="blueviolet" _hover={{}}

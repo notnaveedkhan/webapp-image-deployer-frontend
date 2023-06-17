@@ -3,7 +3,7 @@ import {useDeleteControlPlaneMutation, useGetAllControlPlaneQuery} from "../serv
 import {useEffect, useState} from "react";
 import {useGetNodeGroupsQuery} from "../services/nodeGroup.service";
 import ControlPlaneTable from "../components/Cluster/ControlPlaneTable";
-import NodeGroupTables from "../components/Cluster/NodeGroupTables";
+import NodeGroupTable from "../components/Cluster/NodeGroupTable";
 import {useNavigate} from "react-router-dom";
 
 export default function Cluster() {
@@ -55,8 +55,8 @@ export default function Cluster() {
             <Box mt={5} p={6}>
                 <ControlPlaneTable isLoading={controlPlaneDataLoading} controlPlanes={controlPlane}
                                    onRefresh={handelRefetchControlPlane} onView={handleViewControlPlane}/>
-                <NodeGroupTables isLoading={nodeGroupDataLoading} nodeGroup={nodeGroup} controlPlane={controlPlane}
-                                 onRefresh={handelRefetchNodeGroup}/>
+                <NodeGroupTable isLoading={nodeGroupDataLoading} nodeGroup={nodeGroup} controlPlane={controlPlane}
+                                onRefresh={handelRefetchNodeGroup}/>
             </Box>
         </Box>
     )

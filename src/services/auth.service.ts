@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 export interface LoginBody {
     email: string,
@@ -11,7 +11,7 @@ const authApi = createApi({
         baseUrl: process.env.REACT_APP_BASEURL,
         prepareHeaders: (headers) => {
             headers.set("Access-Control-Allow-Origin", "*");
-            headers.set("Origin", "http://waidk8.com:2000");
+            headers.set("Origin", `${process.env.REACT_APP_BASEURL}`);
             headers.set("mode", "no-cors");
             return headers;
 
@@ -36,6 +36,5 @@ const authApi = createApi({
 });
 
 
-
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const {useLoginMutation, useRegisterMutation} = authApi;
 export default authApi;

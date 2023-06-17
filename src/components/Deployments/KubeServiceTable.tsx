@@ -1,4 +1,4 @@
-import {DeleteIcon, ExternalLinkIcon, RepeatIcon, ViewIcon} from "@chakra-ui/icons";
+import {CheckIcon, DeleteIcon, ExternalLinkIcon, RepeatIcon, ViewIcon, WarningIcon} from "@chakra-ui/icons";
 import {
     Box,
     Button,
@@ -11,29 +11,68 @@ import {
     Td,
     Th,
     Thead,
-    Tr
+    Tr, useDisclosure,
+    useToast
 } from "@chakra-ui/react";
 import KubeServiceForm from "./KubeServiceForm";
 
 import {useState, useEffect} from "react";
-import {useAllKubeServiceQuery} from "../../services/kubeService.service";
+import {
+    useAllKubeServiceQuery,
+    useDeleteKubeServiceMutation
+} from "../../services/kubeService.service";
 
 
-export default function ServiceTable() {
+export default function KubeServiceTable() {
 
+    const toast = useToast()
     const [services, setServices] = useState([])
+    const [deleteKubeService] = useDeleteKubeServiceMutation()
+    const {onClose} = useDisclosure();
     const {data, isSuccess, isLoading, isError, error} = useAllKubeServiceQuery();
     useEffect(() => {
         if (isSuccess) {
             setServices(data)
             console.log(data)
-
         }
     }, [data])
 
+    const handleDelete = (id: string) => {
+        deleteKubeService(id)
+            .then((res: any) => {
+                    if (res.data) {
+                        onClose();
+                        toast({
+                            title: "Success",
+                            description: data.message,
+                            status: "success",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "top",
+                            icon: <CheckIcon/>
+                        })
+                    }
+                    if (res.error) {
+                        onClose();
+                        toast({
+                            title: "Failure",
+                            description: res.error.data.message,
+                            status: "error",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "top",
+                            icon: <WarningIcon/>
+                        })
+                    }
+                }
+            ).catch((err) => {
+            console.log(err)
+        })
+    }
+
     return (
         <TableContainer>
-            <Heading textAlign={'center'}>Service Data</Heading>
+            <Heading textAlign={'center'}>Kubernetes Service Data</Heading>
             <Box display={'flex'} gap={2}>
                 <KubeServiceForm>
                     <Button size={{base: 'sm', md: 'md'}} mb={3} bgColor="blueviolet" _hover={{}}
@@ -72,7 +111,8 @@ export default function ServiceTable() {
                                 <Td>
                                     <IconButton icon={<ViewIcon fontSize={"2xl"}/>} colorScheme={'green'}
                                                 aria-label='View' border={"none"} variant="link"/>
-                                    <IconButton icon={<DeleteIcon fontSize={"2xl"}/>} colorScheme={'red'}
+                                    <IconButton onClick={() => handleDelete(service.id)}
+                                                icon={<DeleteIcon fontSize={"2xl"}/>} colorScheme={'red'}
                                                 aria-label='View' border={"none"} variant="link"/>
                                 </Td>
                             </Tr>

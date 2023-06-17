@@ -24,7 +24,7 @@ interface NodeGroupProps {
     onRefresh: () => void;
 }
 
-export default function NodeGroupTables(props: NodeGroupProps) {
+export default function NodeGroupTable(props: NodeGroupProps) {
 
     console.log(props.controlPlane)
     return (

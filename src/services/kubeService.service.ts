@@ -22,7 +22,6 @@ const kubeServiceApi = createApi({
     }),
     tagTypes: ['KubeService'],
     endpoints: (builder) => ({
-
         createKubeService: builder.mutation<any, KubeServiceBody>({
             query: (body: KubeServiceBody) => ({
                 url: "/api/v1/kube/kube-service/create",
@@ -34,11 +33,21 @@ const kubeServiceApi = createApi({
         allKubeService: builder.query<any, void>({
             query: () => "/api/v1/kube/kube-service/details",
             providesTags: ['KubeService']
+        }),
+        deleteKubeService: builder.mutation<void, string>({
+            query: (id: string) => ({
+                url: `/api/v1/kube/kube-service/${id}/delete`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["KubeService"]
         })
-
     })
 });
 
 
 export default kubeServiceApi;
-export const {useCreateKubeServiceMutation, useAllKubeServiceQuery} = kubeServiceApi;
+export const {
+    useCreateKubeServiceMutation,
+    useAllKubeServiceQuery,
+    useDeleteKubeServiceMutation,
+} = kubeServiceApi;

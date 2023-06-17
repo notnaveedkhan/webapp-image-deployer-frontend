@@ -9,7 +9,6 @@ const regionApi = createApi({
             if (token) {
                 headers.set("Authorization", token);
             }
-
             return headers;
         }
     }),

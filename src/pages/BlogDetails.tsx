@@ -128,7 +128,7 @@ export default function BlogDetails() {
 
             <Heading mt={4}>{blog?.title}</Heading>
             <Text mt={4} lineHeight={2}>
-              {blog?.content}
+              <div dangerouslySetInnerHTML={{ __html: blog?.content }}></div>
             </Text>
 
             <form onSubmit={Formik.handleSubmit}>

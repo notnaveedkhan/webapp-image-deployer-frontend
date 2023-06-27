@@ -55,11 +55,10 @@ export default function CostAndUsage() {
               currunt mount cost
             </Text>
             <Flex justify={"space-between"}>
-              {" "}
-              <Heading fontSize="2xl">350$</Heading>{" "}
+              <Heading fontSize="2xl">350$</Heading>
               <Text fontSize={"sm"} color="gray.500">
                 Wowowknk
-              </Text>{" "}
+              </Text>
             </Flex>
           </Box>
           <Divider />

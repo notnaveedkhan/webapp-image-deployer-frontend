@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import ResentVisited from "../components/miscellaneous/ResentVisted";
 import WelcomeToWaidk8 from "../components/miscellaneous/WelcomeToWaidk8";
 import Waidk8Health from "../components/miscellaneous/Waidk8Health";
-import CostAndUsage from "../components/miscellaneous/CostAndUsage";
+// import CostAndUsage from "../components/miscellaneous/CostAndUsage";
 import BuildSolution from "../components/miscellaneous/BuildSolution";
 import TrustedAdvisor from "../components/miscellaneous/TrustedAdvisor";
 import LatestAnnouncements from "../components/miscellaneous/LatestAnnouncements";
@@ -28,7 +28,7 @@ function Dashboard() {
         w={"100%"}
         paddingX="20px">
         <Waidk8Health />
-        <CostAndUsage />
+        {/* <CostAndUsage /> */}
       </Box>
       <Box
         display={"flex"}

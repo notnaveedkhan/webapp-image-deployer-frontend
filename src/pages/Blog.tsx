@@ -1,5 +1,5 @@
 import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
-import { Box, Button, Heading, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Heading, Link, Text } from "@chakra-ui/react";
 import BlogPost from "../components/miscellaneous/BlogPost";
 import BlogPostCategories from "../components/miscellaneous/BlogPostCategories";
 import PopularBlogs from "../components/miscellaneous/PopularBlogs";
@@ -73,28 +73,40 @@ export default function Blog() {
               Create Blog
             </Button>
           </Link>
-          {blogs.length > 0
-            ? blogs.slice(0, 5).map((post: any) => {
-                const { author, title, content, commentsCount, id, createdAt } =
-                  post;
-                return (
-                  <BlogPost
-                    image={
-                      "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-                    }
-                    author={author.name}
-                    comments={`${commentsCount} Comments`}
-                    content={
-                      content.length > 276 ? content.substring(0, 276) : content
-                    }
-                    date={createdAt}
-                    heading={title}
-                    id={id}
-                    key={id}
-                  />
-                );
-              })
-            : null}
+          {blogs.length > 0 ? (
+            blogs.slice(0, 5).map((post: any) => {
+              const { author, title, content, commentsCount, id, createdAt } =
+                post;
+              return (
+                <BlogPost
+                  image={
+                    "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
+                  }
+                  author={author.name}
+                  comments={`${commentsCount} Comments`}
+                  content={
+                    content.length > 276 ? content.substring(0, 276) : content
+                  }
+                  date={createdAt}
+                  heading={title}
+                  id={id}
+                  key={id}
+                />
+              );
+            })
+          ) : (
+            <Box
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              height={"400px"}>
+              <Center>
+                <Heading fontSize={"xs"} color={"gray.500"}>
+                  No Blogs
+                </Heading>
+              </Center>
+            </Box>
+          )}
           <Box display={"flex"} flexShrink={"wrap"} gap={3}>
             <Button colorScheme={"blue"} leftIcon={<ArrowLeftIcon />}>
               Pervious

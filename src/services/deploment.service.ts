@@ -1,11 +1,19 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+interface Containers {
+    name: string,
+    image: string,
+    containerPort: number,
+    env?: {
+    }
+}
+
 
 interface DeploymentBody {
     name: string,
-    image: string,
-    port: number,
+    containers: Containers[],
     replicas: number,
-    controlPlane: number,
+    controlPlane: number
 }
 
 
@@ -13,7 +21,7 @@ const deploymentApi = createApi({
     reducerPath: "deploymentApi",
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_BASEURL,
-        prepareHeaders: (headers, {getState}) => {
+        prepareHeaders: (headers, { getState }) => {
             const token = (getState() as { login: { token: string } }).login.token;
             if (token) {
                 headers.set("Authorization", token);

@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
+import DeploymentForm from "../../components/Deployments/DeploymentForm";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import AboutUs from "../../pages/AboutUs";
@@ -29,6 +30,7 @@ export default function index() {
           />
           <Route path="/blogs" element={<Blog />} />
           <Route path="/deployments" element={<Deployment />} />
+          <Route path="/create-deployment" element={<DeploymentForm />} />
           <Route path="/blog/:id" element={<BlogDetails />} />
         </Routes>
       </Box>

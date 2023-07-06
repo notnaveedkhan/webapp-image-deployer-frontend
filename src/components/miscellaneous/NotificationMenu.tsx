@@ -1,22 +1,28 @@
 import {
   Box,
+  Button,
+  ButtonGroup,
   Divider,
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList,
+  IconButton,
   Popover,
   PopoverArrow,
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
+  PopoverFooter,
   PopoverHeader,
+  PopoverTrigger,
   Text,
   useDisclosure,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
-import { Notification } from "../../services/notification.service";
+import { BsEye } from "react-icons/bs";
+import {
+  Notification,
+  useSeenAllNotificationMutation,
+  useSeenNotificationMutation,
+} from "../../services/notification.service";
 
 interface NotificationMenuProps {
   children: React.ReactNode;
@@ -24,48 +30,125 @@ interface NotificationMenuProps {
 }
 
 export default function NotificationMenu(props: NotificationMenuProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
+  const [seenNotification] = useSeenNotificationMutation();
+
+  const [seenAllNotification] = useSeenAllNotificationMutation();
+
+  const handleSeen = (nid: string) => {
+    seenNotification(nid)
+      .then((res: any) => {
+        if (res.error) {
+          toast({
+            title: "Error",
+            description: res.error.data.message,
+            status: "error",
+            duration: 3000,
+            position: "top",
+            isClosable: true,
+          });
+        }
+      })
+      .catch((err: any) => {
+        toast({
+          title: "Error",
+          description: err.response.data.message,
+          status: "error",
+          duration: 3000,
+          position: "top",
+          isClosable: true,
+        });
+      });
+  };
+
+  const handleSeenAll = () => {
+    seenAllNotification()
+      .then((res: any) => {
+        if (res.error) {
+          toast({
+            title: "Error",
+            description: res.error.data.message,
+            status: "error",
+            duration: 3000,
+            position: "top",
+            isClosable: true,
+          });
+        }
+      })
+      .catch((err: any) => {
+        toast({
+          title: "Error",
+          description: err.response.data.message,
+          status: "error",
+          duration: 3000,
+          position: "top",
+          isClosable: true,
+        });
+      });
+  };
   return (
-    <>
-      <span style={{ width: "100px" }} onClick={onOpen}>
-        {props.children}
-      </span>
-      <Popover isOpen={isOpen} onClose={onClose} placement="left-end">
-        <PopoverContent left={"-161px"}>
-          <PopoverHeader>Notifications</PopoverHeader>
-          <PopoverCloseButton />
-          <PopoverArrow bg="red.500" />
-          <PopoverBody>
-            <VStack divider={<Divider />} spacing={2} align="stretch">
-              {props.notifications.map((notification) => {
-                return (
-                  <Box
-                    key={notification.id}
-                    cursor="pointer"
-                    _hover={{
-                      backgroundColor: "gray.100",
-                      transition: "all .2s ease-in-out",
-                    }}>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="center">
-                      <Text>{notification.title}</Text>
-                      <Box
-                        h={"10px"}
-                        w={"10px"}
-                        bg={"red.500"}
-                        borderRadius={"50%"}></Box>
+    <Popover placement="bottom">
+      <PopoverTrigger>
+        <Button variant={"unstyled"}>{props.children}</Button>
+      </PopoverTrigger>
+      <PopoverContent bg="white">
+        <PopoverHeader
+          fontSize={"lg"}
+          fontWeight={600}
+          textTransform="uppercase">
+          Notifications
+        </PopoverHeader>
+        <PopoverArrow bg="blueviolet" />
+        <PopoverCloseButton />
+        <PopoverBody>
+          <Box display={"flex"} justifyContent={"flex-end"}>
+            <Text
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"blueviolet"}
+              cursor="pointer"
+              transitionDelay={"300ms"}
+              transitionDuration={"300ms"}
+              transitionProperty={"all"}
+              transitionTimingFunction={"linear"}
+              _hover={{ textDecoration: "underline" }}
+              onClick={handleSeenAll}>
+              Seen All
+            </Text>
+          </Box>
+          <Divider />
+          <VStack divider={<Divider />} spacing={2} align="stretch">
+            {props.notifications.map((notification) => {
+              return (
+                <Box key={notification.id} cursor="pointer" padding="10px">
+                  <Box display={"flex"} alignItems="center">
+                    <Box>
+                      <Text
+                        fontSize={"sm"}
+                        textTransform={"uppercase"}
+                        fontWeight={600}>
+                        {notification.title}
+                      </Text>
+                      <Text fontSize={"sm"} fontWeight={300}>
+                        {notification.description}
+                      </Text>
                     </Box>
-                    <Text>{notification.description}</Text>
+                    <IconButton
+                      size={"sm"}
+                      aria-label="seen"
+                      icon={<BsEye />}
+                      variant="ghost"
+                      color={"blueviolet"}
+                      onClick={() => handleSeen(String(notification.id))}
+                    />
                   </Box>
-                );
-              })}
-            </VStack>
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-    </>
+                </Box>
+              );
+            })}
+          </VStack>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
   );
 }

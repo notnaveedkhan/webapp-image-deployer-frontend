@@ -118,7 +118,7 @@ export default function Navbar() {
               location.pathname === "/deployments" ? "white" : "whiteAlpha.800"
             }
             _hover={{ color: "white" }}>
-            Deploments
+            Deployments
           </Link>
           <Link
             as={RouterLink}
@@ -137,19 +137,22 @@ export default function Navbar() {
         </Box>
       </Box>
       <Box display={{ base: "none", md: "flex" }} gap={2} alignItems={"center"}>
-        <Box position={"relative"}>
+        <div style={{ position: "relative" }}>
           <NotificationMenu notifications={notifications}>
-            <BsFillBellFill cursor={"pointer"} color="white" />
-            <Badge
-              colorScheme={"red"}
-              borderRadius={"full"}
-              position={"absolute"}
-              top={-3}
-              right={-1}>
-              {notifications.length}
-            </Badge>
+            <BsFillBellFill size={20} color={"white"} />
+            {notifications.length > 0 && (
+              <Badge
+                position={"absolute"}
+                rounded="full"
+                left={2}
+                top={0}
+                boxSize={4}
+                colorScheme="red">
+                {notifications.length}
+              </Badge>
+            )}
           </NotificationMenu>
-        </Box>
+        </div>
         <Divider orientation="vertical" />
         <Box
           cursor={"pointer"}

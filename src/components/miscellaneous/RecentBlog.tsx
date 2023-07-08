@@ -28,13 +28,9 @@ export default function RecentBlog() {
     }
   }, [isSuccess]);
   return (
-    <Box
-      w={{ base: "100%", md: "50%" }}
-      minH="200px"
-      boxShadow={"md"}
-      bgColor="white">
+    <div className="col-span-8 border rounded-md border-gray-300 h-fit">
       <Box
-        bgColor={"gray.300"}
+        className="bg-blue-900 text-white rounded-md"
         p={3}
         display={"flex"}
         justifyContent={"space-between"}
@@ -51,7 +47,7 @@ export default function RecentBlog() {
       <Box>
         {isLoading ? (
           <Center>
-            <Spinner />
+            <Spinner mt={2} />
           </Center>
         ) : latestBlog.length > 0 ? (
           latestBlog.map((blog: any, index: number) => {
@@ -83,32 +79,17 @@ export default function RecentBlog() {
             <Text>No Blog Post</Text>
           </Box>
         )}
-        <Divider />
-        <Box p={4} mt={2} display="flex" gap={4} alignItems="center">
-          <Box>
-            <Text color={"gray.500"}>MAR</Text>
-            <Heading fontSize={"lg"}>25</Heading>
-          </Box>
-          <Heading fontSize={"md"} color="blue.500">
-            <Link>
-              Fast, simple,cost efficent data warehouse that can extend quires
-              to your data lake
-            </Link>{" "}
-          </Heading>
-        </Box>
       </Box>
       <Divider mt={4} />
       <Link
         as={RouterLink}
         to={"/blogs"}
-        paddingY={3}
-        display="flex"
-        justifyContent={"center"}
-        alignItems="center"
-        color={"blue.500"}>
-        view all blog post
+        color="gray.500"
+        _hover={{}}
+        className="flex gap-2 items-center justify-center py-2 text-sm hover:text-blue-900">
+        View More
         <HiOutlineExternalLink />
       </Link>
-    </Box>
+    </div>
   );
 }

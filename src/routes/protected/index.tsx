@@ -14,27 +14,22 @@ import Deployment from "../../pages/Deployment";
 
 export default function index() {
   return (
-    <>
+    <div className="dark:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] dark:from-gray-700 dark:via-gray-900 dark:to-black bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-rose-100 to-teal-100">
       <Navbar />
-      <Box bgColor={"gray.50"} pt={"80px"}>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/blogs" element={<Blog />} />
-          <Route path="/create-blog" element={<CreateBlog />} />
-          <Route path="/cluster" element={<Cluster />} />
-          <Route path="about" element={<AboutUs />} />
-          <Route path="/cluster" element={<Cluster />} />
-          <Route
-            path="/cluster/control-plane/:id"
-            element={<ClusterDetail />}
-          />
-          <Route path="/blogs" element={<Blog />} />
-          <Route path="/deployments" element={<Deployment />} />
-          <Route path="/create-deployment" element={<DeploymentForm />} />
-          <Route path="/blog/:id" element={<BlogDetails />} />
-        </Routes>
-      </Box>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/blogs" element={<Blog />} />
+        <Route path="/create-blog" element={<CreateBlog />} />
+        <Route path="/cluster" element={<Cluster />} />
+        <Route path="about" element={<AboutUs />} />
+        <Route path="/cluster" element={<Cluster />} />
+        <Route path="/cluster/control-plane/:id" element={<ClusterDetail />} />
+        <Route path="/blogs" element={<Blog />} />
+        <Route path="/deployments" element={<Deployment />} />
+        <Route path="/create-deployment" element={<DeploymentForm />} />
+        <Route path="/blog/:id" element={<BlogDetails />} />
+      </Routes>
       <Footer />
-    </>
+    </div>
   );
 }

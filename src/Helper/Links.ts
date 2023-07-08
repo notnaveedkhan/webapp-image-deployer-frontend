@@ -13,6 +13,10 @@ export const links: Links[] = [
         url: '/cluster'
     },
     {
+        text: 'Deployments',
+        url: '/deployments'
+    },
+    {
         text: 'Blogs',
         url: '/blogs'
     },

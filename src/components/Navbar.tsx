@@ -1,17 +1,24 @@
 import {
+  Avatar,
   Badge,
   Box,
   Button,
   Divider,
   Heading,
+  IconButton,
   Image,
   Link,
   Text,
 } from "@chakra-ui/react";
 import LOGO from "../assets/logo.png";
-import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link as RouterLink,
+  Router,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { BsFillBellFill } from "react-icons/bs";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, SunIcon } from "@chakra-ui/icons";
 import cookies from "react-cookies";
 import { useLazyGetUserQuery } from "../services/user.service";
 import { useEffect, useState } from "react";
@@ -21,6 +28,10 @@ import {
   Notification,
 } from "../services/notification.service";
 import NotificationMenu from "./miscellaneous/NotificationMenu";
+import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { links } from "../Helper/Links";
+import useDarkSide from "../hooks/useDarkSide";
+import ProfileMenu from "./miscellaneous/ProfileMenu";
 
 export default function Navbar() {
   const location = useLocation();
@@ -36,6 +47,10 @@ export default function Navbar() {
   const handleLogout = () => {
     cookies.remove("token");
     window.location.href = "/";
+  };
+
+  const toggleTheme = () => {
+    document.documentElement.classList.toggle("dark");
   };
 
   const [getUser] = useLazyGetUserQuery();
@@ -62,84 +77,45 @@ export default function Navbar() {
   }, [data]);
 
   return (
-    <Box
-      w={"100%"}
-      bgColor={process.env.REACT_APP_NAVBAR_BG_COLOR}
-      position={"fixed"}
-      top={0}
-      p={3}
-      display={"flex"}
-      justifyContent={"space-between"}
-      zIndex={1000}>
-      <Box display={"flex"} gap={2} alignItems={"center"} color="white">
-        <Link
-          _hover={{}}
-          as={RouterLink}
-          to={"/"}
-          display={"flex"}
-          alignItems="center"
-          gap={1}
-          cursor="pointer">
-          <Image cursor={"pointer"} src={LOGO} alt={"Logo"} h={"35px"} />
-          <Heading color={"white"} fontSize="lg">
-            waidk8
-          </Heading>
-        </Link>
+    <div className="text-black flex items-center justify-between px-5 py-3 shadow-lg">
+      <Link
+        _hover={{}}
+        as={RouterLink}
+        to={"/"}
+        display={"flex"}
+        alignItems="center"
+        gap={1}
+        cursor="pointer">
+        <Image cursor={"pointer"} src={LOGO} alt={"Logo"} h={"35px"} />
+      </Link>
 
-        <Divider
-          display={{ base: "none", md: "block" }}
-          orientation="vertical"
-        />
-        <Box
-          display={{ base: "none", md: "flex" }}
-          gap={5}
-          alignItems={"center"}
-          cursor="pointer">
-          <Link
-            as={RouterLink}
-            to={"/"}
-            color={location.pathname === "/" ? "white" : "whiteAlpha.800"}
-            _hover={{ color: "white" }}>
-            Dashboard
-          </Link>
-          <Link
-            as={RouterLink}
-            to={"/cluster"}
-            color={
-              location.pathname === "/cluster" ? "white" : "whiteAlpha.800"
-            }
-            _hover={{ color: "white" }}>
-            Clusters
-          </Link>
-          <Link
-            as={RouterLink}
-            to={"/deployments"}
-            color={
-              location.pathname === "/deployments" ? "white" : "whiteAlpha.800"
-            }
-            _hover={{ color: "white" }}>
-            Deployments
-          </Link>
-          <Link
-            as={RouterLink}
-            to={"/blogs"}
-            color={location.pathname === "/blogs" ? "white" : "whiteAlpha.800"}
-            _hover={{ color: "white" }}>
-            Blogs
-          </Link>
-          <Link
-            as={RouterLink}
-            to={"/about"}
-            color={location.pathname === "/about" ? "white" : "whiteAlpha.800"}
-            _hover={{ color: "white" }}>
-            About
-          </Link>
-        </Box>
+      <Box
+        display={{ base: "none", md: "flex" }}
+        gap={5}
+        alignItems={"center"}
+        cursor="pointer">
+        {links.map((link) => {
+          return (
+            <RouterLink
+              className={`${
+                location.pathname === link.url
+                  ? "text-white dark:text-black dark:bg-blue-200 bg-blue-900"
+                  : "text-black dark:text-white"
+              } px-3 py-2 rounded-md tracking-wide transition-all`}
+              to={link.url}
+              key={link.url}>
+              {link.text}
+            </RouterLink>
+          );
+        })}
       </Box>
       <Box display={{ base: "none", md: "flex" }} gap={2} alignItems={"center"}>
         <div style={{ position: "relative" }}>
           <NotificationMenu notifications={notifications}>
-            <BsFillBellFill size={20} color={"white"} />
+            <BsFillBellFill
+              size={18}
+              className="text-black hover:text-blue-900 cursor-pointer"
+            />
             {notifications.length > 0 && (
               <Badge
                 position={"absolute"}
@@ -153,18 +129,22 @@ export default function Navbar() {
             )}
           </NotificationMenu>
         </div>
-        <Divider orientation="vertical" />
-        <Box
-          cursor={"pointer"}
-          color={"white"}
-          display={"flex"}
-          alignItems="center">
-          <Text>{user.name}</Text>
-          <ChevronDownIcon />
-        </Box>
-        <Button onClick={handleLogout}>Logout</Button>
+        <ProfileMenu handleLogout={handleLogout}>
+          <div className="h-8 w-20 border border-blue-900 rounded-full flex items-center justify-between pl-4">
+            <AiOutlineMenuUnfold className="text-lg text-black hover:text-blue-900" />
+            <Avatar name={user.name} size="sm" />
+          </div>
+        </ProfileMenu>
+        <IconButton
+          aria-label="theme-toggle"
+          icon={<SunIcon />}
+          variant="ghost"
+          color="yellow"
+          onClick={toggleTheme}
+          className="border shadow-lg hover:text-blue-900"
+        />
       </Box>
       <HamBurgerMenu />
-    </Box>
+    </div>
   );
 }

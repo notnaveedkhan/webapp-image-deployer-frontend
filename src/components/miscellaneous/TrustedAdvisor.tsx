@@ -4,13 +4,9 @@ import { RxDragHandleDots1 } from "react-icons/rx";
 
 export default function TrustedAdvisor() {
   return (
-    <Box
-      w={{ base: "100%", md: "40%" }}
-      minH="200px"
-      boxShadow={"md"}
-      bgColor="white">
+    <div className="col-span-8 border rounded-md border-gray-300">
       <Box
-        bgColor={"gray.300"}
+        className="bg-blue-900 text-white rounded-md"
         p={3}
         display={"flex"}
         justifyContent={"space-between"}
@@ -31,8 +27,8 @@ export default function TrustedAdvisor() {
         justifyContent={"center"}
         alignSelf={"flex-end"}
         color={"blue.500"}>
-        GO AWS Cost Mangment
+        GO AWS Cost Management
       </Link>
-    </Box>
+    </div>
   );
 }

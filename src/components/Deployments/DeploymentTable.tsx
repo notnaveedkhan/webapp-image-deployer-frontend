@@ -73,21 +73,18 @@ export default function DeploymentTable() {
     <TableContainer mt={5}>
       <Heading textAlign={"center"}>Kubernetes Deployment Data</Heading>
       <Box display={"flex"} gap={2}>
-        <Button
-          size={{ base: "sm", md: "md" }}
-          mb={3}
-          bgColor="blueviolet"
-          _hover={{}}
-          color="white"
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => navigate("/create-deployment")}>
           Create Deployment
-        </Button>
+        </button>
         <IconButton
           onClick={handleRefetch}
           aria-label="Refresh"
-          icon={<RepeatIcon color={"blueviolet"} />}
-          borderColor="blueviolet"
-          variant="outline"
+          icon={<RepeatIcon />}
+          className="text-blue-900 dark:text-white"
+          _hover={{}}
+          variant="ghost"
           p={3}
         />
       </Box>

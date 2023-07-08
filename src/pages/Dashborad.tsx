@@ -10,46 +10,14 @@ import RecentBlog from "../components/miscellaneous/RecentBlog";
 
 function Dashboard() {
   return (
-    <Box marginX={{ base: 0, md: 5 }}>
-      <Box
-        marginY={3}
-        display={"flex"}
-        flexDir={{ base: "column", md: "row" }}
-        gap={2}
-        w={"100%"}
-        paddingX="20px">
-        <LatestAnnouncements />
-        <WelcomeToWaidk8 />
-      </Box>
-      <Box
-        display={"flex"}
-        flexDir={{ base: "column", md: "row" }}
-        gap={2}
-        w={"100%"}
-        paddingX="20px">
-        <Waidk8Health />
-        {/* <CostAndUsage /> */}
-      </Box>
-      <Box
-        display={"flex"}
-        mt={2}
-        flexDir={{ base: "column", md: "row" }}
-        gap={2}
-        w={"100%"}
-        paddingX="20px">
-        <BuildSolution />
-        <TrustedAdvisor />
-      </Box>
-      <Box
-        display={"flex"}
-        mt={2}
-        flexDir={{ base: "column", md: "row" }}
-        gap={2}
-        w={"100%"}
-        paddingX="20px">
-        <RecentBlog />
-      </Box>
-    </Box>
+    <div className="grid w-[95%] mx-auto my-4 gap-3 grid-cols-12">
+      <ResentVisited />
+      <WelcomeToWaidk8 />
+      <Waidk8Health />
+      <RecentBlog />
+      <TrustedAdvisor />
+      <LatestAnnouncements />
+    </div>
   );
 }
 

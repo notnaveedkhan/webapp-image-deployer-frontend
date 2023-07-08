@@ -143,7 +143,12 @@ export default function DeploymentForm() {
               !!(Formik.touched.deploymentName && Formik.errors.deploymentName)
             }>
             <FormLabel>Name</FormLabel>
-            <Input type={"text"} {...Formik.getFieldProps("deploymentName")} />
+            <Input
+              borderColor={"gray.500"}
+              focusBorderColor="blue.500"
+              type={"text"}
+              {...Formik.getFieldProps("deploymentName")}
+            />
             <FormErrorMessage>{Formik.errors.deploymentName}</FormErrorMessage>
           </FormControl>
           <FormControl
@@ -152,7 +157,12 @@ export default function DeploymentForm() {
             minH={"100px"}
             isInvalid={!!(Formik.touched.replicas && Formik.errors.replicas)}>
             <FormLabel>Replicas</FormLabel>
-            <Input type={"number"} {...Formik.getFieldProps("replicas")} />
+            <Input
+              borderColor={"gray.500"}
+              focusBorderColor="blue.500"
+              type={"number"}
+              {...Formik.getFieldProps("replicas")}
+            />
             <FormErrorMessage>{Formik.errors.replicas}</FormErrorMessage>
           </FormControl>
           <FormControl
@@ -165,7 +175,9 @@ export default function DeploymentForm() {
             <FormLabel>Cluster</FormLabel>
             <Select
               {...Formik.getFieldProps("controlPlane")}
-              placeholder="Select Cluster">
+              placeholder="Select Cluster"
+              borderColor={"gray.500"}
+              focusBorderColor="blue.500">
               {controlPlane.map((item) => {
                 return (
                   <option key={item.id} value={item.id}>
@@ -177,12 +189,12 @@ export default function DeploymentForm() {
           </FormControl>
 
           <Box
-            w={"90%"}
+            w={"85%"}
             mx={"auto"}
             display={"flex"}
             alignItems={"center"}
             gap={4}>
-            <Heading color={"blueviolet"} fontSize={"lg"}>
+            <Heading className="text-2xl text-blue-900" as="h2" size="lg">
               Containers
             </Heading>
             <IconButton
@@ -194,7 +206,7 @@ export default function DeploymentForm() {
           </Box>
         </Box>
 
-        <Divider my={4} w={"90%"} mx={"auto"} />
+        <Divider borderColor={"gray.500"} my={4} w={"85%"} mx={"auto"} />
 
         <VStack w={"90%"}>
           {Formik.values.container?.map((item, index) => {
@@ -226,19 +238,17 @@ export default function DeploymentForm() {
                 <FormControl flex={1}>
                   <FormLabel>Name</FormLabel>
                   <Input
+                    borderColor={"gray.500"}
+                    focusBorderColor="blue.500"
                     type={"text"}
                     {...Formik.getFieldProps(`container[${index}].name`)}
                   />
-                  {/* <FormErrorMessage>{Formik.errors.container &&Formik.errors.container[index]?.name}</FormErrorMessage> */}
                 </FormControl>
-                <FormControl
-                  flex={1}
-                  // isInvalid={
-                  // !!(Formik.touched.container?.[index].image && Formik.errors.container?.[index]?.image)
-                  // }
-                >
+                <FormControl flex={1}>
                   <FormLabel>Image</FormLabel>
                   <Input
+                    borderColor={"gray.500"}
+                    focusBorderColor="blue.500"
                     type={"text"}
                     {...Formik.getFieldProps(`container[${index}].image`)}
                   />
@@ -248,6 +258,8 @@ export default function DeploymentForm() {
                   <FormLabel>Container Port</FormLabel>
                   <Input
                     type={"number"}
+                    borderColor={"gray.500"}
+                    focusBorderColor="blue.500"
                     {...Formik.getFieldProps(
                       `container[${index}].containerPort`
                     )}
@@ -258,7 +270,9 @@ export default function DeploymentForm() {
                   container={item}
                   index={index}
                   addEnv={handleAddEnvVariable}>
-                  <Button alignSelf={"flex-end"}>Add Env</Button>
+                  <button className="bg-blue-500 self-end hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Add Env
+                  </button>
                 </EnvModal>
               </Box>
             );
@@ -270,23 +284,17 @@ export default function DeploymentForm() {
           justifyContent={"flex-end"}
           alignItems={"center"}
           gap={3}
-          mt={4}>
-          <Button
+          mt={8}>
+          <button
             type="submit"
-            size={{ base: "sm", md: "md" }}
-            mb={3}
-            bgColor="blueviolet"
-            _hover={{}}
-            color="white">
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Create
-          </Button>
-          <Button
-            size={{ base: "sm", md: "md" }}
-            mb={3}
-            variant="outline"
-            border={"blueviolet"}>
+          </button>
+          <button
+            type="button"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
             Cancel
-          </Button>
+          </button>
         </Box>
       </form>
     </Box>

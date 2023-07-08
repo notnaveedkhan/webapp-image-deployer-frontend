@@ -49,6 +49,7 @@ const CreateTopic = () => {
               status: "success",
               position: "top",
             });
+            FormikCreateTopic.resetForm();
           }
           if (res.error) {
             toast({
@@ -73,12 +74,16 @@ const CreateTopic = () => {
   };
   return (
     <FormControl>
-      <FormLabel>Create Topic</FormLabel>
+      <FormLabel className="text-blue-900 dark:text-white">
+        Create Topic
+      </FormLabel>
       <InputGroup>
         <Input
           type={"search"}
           id="name"
           name="name"
+          borderColor={"gray.300"}
+          className="bg-gray-100 p-2 rounded-md border-r-0"
           onChange={FormikCreateTopic.handleChange}
           onBlur={FormikCreateTopic.handleBlur}
           value={FormikCreateTopic.values.name}
@@ -86,10 +91,12 @@ const CreateTopic = () => {
         />
         <Tooltip label="Create Topic">
           <InputRightAddon
-            bgColor={process.env.REACT_APP_NAVBAR_BG_COLOR}
+            className="bg-blue-900 text-white rounded-md"
             cursor="pointer"
-            color={"white"}
             _hover={{}}
+            sx={{
+              backgroundColor: "-bg-blue-900",
+            }}
             onClick={handleCreateTopic}>
             <AddIcon />
           </InputRightAddon>

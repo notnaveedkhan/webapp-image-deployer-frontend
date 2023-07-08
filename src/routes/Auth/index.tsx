@@ -6,7 +6,7 @@ import Register from "../../pages/Register";
 
 export default function Index() {
   return (
-    <div className="App">
+    <div>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

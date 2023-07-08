@@ -4,13 +4,9 @@ import { RxDragHandleDots1 } from "react-icons/rx";
 
 export default function ResentVisited() {
   return (
-    <Box
-      w={{ base: "100%", md: "60%" }}
-      minH="200px"
-      boxShadow={"md"}
-      bgColor="white">
+    <div className="col-span-8 rounded-md border border-gray-300">
       <Box
-        bgColor={"gray.300"}
+        className="bg-blue-900 text-white rounded-md"
         p={3}
         display={"flex"}
         justifyContent={"space-between"}
@@ -24,6 +20,6 @@ export default function ResentVisited() {
         </Box>
         <HiOutlineDotsVertical />
       </Box>
-    </Box>
+    </div>
   );
 }

@@ -13,6 +13,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Text,
+  Tooltip,
   useDisclosure,
   useToast,
   VStack,
@@ -93,35 +94,24 @@ export default function NotificationMenu(props: NotificationMenuProps) {
         <Button variant={"unstyled"}>{props.children}</Button>
       </PopoverTrigger>
       <PopoverContent bg="white">
-        <PopoverHeader
-          fontSize={"lg"}
-          fontWeight={600}
-          textTransform="uppercase">
-          Notifications
-        </PopoverHeader>
-        <PopoverArrow bg="blueviolet" />
-        <PopoverCloseButton />
+        <PopoverArrow className="bg-blue-900" />
         <PopoverBody>
-          <Box display={"flex"} justifyContent={"flex-end"}>
-            <Text
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"blueviolet"}
-              cursor="pointer"
-              transitionDelay={"300ms"}
-              transitionDuration={"300ms"}
-              transitionProperty={"all"}
-              transitionTimingFunction={"linear"}
-              _hover={{ textDecoration: "underline" }}
-              onClick={handleSeenAll}>
-              Seen All
-            </Text>
-          </Box>
-          <Divider />
-          <VStack divider={<Divider />} spacing={2} align="stretch">
+          <div className="flex justify-between items-center">
+            <h2>Notification</h2>
+            <BsEye
+              title="Mark All As Read"
+              className="cursor-pointer text-blue-900 relative"
+              onClick={handleSeenAll}
+            />
+          </div>
+          <Divider className="mb-3" />
+          <VStack divider={<Divider />} align="stretch">
             {props.notifications.map((notification) => {
               return (
-                <Box key={notification.id} cursor="pointer" padding="10px">
+                <Box
+                  key={notification.id}
+                  cursor="pointer"
+                  className="px-3 py-0">
                   <Box display={"flex"} alignItems="center">
                     <Box>
                       <Text
@@ -138,8 +128,9 @@ export default function NotificationMenu(props: NotificationMenuProps) {
                       size={"sm"}
                       aria-label="seen"
                       icon={<BsEye />}
+                      title="Mark as read"
                       variant="ghost"
-                      color={"blueviolet"}
+                      className="text-blue-900"
                       onClick={() => handleSeen(String(notification.id))}
                     />
                   </Box>

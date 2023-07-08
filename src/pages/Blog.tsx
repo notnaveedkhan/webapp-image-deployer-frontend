@@ -1,5 +1,14 @@
 import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
-import { Box, Button, Center, Heading, Link, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Divider,
+  Heading,
+  Link,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import BlogPost from "../components/miscellaneous/BlogPost";
 import BlogPostCategories from "../components/miscellaneous/BlogPostCategories";
 import PopularBlogs from "../components/miscellaneous/PopularBlogs";
@@ -11,6 +20,7 @@ import CreateTopic from "../components/miscellaneous/CreateTopic";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
+  const [loadingBlogs, setLoadingBlogs] = useState(false);
   const { data, isSuccess, isError, error } = useAllTopicsQuery({});
   const [allBlogs] = useGetAllBlogsMutation();
   interface BlogPost {
@@ -23,6 +33,7 @@ export default function Blog() {
   }
 
   useEffect(() => {
+    setLoadingBlogs(true);
     const topics: number[] = [];
     data?.map((topic: any) => {
       return topics.push(topic.id);
@@ -31,6 +42,7 @@ export default function Blog() {
       console.log(error);
     }
     if (isSuccess) {
+      setLoadingBlogs(true);
       allBlogs({
         page: 0,
         topics: topics,
@@ -38,6 +50,7 @@ export default function Blog() {
       })
         .then((res: any) => {
           if (res.data) {
+            setLoadingBlogs(false);
             setBlogs(res.data);
           } else {
             console.log(res);
@@ -51,8 +64,12 @@ export default function Blog() {
   }, [data, isError, isSuccess]);
 
   return (
-    <>
-      <Heading textAlign={"center"}>Blogs</Heading>
+    <div className="w-[95%] mx-auto my-3">
+      <Heading
+        className="text-blue-900 dark:text-white my-5"
+        textAlign={"center"}>
+        Blogs
+      </Heading>
       <Box
         display={"flex"}
         flexDir={{ base: "column", md: "row" }}
@@ -65,15 +82,16 @@ export default function Blog() {
           flexDir="column"
           gap={3}>
           <Link w={"fit-content"} as={RouterLink} _hover={{}} to="/create-blog">
-            <Button
-              rightIcon={<AddIcon />}
-              color="white"
-              _hover={{}}
-              bgColor={process.env.REACT_APP_NAVBAR_BG_COLOR}>
-              Create Blog
-            </Button>
+            <button className="bg-blue-900 text-white p-2 gap-3 rounded-md flex items-center justify-between">
+              Create Blog <AddIcon />
+            </button>
           </Link>
-          {blogs.length > 0 ? (
+          <Divider className="border border-gray-500" />
+          {loadingBlogs ? (
+            <Center>
+              <Spinner />
+            </Center>
+          ) : blogs.length > 0 ? (
             blogs.slice(0, 5).map((post: any) => {
               const { author, title, content, commentsCount, id, createdAt } =
                 post;
@@ -147,6 +165,6 @@ export default function Blog() {
           </Box>
         </Box>
       </Box>
-    </>
+    </div>
   );
 }

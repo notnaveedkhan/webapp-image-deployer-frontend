@@ -69,8 +69,10 @@ export default function BlogPostCategories() {
 
   return (
     <Box>
-      <Heading fontSize={"md"}>Popular Topics</Heading>
-      <Box mt={2}>
+      <Heading fontSize={"md"} className="text-blue-900 dark:text-white">
+        Popular Topics
+      </Heading>
+      <Box mt={2} className="border border-gray-500 rounded-md">
         {categories.slice(0, 5).map((category: TrandingTopicsResultType) => {
           return (
             <Box
@@ -89,7 +91,7 @@ export default function BlogPostCategories() {
                     as={AiFillStar}
                     w={5}
                     h={5}
-                    color={"blueviolet"}
+                    className="text-blue-900 dark:text-white"
                     onClick={() => handelClickUnfollowTopic(category.topic.id)}
                     cursor="pointer"
                   />
@@ -98,7 +100,7 @@ export default function BlogPostCategories() {
                     as={AiOutlineStar}
                     w={5}
                     h={5}
-                    color={"blueviolet"}
+                    className="text-blue-900 dark:text-white"
                     onClick={() => handelClickFollowTopic(category.topic.id)}
                     cursor="pointer"
                   />

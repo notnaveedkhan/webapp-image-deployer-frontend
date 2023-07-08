@@ -14,7 +14,6 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { GoTextSize } from "react-icons/go";
 import { FaBold, FaQuoteRight } from "react-icons/fa";
 import { BiItalic, BiSend } from "react-icons/bi";
 import { ImCross, ImLink } from "react-icons/im";

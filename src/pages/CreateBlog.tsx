@@ -168,7 +168,7 @@ export default function CreateBlog() {
               mt={3}>
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Box display={"flex"} gap={{ base: 0, md: 2 }}>
-                  <GoTextSize />
+                  {/* <GoTextSize /> */}
                   <FaBold />
                   <BiItalic />
                   <Text letterSpacing={"-10px"}>

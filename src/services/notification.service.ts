@@ -52,4 +52,4 @@ const notificationApi = createApi({
 
 
 export default notificationApi;
-export const { useGetAllNotificationsQuery, useSeenNotificationMutation, useSeenAllNotificationMutation } = notificationApi;
+export const { useGetAllNotificationsQuery, useLazyGetAllNotificationsQuery, useSeenNotificationMutation, useSeenAllNotificationMutation } = notificationApi;

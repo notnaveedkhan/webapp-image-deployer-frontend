@@ -4,7 +4,7 @@ import { RxDragHandleDots1 } from "react-icons/rx";
 
 export default function TrustedAdvisor() {
   return (
-    <div className="col-span-8 border rounded-md border-gray-300">
+    <div className="md:col-span-6 col-span-12 border rounded-md border-gray-300">
       <Box
         className="bg-blue-900 text-white rounded-md"
         p={3}

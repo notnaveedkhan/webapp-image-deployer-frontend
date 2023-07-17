@@ -1,35 +1,16 @@
-import { Box } from "@chakra-ui/react";
-import { Route, Routes } from "react-router-dom";
-import DeploymentForm from "../../components/Deployments/DeploymentForm";
-import Footer from "../../components/Footer";
-import Navbar from "../../components/Navbar";
-import AboutUs from "../../pages/AboutUs";
-import Blog from "../../pages/Blog";
-import BlogDetails from "../../pages/BlogDetails";
-import Cluster from "../../pages/Cluster";
-import ClusterDetail from "../../pages/ClusterDetail";
-import CreateBlog from "../../pages/CreateBlog";
-import Dashboard from "../../pages/Dashborad";
-import Deployment from "../../pages/Deployment";
+import { useSelector } from "react-redux";
+import User from "./User";
+import { RootState } from "../../store";
+import isAdmin from "../../Helper/Admin";
+import Admin from "./Admin";
 
-export default function index() {
-  return (
-    <div className="dark:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] dark:from-gray-700 dark:via-gray-900 dark:to-black bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-rose-100 to-teal-100">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/blogs" element={<Blog />} />
-        <Route path="/create-blog" element={<CreateBlog />} />
-        <Route path="/cluster" element={<Cluster />} />
-        <Route path="about" element={<AboutUs />} />
-        <Route path="/cluster" element={<Cluster />} />
-        <Route path="/cluster/control-plane/:id" element={<ClusterDetail />} />
-        <Route path="/blogs" element={<Blog />} />
-        <Route path="/deployments" element={<Deployment />} />
-        <Route path="/create-deployment" element={<DeploymentForm />} />
-        <Route path="/blog/:id" element={<BlogDetails />} />
-      </Routes>
-      <Footer />
-    </div>
-  );
+export default function Protected() {
+  const user = useSelector((state: RootState) => state.user);
+  const admin = isAdmin(user.roles);
+
+  if (admin) {
+    return <Admin />;
+  }
+
+  return <User />;
 }

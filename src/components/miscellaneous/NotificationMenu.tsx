@@ -88,12 +88,15 @@ export default function NotificationMenu(props: NotificationMenuProps) {
         });
       });
   };
+
   return (
     <Popover placement="bottom">
       <PopoverTrigger>
         <Button variant={"unstyled"}>{props.children}</Button>
       </PopoverTrigger>
-      <PopoverContent bg="white">
+      <PopoverContent
+        bg="white"
+        className="rounded-md max-h-[400px] overflow-y-scroll scroll-">
         <PopoverArrow className="bg-blue-900" />
         <PopoverBody>
           <div className="flex justify-between items-center">

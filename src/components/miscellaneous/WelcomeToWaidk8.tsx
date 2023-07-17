@@ -6,7 +6,7 @@ import { TbCertificate } from "react-icons/tb";
 
 export default function WelcomeToWaidk8() {
   return (
-    <div className="col-span-4 border  rounded-md border-gray-300">
+    <div className="md:col-span-4 col-span-12 border  rounded-md border-gray-300">
       <Box
         className="bg-blue-900 text-white rounded-md"
         p={3}

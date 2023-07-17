@@ -4,7 +4,7 @@ import { RxDragHandleDots1 } from "react-icons/rx";
 
 export default function LatestAnnouncements() {
   return (
-    <div className="col-span-4 border  rounded-md border-gray-300">
+    <div className="md:col-span-8 col-span-12 border  rounded-md border-gray-300">
       <Box
         className="bg-blue-900 text-white rounded-md"
         p={3}

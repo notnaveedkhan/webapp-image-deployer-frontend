@@ -48,5 +48,6 @@ export default controlPlaneApi;
 export const {
     useCreateControlPlaneMutation,
     useGetAllControlPlaneQuery,
+    useLazyGetAllControlPlaneQuery,
     useDeleteControlPlaneMutation
 } = controlPlaneApi;

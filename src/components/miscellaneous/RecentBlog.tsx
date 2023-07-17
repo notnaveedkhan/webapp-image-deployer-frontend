@@ -28,7 +28,7 @@ export default function RecentBlog() {
     }
   }, [isSuccess]);
   return (
-    <div className="col-span-8 border rounded-md border-gray-300 h-fit">
+    <div className="md:col-span-6 col-span-12 border rounded-md border-gray-300 h-fit">
       <Box
         className="bg-blue-900 text-white rounded-md"
         p={3}

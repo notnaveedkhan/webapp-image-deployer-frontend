@@ -23,8 +23,9 @@ import Values from "../interfaces/LoginFormValues.interface";
 import * as yup from "yup";
 import { useLoginMutation } from "../services/auth.service";
 import { useDispatch } from "react-redux";
-import { addLoginInfo } from "../states/loginInfo";
+import { addLoginInfo, LoginState } from "../states/loginInfo";
 import { AppDispatch } from "../store";
+import { setUser } from "../states/userState";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ export default function Login() {
     onSubmit: async (values) => {
       setSubmitLoading(true);
       await login(values).then((res: any) => {
+        console.log(res);
         if (res.error) {
           setSubmitLoading(false);
           console.log(res.error);
@@ -58,7 +60,9 @@ export default function Login() {
           console.log(res.error);
         }
         if (res.data) {
+          const date = new Date(res.data.expiresAt);
           setSubmitLoading(false);
+          console.log(res.data);
           toast({
             title: "Login Successfully",
             isClosable: true,
@@ -66,15 +70,18 @@ export default function Login() {
             position: "top",
             status: "success",
           });
-          dispatch(
-            addLoginInfo({
-              login: true,
-              token: res.data.token,
-              expireAt: res.data.expiresAt,
-            })
-          );
-          const date = new Date(res.data.expiresAt);
+          const loginInfo: LoginState = {
+            login: true,
+            token: res.data.token,
+            expiresAt: date.toString(),
+          };
+          dispatch(addLoginInfo(loginInfo));
+          dispatch(setUser(res.data.user));
+          console.log(res.data.expiresAt);
           document.cookie = `token=${res.data.token}; expires=${date}; path=/`;
+          document.cookie = `user=${JSON.stringify(
+            res.data.user
+          )}; expires=${date}; path=/`;
           navigate("/", { replace: true });
         }
       });

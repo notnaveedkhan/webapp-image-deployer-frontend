@@ -11,12 +11,12 @@ import RecentBlog from "../components/miscellaneous/RecentBlog";
 function Dashboard() {
   return (
     <div className="grid w-[95%] mx-auto my-4 gap-3 grid-cols-12">
-      <ResentVisited />
+      {/* <ResentVisited /> */}
       <WelcomeToWaidk8 />
-      <Waidk8Health />
+      <LatestAnnouncements />
+      {/* <Waidk8Health /> */}
       <RecentBlog />
       <TrustedAdvisor />
-      <LatestAnnouncements />
     </div>
   );
 }

@@ -26,17 +26,29 @@ import HamBurgerMenu from "./HamBurgerMenu";
 import {
   useGetAllNotificationsQuery,
   Notification,
+  useLazyGetAllNotificationsQuery,
 } from "../services/notification.service";
 import NotificationMenu from "./miscellaneous/NotificationMenu";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { links } from "../Helper/Links";
 import useDarkSide from "../hooks/useDarkSide";
 import ProfileMenu from "./miscellaneous/ProfileMenu";
+import Statics from "./miscellaneous/Statics";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import isAdmin from "../Helper/Admin";
+import { AdminMenuPopover } from "./AdminMenuPopover";
 
 export default function Navbar() {
   const location = useLocation();
 
+  const { roles } = useSelector((state: RootState) => state.user);
+
+  const admin = isAdmin(roles);
+
   const { data, isSuccess } = useGetAllNotificationsQuery();
+
+  const [getNotification] = useLazyGetAllNotificationsQuery();
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
@@ -71,6 +83,20 @@ export default function Navbar() {
   }, [user, getUser]);
 
   useEffect(() => {
+    setInterval(() => {
+      getNotification()
+        .then((res: any) => {
+          if (res.data) {
+            setNotifications(res.data);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }, 60000);
+  }, [notifications]);
+
+  useEffect(() => {
     if (isSuccess) {
       setNotifications(data);
     }
@@ -78,17 +104,18 @@ export default function Navbar() {
 
   return (
     <div className="text-black flex items-center justify-between px-5 py-3 shadow-lg">
-      <Link
-        _hover={{}}
-        as={RouterLink}
-        to={"/"}
-        display={"flex"}
-        alignItems="center"
-        gap={1}
-        cursor="pointer">
-        <Image cursor={"pointer"} src={LOGO} alt={"Logo"} h={"35px"} />
-      </Link>
-
+      <Statics>
+        <Link
+          _hover={{}}
+          as={RouterLink}
+          to={"/"}
+          display={"flex"}
+          alignItems="center"
+          gap={1}
+          cursor="pointer">
+          <Image cursor={"pointer"} src={LOGO} alt={"Logo"} h={"35px"} />
+        </Link>
+      </Statics>
       <Box
         display={{ base: "none", md: "flex" }}
         gap={5}
@@ -108,6 +135,7 @@ export default function Navbar() {
             </RouterLink>
           );
         })}
+        {admin && <AdminMenuPopover>Admin</AdminMenuPopover>}
       </Box>
       <Box display={{ base: "none", md: "flex" }} gap={2} alignItems={"center"}>
         <div style={{ position: "relative" }}>

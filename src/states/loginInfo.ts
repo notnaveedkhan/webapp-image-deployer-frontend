@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-interface LoginState {
-    login: boolean
-    token: string,
-    expireAt: string,
+export interface LoginState {
+    login: boolean;
+    token: string;
+    expiresAt: string;
 }
 
 const initialState: LoginState = {
     login: false,
     token: "",
-    expireAt: "",
+    expiresAt: "",
 }
 
 const loginSlice = createSlice({
@@ -20,12 +20,12 @@ const loginSlice = createSlice({
         addLoginInfo: (state, action) => {
             state.login = action.payload.login;
             state.token = action.payload.token;
-            state.expireAt = action.payload.expireAt;
+            state.expiresAt = action.payload.expiresAt;
         },
         removeLoginInfo: (state) => {
             state.login = false;
             state.token = "";
-            state.expireAt = "";
+            state.expiresAt = "";
         }
     },
 });

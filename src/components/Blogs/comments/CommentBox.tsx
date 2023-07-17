@@ -25,7 +25,7 @@ export default function CommentBox(props: CommentBoxProps) {
   console.log(props.blog);
   return (
     <VStack
-      divider={<StackDivider borderColor="gray.200" />}
+      divider={<StackDivider borderColor="gray.500" />}
       spacing={4}
       align="stretch">
       {props.blog?.comments?.length > 0 ? (
@@ -146,15 +146,14 @@ function Reply(props: ReplyBoxProps) {
               {...Formik.getFieldProps("content")}
               placeholder="Enter your comment"
               type="text"
+              className="border-gray-500"
             />
-            <InputRightElement bg={"blueviolet"} px={4}>
-              <Button
-                bg={"blueviolet"}
-                _hover={{ bg: "blueviolet" }}
-                color={"white"}
-                type="submit">
+            <InputRightElement p={0}>
+              <button
+                type="submit"
+                className="p-2 rounded-md bg-blue-900 text-white">
                 Post
-              </Button>
+              </button>
             </InputRightElement>
           </InputGroup>
         </form>

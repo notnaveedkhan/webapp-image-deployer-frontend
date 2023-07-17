@@ -29,6 +29,8 @@ import CommentBox from "../components/Blogs/comments/CommentBox";
 export default function BlogDetails() {
   const toast = useToast();
 
+  const [paragraphs, setParagraphs] = useState([]);
+
   const [blog, setBlog] = useState<any>({});
 
   const params = useParams();
@@ -40,6 +42,7 @@ export default function BlogDetails() {
   useEffect(() => {
     if (isSuccess) {
       setBlog(data);
+      setParagraphs(data?.content.split("\n"));
     }
     if (isError) {
       toast({
@@ -52,7 +55,7 @@ export default function BlogDetails() {
         variant: "left-accent",
       });
     }
-  }, [data]);
+  }, [data, isError, isSuccess, blog, paragraphs]);
 
   const Formik = useFormik({
     initialValues: {
@@ -107,6 +110,19 @@ export default function BlogDetails() {
     },
   });
 
+  const renderTextWithFormatting = (text: string) => {
+    const italicRegex = /_(.*?)_/g;
+    text = text.replace(italicRegex, "<i>$1</i>");
+
+    const codeRegex = /`([^`]+)`/g;
+    text = text.replace(codeRegex, "<code>$1</code>");
+
+    const linkRegex = /\[(.*?)\]\((.*?)\)/g;
+    text = text.replace(linkRegex, '<a href="$2">$1</a>');
+
+    return text;
+  };
+
   return (
     <>
       {isLoading ? (
@@ -128,7 +144,28 @@ export default function BlogDetails() {
 
             <Heading mt={4}>{blog?.title}</Heading>
             <Text mt={4} lineHeight={2}>
-              <div dangerouslySetInnerHTML={{ __html: blog?.content }}></div>
+              {paragraphs.map((paragraph: any, index: number) => {
+                if (paragraph.startsWith("#")) {
+                  const headingLevel =
+                    paragraph.match(/^(#+)/)?.[0].length || 0;
+                  const headingText = paragraph.replace(/^#+/, "");
+                  const HeadingTag =
+                    `h${headingLevel}` as keyof JSX.IntrinsicElements;
+                  return (
+                    <HeadingTag className="mt-4 text-2xl font-bold" key={index}>
+                      {headingText}
+                    </HeadingTag>
+                  );
+                }
+
+                return (
+                  <div
+                    key={index}
+                    dangerouslySetInnerHTML={{
+                      __html: renderTextWithFormatting(paragraph),
+                    }}></div>
+                );
+              })}
             </Text>
 
             <form onSubmit={Formik.handleSubmit}>
@@ -137,21 +174,21 @@ export default function BlogDetails() {
                   {...Formik.getFieldProps("content")}
                   placeholder="Enter your comment"
                   type="text"
+                  className="border-gray-500"
                 />
-                <InputRightElement bg={"blueviolet"} px={4}>
-                  <Button
-                    bg={"blueviolet"}
-                    _hover={{ bg: "blueviolet" }}
-                    color={"white"}
-                    type="submit">
-                    Post
-                  </Button>
+                <InputRightElement p={0}>
+                  <button
+                    type="submit"
+                    className="bg-blue-900 px-2 py-2 rounded-md text-white">
+                    post
+                  </button>
                 </InputRightElement>
               </InputGroup>
             </form>
+
             <Box
               border={"1px"}
-              borderColor={"gray.200"}
+              borderColor={"gray.500"}
               p={4}
               borderRadius={"lg"}
               mt={3}>
@@ -165,6 +202,7 @@ export default function BlogDetails() {
               <CommentBox blog={blog} />
             </Box>
           </Box>
+
           <Box
             px={{ base: 3, md: 6 }}
             w={{ base: "100%", md: "30%" }}

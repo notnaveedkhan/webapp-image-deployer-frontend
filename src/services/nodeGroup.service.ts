@@ -52,5 +52,9 @@ const nodeGroupApi = createApi({
 
 
 
-export const { useGetNodeGroupsQuery, useAddNodeGroupMutation } = nodeGroupApi;
+export const {
+    useGetNodeGroupsQuery,
+    useLazyGetNodeGroupsQuery,
+    useAddNodeGroupMutation
+} = nodeGroupApi;
 export default nodeGroupApi;

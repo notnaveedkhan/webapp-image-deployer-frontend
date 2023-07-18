@@ -14,7 +14,7 @@ interface StaticsProps {
   children: React.ReactNode;
 }
 
-const Statics: React.FC<StaticsProps> = ({ children }) => {
+const BuildInfo: React.FC<StaticsProps> = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Popover isOpen={isOpen} onClose={onClose} placement="bottom" closeOnBlur>
@@ -24,11 +24,15 @@ const Statics: React.FC<StaticsProps> = ({ children }) => {
       <PopoverContent role="tooltip" onMouseLeave={onClose}>
         <PopoverArrow />
         <PopoverCloseButton />
-        <PopoverHeader>Popover header</PopoverHeader>
-        <PopoverBody>Popover body</PopoverBody>
+        <PopoverHeader>Build Info</PopoverHeader>
+        <PopoverBody>
+          authentication-service - #01
+          authentication-service - #02
+          authentication-service - #03
+        </PopoverBody>
       </PopoverContent>
     </Popover>
   );
 };
 
-export default Statics;
+export default BuildInfo;

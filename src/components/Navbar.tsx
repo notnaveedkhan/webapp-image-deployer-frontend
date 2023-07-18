@@ -33,7 +33,7 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { links } from "../Helper/Links";
 import useDarkSide from "../hooks/useDarkSide";
 import ProfileMenu from "./miscellaneous/ProfileMenu";
-import Statics from "./miscellaneous/Statics";
+import BuildInfo from "./miscellaneous/BuildInfo";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import isAdmin from "../Helper/Admin";
@@ -104,7 +104,7 @@ export default function Navbar() {
 
   return (
     <div className="text-black flex items-center justify-between px-5 py-3 shadow-lg">
-      <Statics>
+      <BuildInfo>
         <Link
           _hover={{}}
           as={RouterLink}
@@ -115,7 +115,7 @@ export default function Navbar() {
           cursor="pointer">
           <Image cursor={"pointer"} src={LOGO} alt={"Logo"} h={"35px"} />
         </Link>
-      </Statics>
+      </BuildInfo>
       <Box
         display={{ base: "none", md: "flex" }}
         gap={5}

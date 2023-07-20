@@ -188,7 +188,9 @@ export default function Login() {
         </Box>
       </Box>
       <Box>
-        <ChakraLink color={"white"}>Forgot Password?</ChakraLink>
+        <ChakraLink as={Link} to={"/forgot-password"} color={"white"}>
+          Forgot Password?
+        </ChakraLink>
       </Box>
     </Box>
   );

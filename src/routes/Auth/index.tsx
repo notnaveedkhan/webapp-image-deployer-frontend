@@ -7,6 +7,7 @@ import NotFound from "../../pages/NotFound";
 import Register from "../../pages/Register";
 import VerifyEmail from "../../pages/VerifyEmail";
 import { RootState } from "../../store";
+import ForgotPassword from "../../pages/ForgetPassoword";
 
 export default function Index() {
   const { isRegistered } = useSelector((state: RootState) => state.verifyEmail);
@@ -25,6 +26,7 @@ export default function Index() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

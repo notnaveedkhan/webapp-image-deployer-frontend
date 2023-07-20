@@ -4,16 +4,16 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BasicResponse } from "../../interfaces/BasicResponseType";
 import {
   FollowingResultType,
-  TrandingTopicsResultType,
+  TrendingTopicsResultType,
   useFollowingTopicsQuery,
   useFollowTopicMutation,
-  useTrandingTopicsQuery,
+  useTrendingTopicsQuery,
 } from "../../services/topic.service";
 
 export default function BlogPostCategories() {
   const toast = useToast();
 
-  const [categories, setCategories] = useState<TrandingTopicsResultType[]>([]);
+  const [categories, setCategories] = useState<TrendingTopicsResultType[]>([]);
 
   const [followingTopic, setFollowingTopic] = useState<FollowingResultType[]>(
     []
@@ -22,7 +22,7 @@ export default function BlogPostCategories() {
   const [followTopic] = useFollowTopicMutation();
 
   const { data, isSuccess, isLoading, isError, error } =
-    useTrandingTopicsQuery();
+    useTrendingTopicsQuery();
 
   const { data: followingTopics, isSuccess: isFollowingTopicsSuccess } =
     useFollowingTopicsQuery();
@@ -73,7 +73,7 @@ export default function BlogPostCategories() {
         Popular Topics
       </Heading>
       <Box mt={2} className="border border-gray-500 rounded-md">
-        {categories.slice(0, 5).map((category: TrandingTopicsResultType) => {
+        {categories.slice(0, 5).map((category: TrendingTopicsResultType) => {
           return (
             <Box
               key={category.topic.id}

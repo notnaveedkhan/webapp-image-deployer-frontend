@@ -1,5 +1,6 @@
 import { BasicResponse } from './../interfaces/BasicResponseType';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { baseQuery } from '../Helper/baseQuery';
 
 export interface Notification {
     id: number,
@@ -11,17 +12,7 @@ export interface Notification {
 
 const notificationApi = createApi({
     reducerPath: "notificationApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_BASEURL,
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as { login: { token: string } }).login.token;
-            if (token) {
-                headers.set("Authorization", token);
-            }
-
-            return headers;
-        }
-    }),
+    baseQuery: baseQuery,
     tagTypes: ['Notification'],
     endpoints: (builder) => ({
 

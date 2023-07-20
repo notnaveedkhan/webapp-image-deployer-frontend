@@ -22,7 +22,6 @@ interface CommentBoxProps {
 }
 
 export default function CommentBox(props: CommentBoxProps) {
-  console.log(props.blog);
   return (
     <VStack
       divider={<StackDivider borderColor="gray.500" />}

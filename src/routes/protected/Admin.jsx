@@ -13,7 +13,7 @@ import Deployment from "../../pages/Deployment";
 
 export default function Admin() {
     return (
-        <div className="dark:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] dark:from-gray-700 dark:via-gray-900 dark:to-black bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-rose-100 to-teal-100">
+        <div className="overflow-x-hidden dark:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] dark:from-gray-700 dark:via-gray-900 dark:to-black bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-rose-100 to-teal-100">
             <Navbar />
             <Routes>
                 <Route path="/" element={<Dashboard />} />

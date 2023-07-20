@@ -9,6 +9,7 @@ import {
   FormLabel,
   Heading,
   Input,
+  Select,
   Spinner,
   Text,
   Textarea,
@@ -30,7 +31,7 @@ import {
   AiOutlineUnorderedList,
 } from "react-icons/ai";
 import { BsCardText, BsTable } from "react-icons/bs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -42,13 +43,20 @@ import { useNavigate } from "react-router-dom";
 
 export default function CreateBlog() {
   const navigate = useNavigate();
+  const [topics, setTopics] = useState<any[]>([]);
   const [addedTopics, setAddedTopics] = useState<any[]>([]);
   const [filterArray, setFilterArray] = useState([]);
   const [isOpen, setIsOpen] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [CreateBlog] = useCreateBlogMutation();
   const toast = useToast();
-  const { data } = useAllTopicsQuery({});
+  const { data, isSuccess } = useAllTopicsQuery({});
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTopics(data);
+    }
+  }, [data, isSuccess]);
 
   interface BlogDto {
     title: string;
@@ -111,22 +119,24 @@ export default function CreateBlog() {
     }),
   });
 
-  const handleClickToAdded = (topic: any) => {
-    setAddedTopics([...addedTopics, topic]);
-    setIsOpen(true);
-  };
-
-  const handleTopicOnChange = (e: React.ChangeEvent) => {
-    Formik.handleChange(e);
-    setIsOpen(false);
-    const newArray = data.filter((topic: any) =>
-      topic.name.toLowerCase().includes(Formik.values.tag.toLowerCase())
+  const handleTopicOnChange = (e: any) => {
+    const find = addedTopics.find(
+      (t: any) => t.id === parseInt(e.target.value)
     );
-    setFilterArray(newArray);
+    if (find) {
+      return;
+    } else {
+      topics.forEach((topic: any) => {
+        if (topic.id === parseInt(e.target.value)) {
+          console.log(topic);
+          setAddedTopics([...addedTopics, topic]);
+        }
+      });
+    }
   };
   const handleRemoveTag = (topic: any): void => {
-    const newArray = addedTopics.filter((item) => item.id !== topic.id);
-    setAddedTopics(newArray);
+    const newTopics = addedTopics.filter((t: any) => t.id !== topic.id);
+    setAddedTopics(newTopics);
   };
 
   return (
@@ -156,6 +166,7 @@ export default function CreateBlog() {
                 id="title"
                 type={"text"}
                 placeholder="Title"
+                className="border-gray-600"
               />
               <FormErrorMessage>{Formik.errors.title}</FormErrorMessage>
             </FormControl>
@@ -205,6 +216,7 @@ export default function CreateBlog() {
                   rows={10}
                   size={"lg"}
                   placeholder="Write the blog body here..."
+                  className="border-gray-600"
                 />
                 <FormErrorMessage>{Formik.errors.content}</FormErrorMessage>
               </FormControl>
@@ -217,40 +229,20 @@ export default function CreateBlog() {
               borderColor={"gray.300"}
               borderRadius={"lg"}>
               <FormControl>
-                <FormLabel>Tags</FormLabel>
-                <Input
-                  value={Formik.values.tag}
-                  name="tag"
-                  className="border-gray-500"
-                  onChange={handleTopicOnChange}
-                  type={"search"}
-                  placeholder={"e.g (Deploment,Aws)"}
-                />
+                <FormLabel>Topics</FormLabel>
+                <Select
+                  placeholder="Select Topic"
+                  className="border-gray-600"
+                  onChange={handleTopicOnChange}>
+                  {topics.map((topic) => {
+                    return (
+                      <option key={topic.id} value={topic.id}>
+                        {topic.name}
+                      </option>
+                    );
+                  })}
+                </Select>
               </FormControl>
-              <Box
-                p={3}
-                zIndex={1000}
-                bgColor={"white"}
-                boxShadow="lg"
-                borderRadius={"lg"}
-                display={isOpen ? "none" : "block"}
-                position={"absolute"}
-                w="50%">
-                {filterArray.length > 0
-                  ? filterArray.map((topic: any) => {
-                      return (
-                        <Box
-                          p={2}
-                          _hover={{ bgColor: "gray.100" }}
-                          cursor={"pointer"}
-                          key={topic.id}
-                          onClick={() => handleClickToAdded(topic)}>
-                          <Text>{topic.name}</Text>
-                        </Box>
-                      );
-                    })
-                  : null}
-              </Box>
               <Flex wrap={"wrap"} gap={2} m={4}>
                 {addedTopics.map((topic: any) => {
                   return (

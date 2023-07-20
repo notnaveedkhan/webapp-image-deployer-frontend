@@ -31,15 +31,35 @@ import {
 import NotificationMenu from "./miscellaneous/NotificationMenu";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { links } from "../Helper/Links";
-import useDarkSide from "../hooks/useDarkSide";
 import ProfileMenu from "./miscellaneous/ProfileMenu";
 import BuildInfo from "./miscellaneous/BuildInfo";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import isAdmin from "../Helper/Admin";
 import { AdminMenuPopover } from "./AdminMenuPopover";
+import {
+  BuildDetails,
+  useGetAuthenticationServiceBuildDetailsQuery,
+  useGetAwsServiceBuildDetailsQuery,
+  useGetKubernetesServiceBuildDetailsQuery,
+} from "../services/common.service";
 
 export default function Navbar() {
+  const [buildDetails, setBuildDetails] = useState<BuildDetails[]>([]);
+
+  const {
+    data: authenticationBuildDetails,
+    isSuccess: isSuccessAuthenticationBuildDetails,
+  } = useGetAuthenticationServiceBuildDetailsQuery();
+  const {
+    data: awsServiceBuildDetails,
+    isSuccess: isSuccessAwsServiceBuildDetails,
+  } = useGetAwsServiceBuildDetailsQuery();
+  const {
+    data: kubernetesServiceBuildDetails,
+    isSuccess: isSuccessKubernetesServiceBuildDetails,
+  } = useGetKubernetesServiceBuildDetailsQuery();
+
   const location = useLocation();
 
   const { roles } = useSelector((state: RootState) => state.user);
@@ -97,14 +117,44 @@ export default function Navbar() {
   }, [notifications]);
 
   useEffect(() => {
+    setBuildDetails([]);
     if (isSuccess) {
       setNotifications(data);
     }
-  }, [data]);
+    if (isSuccessAuthenticationBuildDetails) {
+      setBuildDetails((prev) => {
+        prev.forEach((buildDetail) => {
+          if (
+            buildDetail.applicationName ===
+            authenticationBuildDetails.applicationName
+          ) {
+            return;
+          }
+        });
+        return [...prev, authenticationBuildDetails];
+      });
+    }
+    if (isSuccessAwsServiceBuildDetails) {
+      setBuildDetails((perv) => {
+        return [...perv, awsServiceBuildDetails];
+      });
+    }
+    if (isSuccessKubernetesServiceBuildDetails) {
+      setBuildDetails((prev) => {
+        return [...prev, kubernetesServiceBuildDetails];
+      });
+    }
+  }, [
+    data,
+    isSuccess,
+    authenticationBuildDetails,
+    awsServiceBuildDetails,
+    kubernetesServiceBuildDetails,
+  ]);
 
   return (
     <div className="text-black flex items-center justify-between px-5 py-3 shadow-lg">
-      <BuildInfo>
+      <BuildInfo buildDetails={buildDetails}>
         <Link
           _hover={{}}
           as={RouterLink}

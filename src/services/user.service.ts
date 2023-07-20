@@ -1,18 +1,10 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQuery } from '../Helper/baseQuery';
 
 
 const userApi = createApi({
     reducerPath: "UserApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_BASEURL,
-        prepareHeaders: (headers, {getState}) => {
-            const token = (getState() as { login: { token: string } }).login.token;
-            if (token) {
-                headers.set("Authorization", token);
-            }
-            return headers;
-        }
-    }),
+    baseQuery: baseQuery,
     endpoints: (builder) => ({
         getUser: builder.query({
             query: () => "/api/v1/auth/private/user/detail"
@@ -21,6 +13,6 @@ const userApi = createApi({
 });
 
 
-export const {useLazyGetUserQuery} = userApi;
+export const { useLazyGetUserQuery } = userApi;
 
 export default userApi;

@@ -1,4 +1,9 @@
-import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
+import {
+  AddIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  WarningIcon,
+} from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -8,20 +13,36 @@ import {
   Link,
   Spinner,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import BlogPost from "../components/miscellaneous/BlogPost";
 import BlogPostCategories from "../components/miscellaneous/BlogPostCategories";
 import PopularBlogs from "../components/miscellaneous/PopularBlogs";
 import { Link as RouterLink } from "react-router-dom";
-import { useAllTopicsQuery } from "../services/topic.service";
+import {
+  useAllTopicsQuery,
+  useFollowingTopicsQuery,
+} from "../services/topic.service";
 import { useGetAllBlogsMutation } from "../services/blog.service";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CreateTopic from "../components/miscellaneous/CreateTopic";
+import ReactPaginate from "react-paginate";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(0);
+  // const [topics, setTopics] = useState<any[]>([]);
+  let topics: number[] = [];
   const [loadingBlogs, setLoadingBlogs] = useState(false);
-  const { data, isSuccess, isError, error } = useAllTopicsQuery({});
+  const { data, isSuccess, isError, error } = useFollowingTopicsQuery();
+  const toast = useToast();
+  const {
+    data: allTopics,
+    isError: isAllTopicsError,
+    error: allTopicsError,
+    isSuccess: isAllTopicsSuccess,
+  } = useAllTopicsQuery({});
   const [allBlogs] = useGetAllBlogsMutation();
   interface BlogPost {
     image: string;
@@ -34,26 +55,45 @@ export default function Blog() {
 
   useEffect(() => {
     setLoadingBlogs(true);
-    const topics: number[] = [];
-    data?.map((topic: any) => {
-      return topics.push(topic.id);
-    });
-    if (isError) {
-      console.log(error);
-    }
+    topics = [];
     if (isSuccess) {
-      setLoadingBlogs(true);
+      if (data.length > 0) {
+        data.forEach((topic: any) => {
+          topics.push(topic.id);
+        });
+      } else {
+        if (isAllTopicsSuccess) {
+          allTopics.forEach((topic: any) => {
+            topics.push(topic.id);
+          });
+        }
+      }
+    }
+
+    if (topics) {
       allBlogs({
         page: 0,
         topics: topics,
-        size: 0,
+        size: 2,
       })
         .then((res: any) => {
           if (res.data) {
             setLoadingBlogs(false);
-            setBlogs(res.data);
-          } else {
-            console.log(res);
+            console.log(res.data);
+            setBlogs(res.data.content);
+            setTotalPages(res.data.totalPages);
+            setPage(res.data.pageable.pageNumber);
+          }
+          if (res.isError) {
+            setLoadingBlogs(false);
+            toast({
+              title: res.error.data.message || res.error.data.error,
+              position: "top",
+              isClosable: true,
+              duration: 3000,
+              variant: "left-accent",
+              icon: <WarningIcon />,
+            });
           }
         })
         .catch((err: any) => {
@@ -61,7 +101,30 @@ export default function Blog() {
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, isError, isSuccess]);
+  }, [data, isError, isSuccess, isAllTopicsSuccess, isAllTopicsError]);
+
+  const handleChangePage = (selectItem: { selected: number }) => {
+    setPage(selectItem.selected);
+    allBlogs({
+      page: 0,
+      topics: topics,
+      size: 10,
+    })
+      .then((res: any) => {
+        if (res.data) {
+          setLoadingBlogs(false);
+          console.log(res.data);
+          setBlogs(res.data.content);
+          setTotalPages(res.data.totalPages);
+          setPage(res.data.pageable.pageNumber);
+        } else {
+          console.log(res);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="w-[95%] mx-auto my-3">
@@ -125,30 +188,24 @@ export default function Blog() {
               </Center>
             </Box>
           )}
-          <Box display={"flex"} flexShrink={"wrap"} gap={3}>
-            <Button colorScheme={"blue"} leftIcon={<ArrowLeftIcon />}>
-              Pervious
-            </Button>
-            <Button colorScheme={"blue"} variant="outline">
-              1
-            </Button>
-            <Button colorScheme={"blue"} variant="outline">
-              2
-            </Button>
-            <Button colorScheme={"blue"} variant="outline">
-              3
-            </Button>
-            <Button colorScheme={"blue"} variant="outline">
-              4
-            </Button>
-            <Text color={"blue"}>.......</Text>
-            <Button colorScheme={"blue"} variant="outline">
-              20
-            </Button>
-            <Button colorScheme={"blue"} rightIcon={<ArrowRightIcon />}>
-              Next
-            </Button>
-          </Box>
+          <ReactPaginate
+            previousLabel={"<Previous"}
+            nextLabel={"Next>"}
+            pageCount={totalPages}
+            onPageChange={handleChangePage}
+            containerClassName={"flex justify-center gap-2"}
+            previousClassName={"bg-green-800 text-white px-4 py-2 rounded-md"}
+            previousLinkClassName={"bg-green-800 px-4 py-2"}
+            nextClassName={"bg-green-800 px-4 py-2 rounded-md text-white"}
+            disabledClassName={"text-gray-300 cursor-not-allowed"}
+            disabledLinkClassName={"text-gray-300 cursor-not-allowed"}
+            activeClassName={
+              "bg-green-800 border-none text-white px-4 py-2 rounded-md"
+            }
+            pageClassName={
+              "border border-green-800 border-none  px-4 py-2 rounded-md"
+            }
+          />
         </Box>
         <Box
           px={{ base: 3, md: 6 }}

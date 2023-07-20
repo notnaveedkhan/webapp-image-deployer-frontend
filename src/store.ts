@@ -13,6 +13,9 @@ import nodeGroupService from "./services/nodeGroup.service";
 import deploymentApi from './services/deploment.service';
 import kubeServiceApi from './services/kubeService.service';
 import notificationApi from './services/notification.service';
+import commonApi from './services/common.service';
+import verifyEmailSlice from './states/verify-email.state';
+import otpApi from './services/otp.service';
 
 export const store = configureStore({
     reducer: {
@@ -29,6 +32,9 @@ export const store = configureStore({
         [deploymentApi.reducerPath]: deploymentApi.reducer,
         [kubeServiceApi.reducerPath]: kubeServiceApi.reducer,
         [notificationApi.reducerPath]: notificationApi.reducer,
+        [commonApi.reducerPath]: commonApi.reducer,
+        [verifyEmailSlice.name]: verifyEmailSlice.reducer,
+        [otpApi.reducerPath]: otpApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authApi.middleware,
@@ -40,7 +46,9 @@ export const store = configureStore({
         nodeGroupService.middleware,
         deploymentApi.middleware,
         kubeServiceApi.middleware,
-        notificationApi.middleware
+        notificationApi.middleware,
+        commonApi.middleware,
+        otpApi.middleware
     )
 })
 

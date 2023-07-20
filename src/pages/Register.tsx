@@ -24,7 +24,12 @@ import { useFormik } from "formik";
 import Values from "../interfaces/RegisterFormValue.interface";
 import * as yup from "yup";
 import { useRegisterMutation } from "../services/auth.service";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { setVerifyEmail } from "../states/verify-email.state";
+
 export default function Register() {
+  const dispatch: AppDispatch = useDispatch();
   const [submitLoading, setSubmitLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
@@ -45,16 +50,23 @@ export default function Register() {
       register(values).then((res: any) => {
         if (res.data) {
           toast({
-            title: `${res.data.message} redirect to login`,
+            title: `${res.data.message}`,
             isClosable: true,
             duration: 2000,
             position: "top",
             status: "success",
           });
           setSubmitLoading(false);
-          setTimeout(() => {
-            navigate("/", { replace: true });
-          }, 3000);
+          localStorage.setItem("email", values.email);
+          dispatch(
+            setVerifyEmail({
+              isRegistered: true,
+              token: "",
+              expiresAt: "",
+            })
+          );
+
+          navigate("/verify-email");
         }
         if (res.error) {
           toast({
@@ -182,7 +194,7 @@ export default function Register() {
           justifyContent="center"
           paddingY={2}
           bgColor={"gray.100"}>
-          <Link to={"/"}>
+          <Link to={"/login"}>
             <ChakraLink fontSize={"md"} color={"blue.500"}>
               Already have a Account?
             </ChakraLink>

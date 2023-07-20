@@ -1,4 +1,5 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { baseQuery } from '../Helper/baseQuery';
 
 interface KubeServiceBody {
     name: string,
@@ -9,17 +10,7 @@ interface KubeServiceBody {
 
 const kubeServiceApi = createApi({
     reducerPath: "kubeServiceApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_BASEURL,
-        prepareHeaders: (headers, {getState}) => {
-            const token = (getState() as { login: { token: string } }).login.token;
-            if (token) {
-                headers.set("Authorization", token);
-            }
-
-            return headers;
-        }
-    }),
+    baseQuery: baseQuery,
     tagTypes: ['KubeService'],
     endpoints: (builder) => ({
         createKubeService: builder.mutation<any, KubeServiceBody>({

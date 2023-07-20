@@ -62,7 +62,11 @@ export default function Navbar() {
             onClick={() => navigate("/login")}>
             Login
           </Button>
-          <Button variant="solid" colorScheme="blue" size="sm">
+          <Button
+            onClick={() => navigate("/register")}
+            variant="solid"
+            colorScheme="blue"
+            size="sm">
             Signup
           </Button>
         </ButtonGroup>

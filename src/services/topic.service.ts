@@ -1,8 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { baseQuery } from '../Helper/baseQuery';
 import { BasicResponse } from '../interfaces/BasicResponseType';
 
 
-export interface TrandingTopicsResultType {
+export interface TrendingTopicsResultType {
     topic: {
         id: number,
         name: string,
@@ -21,19 +22,8 @@ export interface FollowingResultType {
 
 const topicApi = createApi({
     reducerPath: "topicApi",
-    baseQuery: fetchBaseQuery({
-        // baseUrl: process.env.REACT_APP_BASEURL,
-        baseUrl: process.env.REACT_APP_BASEURL,
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as { login: { token: string } }).login.token;
-            if (token) {
-                headers.set("Authorization", token);
-            }
-
-            return headers;
-        }
-    }),
-    tagTypes: ['topics', 'Tranding'],
+    baseQuery: baseQuery,
+    tagTypes: ['topics', 'Trending'],
     endpoints: (builder) => ({
         allTopics: builder.query({
             query: () => ({
@@ -52,9 +42,9 @@ const topicApi = createApi({
             invalidatesTags: ['topics']
         }),
 
-        trandingTopics: builder.query<TrandingTopicsResultType[], void>({
+        trendingTopics: builder.query<TrendingTopicsResultType[], void>({
             query: () => "/api/v1/auth/private/topics/trends",
-            providesTags: ['Tranding', 'topics']
+            providesTags: ['Trending', 'topics']
         }),
 
         followTopic: builder.mutation<BasicResponse, number>({
@@ -62,16 +52,21 @@ const topicApi = createApi({
                 url: `/api/v1/auth/private/topic/follow?topic=${id}`,
                 method: "PUT"
             }),
-            invalidatesTags: ['Tranding']
+            invalidatesTags: ['Trending']
         }),
 
         followingTopics: builder.query<FollowingResultType[], void>({
             query: () => "/api/v1/auth/private/topics/following",
-            providesTags: ['Tranding']
+            providesTags: ['Trending']
         })
 
     })
 });
 
-export const { useCreateTopicMutation, useAllTopicsQuery, useTrandingTopicsQuery, useFollowTopicMutation, useFollowingTopicsQuery } = topicApi;
+export const {
+    useCreateTopicMutation,
+    useAllTopicsQuery,
+    useTrendingTopicsQuery,
+    useFollowTopicMutation,
+    useFollowingTopicsQuery } = topicApi;
 export default topicApi;

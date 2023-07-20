@@ -20,6 +20,7 @@ export default function RecentBlog() {
   useLayoutEffect(() => {
     if (isSuccess) {
       setLatestBlog([]);
+      console.log(data);
       if (data.length > 3) {
         setLatestBlog(data.slice(0, 3));
       } else {
@@ -63,7 +64,10 @@ export default function RecentBlog() {
                     </Heading>
                   </Box>
                   <Heading fontSize={"md"} color="blue.500">
-                    <Link>{blog.title}</Link>{" "}
+                    <Link>{blog.title}</Link>
+                    <p className="whitespace-nowrap text-ellipsis overflow-hidden w-[500px] text-gray-800">
+                      {blog.content}
+                    </p>
                   </Heading>
                 </Box>
                 {index < latestBlog.length - 1 ? <Divider /> : null}

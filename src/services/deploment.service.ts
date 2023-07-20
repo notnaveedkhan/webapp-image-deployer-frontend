@@ -1,4 +1,5 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { baseQuery } from '../Helper/baseQuery';
 
 interface Containers {
     name: string,
@@ -19,17 +20,7 @@ interface DeploymentBody {
 
 const deploymentApi = createApi({
     reducerPath: "deploymentApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_BASEURL,
-        prepareHeaders: (headers, {getState}) => {
-            const token = (getState() as { login: { token: string } }).login.token;
-            if (token) {
-                headers.set("Authorization", token);
-            }
-
-            return headers;
-        }
-    }),
+    baseQuery: baseQuery,
     tagTypes: ['Deployment'],
     endpoints: (builder) => ({
         createDeployment: builder.mutation<any, DeploymentBody>({

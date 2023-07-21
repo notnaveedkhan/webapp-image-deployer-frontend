@@ -9,13 +9,35 @@ interface Containers {
 }
 
 
-interface DeploymentBody {
+export interface DeploymentBody {
     name: string,
     containers: Containers[],
     replicas: number,
     controlPlane: number,
     targetPort: number
 }
+
+export interface Container {
+    name: string,
+    image: string,
+    containerPort: number,
+    env?: {}
+}
+
+
+export interface DeploymentResponse {
+    id: number
+    name: string,
+    url: string,
+    cluster: string,
+    replicas: number,
+    status: 'CREATED' | 'CREATING',
+    createdAt: string,
+    modifiedAt: string,
+    containers: Container[]
+}
+
+
 
 
 const deploymentApi = createApi({
@@ -31,7 +53,7 @@ const deploymentApi = createApi({
             }),
             invalidatesTags: ["Deployment"]
         }),
-        getAllDeployments: builder.query<any, void>({
+        getAllDeployments: builder.query<DeploymentResponse[], void>({
             query: () => "/api/v1/kube/web/app/deployment/details",
             providesTags: ["Deployment"]
         }),

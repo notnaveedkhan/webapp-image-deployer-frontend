@@ -7,19 +7,49 @@ import {
   Link,
   Image,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { HiOutlineDotsVertical, HiOutlineExternalLink } from "react-icons/hi";
 import { RxDragHandleDots1 } from "react-icons/rx";
 import LOGO from "../../assets/logo.png";
+import {
+  CostaAndUsage,
+  useGetCostOfAuthenticationQuery,
+  useGetCostOfDeploymentsQuery,
+} from "../../services/dashboard.service";
 
 export default function CostAndUsage() {
+  const [costOfAuthentication, setCostOfAuthentication] =
+    useState<CostaAndUsage>({ cost: 0, count: 0 });
+  const [costOfDeployments, setCostOfDeployments] = useState<CostaAndUsage>({
+    cost: 0,
+    count: 0,
+  });
+
+  const {
+    data: costOfAuthenticationData,
+    isSuccess: isCostOfAuthenticationSuccess,
+  } = useGetCostOfAuthenticationQuery();
+  const { data: costOfDeploymentsData, isSuccess: isCostOfDeploymentsSuccess } =
+    useGetCostOfDeploymentsQuery();
+
+  useEffect(() => {
+    if (isCostOfAuthenticationSuccess) {
+      setCostOfAuthentication(costOfAuthenticationData);
+    }
+    if (isCostOfDeploymentsSuccess) {
+      setCostOfDeployments(costOfDeploymentsData);
+    }
+  }, [
+    costOfAuthenticationData,
+    costOfDeploymentsData,
+    isCostOfAuthenticationSuccess,
+    isCostOfDeploymentsSuccess,
+  ]);
+
   return (
-    <Box
-      w={{ base: "100%", md: "60%" }}
-      minH="200px"
-      boxShadow={"md"}
-      bgColor="white">
+    <Box className="md:col-span-6 col-span-12 border rounded-md border-gray-300">
       <Box
-        bgColor={"gray.300"}
+        className="bg-blue-900 text-white rounded-md"
         p={3}
         display={"flex"}
         justifyContent={"space-between"}
@@ -34,55 +64,22 @@ export default function CostAndUsage() {
         <HiOutlineDotsVertical />
       </Box>
       <Box p={2} display={"flex"} w="100%" gap={2}>
-        <Box w={"50%"}>
+        <Box p={4} w={"50%"}>
           <Box display={"flex"} gap={2} flexDir="column">
             <Text
               fontSize={"md"}
               color="gray.500"
               w={"fit-content"}
               borderBottom="dashed">
-              currunt mount cost
+              Total Cost
             </Text>
-            <Heading fontSize="2xl">350$</Heading>
+            <Heading fontSize="2xl">
+              {Math.floor(costOfAuthentication.cost + costOfDeployments.cost)}$
+            </Heading>
           </Box>
-          <Divider />
-          <Box display={"flex"} gap={2} flexDir="column">
-            <Text
-              fontSize={"md"}
-              color="gray.500"
-              w={"fit-content"}
-              borderBottom="dashed">
-              currunt mount cost
-            </Text>
-            <Flex justify={"space-between"}>
-              <Heading fontSize="2xl">350$</Heading>
-              <Text fontSize={"sm"} color="gray.500">
-                Wowowknk
-              </Text>
-            </Flex>
-          </Box>
-          <Divider />
-          <Box display={"flex"} gap={2} flexDir="column">
-            <Text
-              fontSize={"md"}
-              color="gray.500"
-              w={"fit-content"}
-              borderBottom="dashed">
-              currunt mount cost
-            </Text>
-            <Heading fontSize={"2xl"}>350$</Heading>
-          </Box>
-          <Divider />
-
-          <Text p={3} display={"flex"} fontSize={"sm"}>
-            Cost Shown are unblonded.{" "}
-            <Link display={"flex"} color={"blue.500"}>
-              Learn more <HiOutlineExternalLink />
-            </Link>
-          </Text>
         </Box>
         <Box w="50%" p={4}>
-          <Text>Top Cost for current mounts</Text>
+          <Text>Cost for current month</Text>
           <Box
             paddingY={2}
             display={"flex"}
@@ -90,9 +87,9 @@ export default function CostAndUsage() {
             alignItems={"center"}>
             <Flex alignItems={"center"} gap={2}>
               <Image h={"30px"} src={LOGO} alt="" />
-              <Text>E2-C</Text>
+              <Text>Cluster</Text>
             </Flex>
-            <Text>2$</Text>
+            <Text>{Math.floor(costOfAuthentication.cost)}$</Text>
           </Box>
           <Divider />
           <Box
@@ -102,9 +99,9 @@ export default function CostAndUsage() {
             alignItems={"center"}>
             <Flex alignItems={"center"} gap={2}>
               <Image h={"30px"} src={LOGO} alt="" />
-              <Text>E2-C</Text>
+              <Text>Deployments</Text>
             </Flex>
-            <Text>2$</Text>
+            <Text>{Math.floor(costOfDeployments.cost)}$</Text>
           </Box>
         </Box>
       </Box>

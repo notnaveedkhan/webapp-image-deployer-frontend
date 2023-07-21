@@ -2,7 +2,7 @@ import { Box, Divider, Text, Link } from "@chakra-ui/react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { RxDragHandleDots1 } from "react-icons/rx";
 
-export default function TrustedAdvisor() {
+export default function Statistics() {
   return (
     <div className="md:col-span-6 col-span-12 border rounded-md border-gray-300">
       <Box
@@ -13,7 +13,7 @@ export default function TrustedAdvisor() {
         alignItems="center">
         <Box display={"flex"} alignItems="center" gap={2}>
           <RxDragHandleDots1 fontSize={"20px"} />
-          <Text>Trusted Advisor</Text>
+          <Text>Statistics</Text>
           <Text fontSize={"x-small"} color="blue.500">
             info
           </Text>

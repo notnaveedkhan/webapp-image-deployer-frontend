@@ -1,5 +1,6 @@
 import { DeleteIcon, RepeatIcon, ViewIcon } from "@chakra-ui/icons";
 import {
+  Badge,
   Box,
   Button,
   Heading,
@@ -17,6 +18,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  DeploymentResponse,
   useDeleteDeploymentMutation,
   useGetAllDeploymentsQuery,
 } from "../../services/deploment.service";
@@ -25,7 +27,7 @@ import DeploymentForm from "./DeploymentForm";
 export default function DeploymentTable() {
   const navigate = useNavigate();
   const toast = useToast();
-  const [deployment, setDeployment] = useState<any[]>([]);
+  const [deployment, setDeployment] = useState<DeploymentResponse[]>([]);
   const { data, isError, error, isSuccess, refetch } =
     useGetAllDeploymentsQuery();
   const [deleteDeployment] = useDeleteDeploymentMutation();
@@ -40,8 +42,8 @@ export default function DeploymentTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const handleDelete = (id: string) => {
-    deleteDeployment(id)
+  const handleDelete = (id: number) => {
+    deleteDeployment(String(id))
       .then((res: any) => {
         if (res.data) {
           toast({
@@ -94,21 +96,26 @@ export default function DeploymentTable() {
           <Tr>
             <Th>ID</Th>
             <Th>Name</Th>
-            <Th>Image</Th>
-            <Th>Port</Th>
+            <Th>Status</Th>
             <Th>Replicas</Th>
             <Th>Created At</Th>
             <Th>Actions</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {deployment.map((item: any) => {
+          {deployment.map((item: DeploymentResponse) => {
             return (
               <Tr key={item.id}>
                 <Td>{item.id}</Td>
                 <Td>{item.name}</Td>
-                <Td>{item.image}</Td>
-                <Td>{item.port}</Td>
+                <Td>
+                  <Badge
+                    colorScheme={
+                      item.status === "CREATED" ? "green" : "orange"
+                    }>
+                    {item.status}
+                  </Badge>
+                </Td>
                 <Td>{item.replicas}</Td>
                 <Td>{item.createdAt}</Td>
                 <Td>

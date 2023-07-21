@@ -11,6 +11,7 @@ import ClusterDetail from '../../pages/ClusterDetail'
 import CreateBlog from '../../pages/CreateBlog'
 import Dashboard from '../../pages/Dashborad'
 import Deployment from '../../pages/Deployment'
+import Profile from '../../pages/Profile'
 import Reports from '../../pages/Reports'
 
 export default function User() {
@@ -30,6 +31,7 @@ export default function User() {
                 <Route path="/create-deployment" element={<DeploymentForm />} />
                 <Route path="/blog/:id" element={<BlogDetails />} />
                 <Route path="/reports" element={<Reports />} />
+                <Route path='/profile' element={<Profile />} />
             </Routes>
             <Footer />
         </div>

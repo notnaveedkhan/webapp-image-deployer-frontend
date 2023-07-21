@@ -16,6 +16,9 @@ import notificationApi from './services/notification.service';
 import commonApi from './services/common.service';
 import verifyEmailSlice from './states/verify-email.state';
 import otpApi from './services/otp.service';
+import cardApi from './services/card.service';
+import reportApi from './services/report.service';
+import dashboardApi from './services/dashboard.service';
 
 export const store = configureStore({
     reducer: {
@@ -34,7 +37,10 @@ export const store = configureStore({
         [notificationApi.reducerPath]: notificationApi.reducer,
         [commonApi.reducerPath]: commonApi.reducer,
         [verifyEmailSlice.name]: verifyEmailSlice.reducer,
-        [otpApi.reducerPath]: otpApi.reducer
+        [otpApi.reducerPath]: otpApi.reducer,
+        [cardApi.reducerPath]: cardApi.reducer,
+        [reportApi.reducerPath]: reportApi.reducer,
+        [dashboardApi.reducerPath]: dashboardApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authApi.middleware,
@@ -48,7 +54,10 @@ export const store = configureStore({
         kubeServiceApi.middleware,
         notificationApi.middleware,
         commonApi.middleware,
-        otpApi.middleware
+        otpApi.middleware,
+        cardApi.middleware,
+        reportApi.middleware,
+        dashboardApi.middleware
     )
 })
 

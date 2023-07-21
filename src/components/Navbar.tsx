@@ -88,7 +88,7 @@ export default function Navbar() {
   const [getUser] = useLazyGetUserQuery();
 
   useEffect(() => {
-    getUser({})
+    getUser()
       .then((res) => {
         if (res.data) {
           setUser(res.data);

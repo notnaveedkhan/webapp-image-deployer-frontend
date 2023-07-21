@@ -30,9 +30,6 @@ import ReactPaginate from "react-paginate";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(0);
-  // const [topics, setTopics] = useState<any[]>([]);
   let topics: number[] = [];
   const [loadingBlogs, setLoadingBlogs] = useState(false);
   const { data, isSuccess, isError, error } = useFollowingTopicsQuery();
@@ -80,9 +77,7 @@ export default function Blog() {
           if (res.data) {
             setLoadingBlogs(false);
             console.log(res.data);
-            setBlogs(res.data.content);
-            setTotalPages(res.data.totalPages);
-            setPage(res.data.pageable.pageNumber);
+            setBlogs(res.data);
           }
           if (res.isError) {
             setLoadingBlogs(false);
@@ -102,29 +97,6 @@ export default function Blog() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isError, isSuccess, isAllTopicsSuccess, isAllTopicsError]);
-
-  const handleChangePage = (selectItem: { selected: number }) => {
-    setPage(selectItem.selected);
-    allBlogs({
-      page: 0,
-      topics: topics,
-      size: 10,
-    })
-      .then((res: any) => {
-        if (res.data) {
-          setLoadingBlogs(false);
-          console.log(res.data);
-          setBlogs(res.data.content);
-          setTotalPages(res.data.totalPages);
-          setPage(res.data.pageable.pageNumber);
-        } else {
-          console.log(res);
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  };
 
   return (
     <div className="w-[95%] mx-auto my-3">
@@ -188,24 +160,6 @@ export default function Blog() {
               </Center>
             </Box>
           )}
-          <ReactPaginate
-            previousLabel={"<Previous"}
-            nextLabel={"Next>"}
-            pageCount={totalPages}
-            onPageChange={handleChangePage}
-            containerClassName={"flex justify-center gap-2"}
-            previousClassName={"bg-green-800 text-white px-4 py-2 rounded-md"}
-            previousLinkClassName={"bg-green-800 px-4 py-2"}
-            nextClassName={"bg-green-800 px-4 py-2 rounded-md text-white"}
-            disabledClassName={"text-gray-300 cursor-not-allowed"}
-            disabledLinkClassName={"text-gray-300 cursor-not-allowed"}
-            activeClassName={
-              "bg-green-800 border-none text-white px-4 py-2 rounded-md"
-            }
-            pageClassName={
-              "border border-green-800 border-none  px-4 py-2 rounded-md"
-            }
-          />
         </Box>
         <Box
           px={{ base: 3, md: 6 }}

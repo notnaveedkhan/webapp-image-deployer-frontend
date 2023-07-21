@@ -58,8 +58,15 @@ const topicApi = createApi({
         followingTopics: builder.query<FollowingResultType[], void>({
             query: () => "/api/v1/auth/private/topics/following",
             providesTags: ['Trending']
-        })
+        }),
 
+        unFollowTopic: builder.mutation<BasicResponse, number>({
+            query: (id: number) => ({
+                url: `/api/v1/auth/private/topic/unfollow?topic=${id}`,
+                method: "PUT"
+            }),
+            invalidatesTags: ['topics', 'Trending']
+        }),
     })
 });
 
@@ -68,5 +75,7 @@ export const {
     useAllTopicsQuery,
     useTrendingTopicsQuery,
     useFollowTopicMutation,
-    useFollowingTopicsQuery } = topicApi;
+    useFollowingTopicsQuery,
+    useUnFollowTopicMutation
+} = topicApi;
 export default topicApi;

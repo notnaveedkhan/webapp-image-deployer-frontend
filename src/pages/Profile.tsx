@@ -15,12 +15,13 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import CardModal from "../components/Card/CardModal";
+import EditProfile from "../components/profile/EditProfile";
 import {
   CardDetails,
   useDeleteCardMutation,
   useGetCardsQuery,
 } from "../services/card.service";
-import { UserResponse, Roles, useGetUserQuery } from "../services/user.service";
+import { UserResponse, useGetUserQuery } from "../services/user.service";
 
 const Profile = () => {
   const [user, setUser] = useState<UserResponse>({
@@ -111,9 +112,11 @@ const Profile = () => {
               <button className="border-blue-500 border text-blue-500 p-2 rounded-md mt-4">
                 Change Password
               </button>
-              <button className="border-blue-500 border text-blue-500 p-2 rounded-md mt-4">
-                Edit Profile
-              </button>
+              <EditProfile userData={userData}>
+                <button className="border-blue-500 border text-blue-500 p-2 rounded-md mt-4">
+                  Edit Profile
+                </button>
+              </EditProfile>
             </div>
           </div>
         </div>

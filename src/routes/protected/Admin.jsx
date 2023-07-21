@@ -3,6 +3,7 @@ import DeploymentForm from "../../components/Deployments/DeploymentForm";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import AboutUs from "../../pages/AboutUs";
+import AdminReports from "../../pages/AdminReports";
 import Blog from "../../pages/Blog";
 import BlogDetails from "../../pages/BlogDetails";
 import Cluster from "../../pages/Cluster";
@@ -27,6 +28,7 @@ export default function Admin() {
                 <Route path="/deployments" element={<Deployment />} />
                 <Route path="/create-deployment" element={<DeploymentForm />} />
                 <Route path="/blog/:id" element={<BlogDetails />} />
+                <Route path="/reports" element={<AdminReports />} />
             </Routes>
             <Footer />
         </div>

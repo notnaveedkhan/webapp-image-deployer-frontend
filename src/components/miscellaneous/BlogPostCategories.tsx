@@ -8,6 +8,7 @@ import {
   useFollowingTopicsQuery,
   useFollowTopicMutation,
   useTrendingTopicsQuery,
+  useUnFollowTopicMutation,
 } from "../../services/topic.service";
 
 export default function BlogPostCategories() {
@@ -26,6 +27,8 @@ export default function BlogPostCategories() {
 
   const { data: followingTopics, isSuccess: isFollowingTopicsSuccess } =
     useFollowingTopicsQuery();
+
+  const [unFollowTopic] = useUnFollowTopicMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -65,7 +68,34 @@ export default function BlogPostCategories() {
       });
   }
 
-  function handelClickUnfollowTopic(id: number) {}
+  function handelClickUnfollowTopic(id: number) {
+    unFollowTopic(id)
+      .then((res: any) => {
+        if (res.data) {
+          toast({
+            title: "Topic Unfollowed",
+            description: res.data.message,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
+        }
+        if (res.error) {
+          toast({
+            title: "Error",
+            description: res.error.data.message,
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
 
   return (
     <Box>

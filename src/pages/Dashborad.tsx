@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import ResentVisited from "../components/miscellaneous/ResentVisted";
 import WelcomeToWaidk8 from "../components/miscellaneous/WelcomeToWaidk8";
 import Waidk8Health from "../components/miscellaneous/Waidk8Health";
-import CostAndUsage from "../components/miscellaneous/CostAndUsage";
+import Cost from "../components/miscellaneous/Cost";
 import BuildSolution from "../components/miscellaneous/BuildSolution";
 import Statistics from "../components/miscellaneous/Statistics";
 import LatestAnnouncements from "../components/miscellaneous/LatestAnnouncements";
@@ -15,7 +15,7 @@ function Dashboard() {
       <LatestAnnouncements />
       <RecentBlog />
       <Statistics />
-      <CostAndUsage />
+      <Cost />
     </div>
   );
 }

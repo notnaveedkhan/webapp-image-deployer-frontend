@@ -8,7 +8,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { HiOutlineDotsVertical, HiOutlineExternalLink } from "react-icons/hi";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import { RxDragHandleDots1 } from "react-icons/rx";
 import LOGO from "../../assets/logo.png";
 import {

@@ -16,6 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { BsClipboard } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import {
   DeploymentResponse,
@@ -71,12 +72,16 @@ export default function DeploymentTable() {
     });
   };
 
+  const handleCopyUrl = (index: number) => {
+    navigator.clipboard.writeText(deployment[index].url);
+  };
+
   return (
     <TableContainer mt={5}>
       <Heading textAlign={"center"}>Kubernetes Deployment Data</Heading>
       <Box display={"flex"} gap={2}>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
           onClick={() => navigate("/create-deployment")}>
           Create Deployment
         </button>
@@ -97,13 +102,14 @@ export default function DeploymentTable() {
             <Th>ID</Th>
             <Th>Name</Th>
             <Th>Status</Th>
+            <Th>Endpoint</Th>
             <Th>Replicas</Th>
             <Th>Created At</Th>
             <Th>Actions</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {deployment.map((item: DeploymentResponse) => {
+          {deployment.map((item: DeploymentResponse, index) => {
             return (
               <Tr key={item.id}>
                 <Td>{item.id}</Td>
@@ -115,6 +121,9 @@ export default function DeploymentTable() {
                     }>
                     {item.status}
                   </Badge>
+                </Td>
+                <Td>
+                  <BsClipboard onClick={() => handleCopyUrl(index)} />
                 </Td>
                 <Td>{item.replicas}</Td>
                 <Td>{item.createdAt}</Td>

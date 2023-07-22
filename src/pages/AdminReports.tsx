@@ -53,12 +53,13 @@ export default function AdminReports() {
     if (isApiResponse(error)) {
       console.log(error);
       toast({
-        title: "Error Occured",
+        title: "Error",
         description: error.data?.message,
         status: "error",
         duration: 5000,
         isClosable: true,
         position: "top",
+        variant: "left-accent",
       });
     }
   }, [data, isSuccess, isError, error]);

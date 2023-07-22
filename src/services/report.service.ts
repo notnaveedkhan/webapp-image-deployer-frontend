@@ -69,6 +69,13 @@ const reportApi = createApi({
         getAllReportsDetailsAdmin: builder.query<ReportResponseAdmin[], void>({
             query: () => "/api/v1/auth/private/reports/details",
             providesTags: ["report"]
+        }),
+        deleteReport: builder.mutation<any, string>({
+            query: (id: string) => ({
+                url: `/api/v1/auth/private/report/${id}/delete`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["report"]
         })
     })
 
@@ -80,7 +87,8 @@ export const {
     useGetAllReportByUserQuery,
     useCreateReportsMutation,
     useUpdateReportMutation,
-    useGetAllReportsDetailsAdminQuery
+    useGetAllReportsDetailsAdminQuery,
+    useDeleteReportMutation
 } = reportApi;
 
 export default reportApi;

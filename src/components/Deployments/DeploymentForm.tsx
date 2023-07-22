@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 
 import {
     Box,
-    Button,
     FormControl,
     FormErrorMessage,
     FormLabel,
@@ -21,9 +20,11 @@ import {useGetAllControlPlaneQuery} from "../../services/controlPlane.service";
 import {useCreateDeploymentMutation} from "../../services/deploment.service";
 import {AddIcon, MinusIcon} from "@chakra-ui/icons";
 import EnvModal from "./EnvModal";
+import {useNavigate} from "react-router-dom";
 
 export default function DeploymentForm() {
     const toast = useToast();
+    const navigate = useNavigate()
     const [controlPlane, setControlPlane] = useState<any[]>([]);
     const {isOpen, onOpen, onClose} = useDisclosure();
     const {data, isSuccess} = useGetAllControlPlaneQuery();
@@ -39,7 +40,6 @@ export default function DeploymentForm() {
             deploymentName: "",
             replicas: 0,
             controlPlane: 0,
-            targetPort: 0,
             container: [
                 {
                     name: "",
@@ -55,8 +55,8 @@ export default function DeploymentForm() {
                 name: values.deploymentName,
                 replicas: values.replicas,
                 controlPlane: values.controlPlane,
-                targetPort: values.targetPort,
                 containers: values.container,
+
             })
                 .then((res: any) => {
                     if (res.data) {
@@ -69,6 +69,7 @@ export default function DeploymentForm() {
                             position: "top",
                             variant: "left-accent",
                         });
+                        navigate("/deployments")
                     }
                     if (res.error) {
                         toast({
@@ -88,7 +89,6 @@ export default function DeploymentForm() {
             deploymentName: Yup.string().required("Required"),
             replicas: Yup.number().required("Required"),
             controlPlane: Yup.number().required("Required"),
-            targetPort: Yup.number().required("Required"),
             container: Yup.array().of(
                 Yup.object({
                     name: Yup.string().required("Required"),
@@ -131,6 +131,7 @@ export default function DeploymentForm() {
 
     return (
         <Box p={4}>
+            <Heading textAlign={"center"} className={"my-5"}>Create Deployment</Heading>
             <form onSubmit={Formik.handleSubmit}>
                 <Box
                     display={"flex"}
@@ -168,20 +169,20 @@ export default function DeploymentForm() {
                         />
                         <FormErrorMessage>{Formik.errors.replicas}</FormErrorMessage>
                     </FormControl>
-                    <FormControl
-                        my={2}
-                        w={{base: "100%", md: "30%"}}
-                        minH={"100px"}
-                        isInvalid={!!(Formik.touched.targetPort && Formik.errors.targetPort)}>
-                        <FormLabel>Target Port</FormLabel>
-                        <Input
-                            borderColor={"gray.500"}
-                            focusBorderColor="blue.500"
-                            type={"number"}
-                            {...Formik.getFieldProps("targetPort")}
-                        />
-                        <FormErrorMessage>{Formik.errors.targetPort}</FormErrorMessage>
-                    </FormControl>
+                    {/*<FormControl*/}
+                    {/*    my={2}*/}
+                    {/*    w={{base: "100%", md: "30%"}}*/}
+                    {/*    minH={"100px"}*/}
+                    {/*    isInvalid={!!(Formik.touched.targetPort && Formik.errors.targetPort)}>*/}
+                    {/*    <FormLabel>Target Port</FormLabel>*/}
+                    {/*    <Input*/}
+                    {/*        borderColor={"gray.500"}*/}
+                    {/*        focusBorderColor="blue.500"*/}
+                    {/*        type={"number"}*/}
+                    {/*        {...Formik.getFieldProps("targetPort")}*/}
+                    {/*    />*/}
+                    {/*    <FormErrorMessage>{Formik.errors.targetPort}</FormErrorMessage>*/}
+                    {/*</FormControl>*/}
                     <FormControl
                         my={2}
                         w={{base: "100%", md: "30%"}}

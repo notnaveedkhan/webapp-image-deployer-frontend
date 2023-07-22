@@ -95,6 +95,7 @@ export default function CreateBlog() {
             duration: 3000,
             icon: <CheckIcon />,
             status: "success",
+            variant: "left-accent",
           });
           navigate("/blogs", { replace: true });
         }
@@ -104,6 +105,7 @@ export default function CreateBlog() {
             position: "top",
             isClosable: true,
             duration: 3000,
+            variant: "left-accent",
             icon: <WarningIcon />,
           });
           console.table(res.error.data);

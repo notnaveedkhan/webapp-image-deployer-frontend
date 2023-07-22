@@ -49,18 +49,20 @@ export default function KubeServiceTable() {
                             duration: 9000,
                             isClosable: true,
                             position: "top",
+                            variant: "left-accent",
                             icon: <CheckIcon/>
                         })
                     }
                     if (res.error) {
                         onClose();
                         toast({
-                            title: "Failure",
+                            title: "Error",
                             description: res.error.data.message,
                             status: "error",
                             duration: 9000,
                             isClosable: true,
                             position: "top",
+                            variant: "left-accent",
                             icon: <WarningIcon/>
                         })
                     }

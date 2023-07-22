@@ -55,6 +55,7 @@ export default function Register() {
             duration: 2000,
             position: "top",
             status: "success",
+            variant: "left-accent",
           });
           setSubmitLoading(false);
           localStorage.setItem("email", values.email);
@@ -75,6 +76,7 @@ export default function Register() {
             duration: 3000,
             position: "top",
             status: "error",
+            variant: "left-accent",
           });
           setSubmitLoading(false);
         }

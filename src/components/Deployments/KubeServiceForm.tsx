@@ -53,11 +53,12 @@ export default function KubeServiceForm(props: DeploymentFormProps) {
                 if (res.data) {
                     toast({
                         title: "Success",
-                        description: "Service created successfully",
+                        description: res.data.message,
                         status: "success",
                         duration: 5000,
                         isClosable: true,
                         position: "top",
+                        variant: "left-accent",
                     });
                     onClose()
                 }
@@ -69,6 +70,7 @@ export default function KubeServiceForm(props: DeploymentFormProps) {
                         duration: 5000,
                         isClosable: true,
                         position: "top",
+                        variant: "left-accent",
                     });
                 }
             }).catch((err) => {

@@ -48,6 +48,7 @@ export default function NotificationMenu(props: NotificationMenuProps) {
             duration: 3000,
             position: "top",
             isClosable: true,
+            variant: "left-accent",
           });
         }
       })
@@ -59,6 +60,7 @@ export default function NotificationMenu(props: NotificationMenuProps) {
           duration: 3000,
           position: "top",
           isClosable: true,
+          variant: "left-accent",
         });
       });
   };
@@ -74,6 +76,7 @@ export default function NotificationMenu(props: NotificationMenuProps) {
             duration: 3000,
             position: "top",
             isClosable: true,
+            variant: "left-accent",
           });
         }
       })
@@ -85,6 +88,7 @@ export default function NotificationMenu(props: NotificationMenuProps) {
           duration: 3000,
           position: "top",
           isClosable: true,
+          variant: "left-accent",
         });
       });
   };

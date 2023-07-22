@@ -43,12 +43,13 @@ const EditReportsByAdminModal: React.FC<Props> = ({ children, id, status }) => {
         if (res.data) {
           Formik.resetForm();
           toast({
-            title: "Report Updated",
+            title: "Success",
             description: res.data.message,
             status: "success",
             duration: 3000,
             isClosable: true,
             position: "top",
+            variant: "left-accent",
           });
         }
         if (res.error) {
@@ -58,6 +59,7 @@ const EditReportsByAdminModal: React.FC<Props> = ({ children, id, status }) => {
             status: "error",
             duration: 3000,
             isClosable: true,
+            variant: "left-accent",
           });
         }
       });

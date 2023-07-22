@@ -37,6 +37,7 @@ const CreateTopic = () => {
         isClosable: true,
         status: "warning",
         position: "top",
+        variant: "left-accent",
       });
     } else {
       topicApi({ name: FormikCreateTopic.values.name })
@@ -48,6 +49,7 @@ const CreateTopic = () => {
               isClosable: true,
               status: "success",
               position: "top",
+              variant: "left-accent",
             });
             FormikCreateTopic.resetForm();
           }
@@ -58,6 +60,7 @@ const CreateTopic = () => {
               isClosable: true,
               status: "error",
               position: "top",
+              variant: "left-accent",
             });
           }
         })
@@ -68,6 +71,7 @@ const CreateTopic = () => {
             isClosable: true,
             status: "error",
             position: "top",
+            variant: "left-accent",
           });
         });
     }

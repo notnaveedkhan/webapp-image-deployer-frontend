@@ -56,6 +56,7 @@ export default function Login() {
             duration: 3000,
             position: "top",
             status: "error",
+            variant: "left-accent",
           });
           console.log(res.error);
         }
@@ -64,11 +65,12 @@ export default function Login() {
           setSubmitLoading(false);
           console.log(res.data);
           toast({
-            title: "Login Successfully",
+            title: "Logged In Successfully",
             isClosable: true,
             duration: 3000,
             position: "top",
             status: "success",
+            variant: "left-accent",
           });
           const loginInfo: LoginState = {
             login: true,

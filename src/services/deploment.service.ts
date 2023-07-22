@@ -13,8 +13,7 @@ export interface DeploymentBody {
     name: string,
     containers: Containers[],
     replicas: number,
-    controlPlane: number,
-    targetPort: number
+    controlPlane: number
 }
 
 export interface Container {

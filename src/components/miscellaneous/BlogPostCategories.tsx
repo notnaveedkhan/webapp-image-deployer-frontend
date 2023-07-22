@@ -50,6 +50,7 @@ export default function BlogPostCategories() {
             duration: 3000,
             isClosable: true,
             position: "top",
+            variant: "left-accent",
           });
         }
         if (res.error) {
@@ -60,6 +61,7 @@ export default function BlogPostCategories() {
             duration: 3000,
             isClosable: true,
             position: "top",
+            variant: "left-accent",
           });
         }
       })
@@ -79,6 +81,7 @@ export default function BlogPostCategories() {
             duration: 3000,
             isClosable: true,
             position: "top",
+            variant: "left-accent",
           });
         }
         if (res.error) {
@@ -89,6 +92,7 @@ export default function BlogPostCategories() {
             duration: 3000,
             isClosable: true,
             position: "top",
+            variant: "left-accent",
           });
         }
       })

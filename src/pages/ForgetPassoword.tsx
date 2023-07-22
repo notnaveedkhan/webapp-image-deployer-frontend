@@ -38,6 +38,7 @@ const ForgotPassword = () => {
             duration: 2000,
             position: "top",
             status: "success",
+            variant: "left-accent",
           });
           navigate("/login");
         }
@@ -50,6 +51,7 @@ const ForgotPassword = () => {
             duration: 3000,
             position: "top",
             status: "error",
+            variant: "left-accent",
           });
         }
       });

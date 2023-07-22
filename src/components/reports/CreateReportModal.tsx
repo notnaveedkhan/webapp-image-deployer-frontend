@@ -46,6 +46,7 @@ export default function CreateReportModal(props: Props) {
               isClosable: true,
               status: "success",
               position: "top",
+              variant: "left-accent",
             });
             onClose();
             action.resetForm();
@@ -58,6 +59,7 @@ export default function CreateReportModal(props: Props) {
               isClosable: true,
               status: "error",
               position: "top",
+              variant: "left-accent",
             });
           }
         })
@@ -69,6 +71,7 @@ export default function CreateReportModal(props: Props) {
             isClosable: true,
             status: "error",
             position: "top",
+            variant: "left-accent",
           });
         });
     },

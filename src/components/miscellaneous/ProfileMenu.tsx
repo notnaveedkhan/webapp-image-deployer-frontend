@@ -13,8 +13,6 @@ export default function ProfileMenu(props: Props) {
       <MenuButton>{props.children}</MenuButton>
       <MenuList>
         <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-        <MenuItem>Settings</MenuItem>
-        <MenuItem>Billing</MenuItem>
         <MenuItem onClick={() => navigate("/reports")}>Reports</MenuItem>
         <MenuItem onClick={props.handleLogout}>Logout</MenuItem>
       </MenuList>

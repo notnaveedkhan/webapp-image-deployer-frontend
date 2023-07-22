@@ -229,8 +229,8 @@ export default function BlogDetails() {
                   <InputRightElement p={0}>
                     <button
                       type="submit"
-                      className="bg-blue-900 px-2 py-2 rounded-md text-white">
-                      post
+                      className="bg-blue-900 px-2 py-2 rounded-md text-white ">
+                      Comment
                     </button>
                   </InputRightElement>
                 </InputGroup>

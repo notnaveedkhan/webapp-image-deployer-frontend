@@ -1,126 +1,128 @@
 import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Select,
-  useDisclosure,
-  useToast,
+    Button,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
+    useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useFormik } from "formik";
+import {useEffect, useState} from "react";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import {
-  useAddNodeGroupMutation,
-  NodeGroup,
+    useAddNodeGroupMutation,
+    NodeGroup,
 } from "../../services/nodeGroup.service";
-import { useGetAllRegionsQuery } from "../../services/region.service";
-import { CheckIcon, WarningIcon } from "@chakra-ui/icons";
+import {useGetAllRegionsQuery} from "../../services/region.service";
+import {CheckIcon, WarningIcon} from "@chakra-ui/icons";
 
 interface Props {
-  ButtonText: string;
-  controlPlane: any[];
+    ButtonText: string;
+    controlPlane: any[];
 }
 
 export default function CreateNodeGroupForm(props: Props) {
-  const toast = useToast();
-  const [controlPlane, setControlPlane] = useState<any[]>([]);
-  const [addNodeGroup] = useAddNodeGroupMutation();
-  const { data } = useGetAllRegionsQuery({});
-  const [region, setRegion] = useState<string>("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const Formik = useFormik({
-    initialValues: {
-      nodeGroupName: "",
-      controlPlane: "",
-      instanceTypes: "",
-      maxSize: "",
-      minSize: "",
-      desiredSize: "",
-      volumeSize: "",
-      imageId: "",
-    },
-    onSubmit: (values, actions) => {
-      const SelectedRegion: any = data.find((r: any) => r.region === region);
-      const regionId = SelectedRegion.id;
-      const newNodeGroup: NodeGroup = {
-        nodeGroupName: values.nodeGroupName,
-        controlPlane: parseInt(values.controlPlane),
-        nodeInstanceType: values.instanceTypes,
-        nodeGroupMaxSize: parseInt(values.maxSize),
-        nodeGroupMinSize: parseInt(values.minSize),
-        nodeImageId: values.imageId,
-        nodeVolumeSize: parseInt(values.volumeSize),
-        nodeGroupDesiredSize: parseInt(values.desiredSize),
-        region: regionId,
-      };
-      console.log(newNodeGroup);
-      addNodeGroup(newNodeGroup)
-        .then((response: any) => {
-          if (response.data) {
-            actions.resetForm();
-            onClose();
-            toast({
-              title: "Success",
-              description: data.message,
-              status: "success",
-              duration: 9000,
-              isClosable: true,
-              position: "top",
-              icon: <CheckIcon />,
-            });
-          }
-          if (response.error) {
-            onClose();
-            toast({
-              title: "Failure",
-              description: response.error.data.message,
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-              position: "top",
-              icon: <WarningIcon />,
-            });
-          }
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
-    },
-    validationSchema: Yup.object({
-      nodeGroupName: Yup.string().required("Node Group Name is required"),
-      controlPlane: Yup.string().required("Control Plane is required"),
-      instanceTypes: Yup.string().required("Instance Type is required"),
-      maxSize: Yup.number().required("Max Size is required"),
-      minSize: Yup.number().required("Min Size is required"),
-      desiredSize: Yup.number().required("Desired Size is required"),
-      volumeSize: Yup.number().required("Volume Size is required"),
-      imageId: Yup.string().required("Image Id is required"),
-    }),
-  });
+    const toast = useToast();
+    const [controlPlane, setControlPlane] = useState<any[]>([]);
+    const [addNodeGroup] = useAddNodeGroupMutation();
+    const {data} = useGetAllRegionsQuery({});
+    const [region, setRegion] = useState<string>("");
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    const Formik = useFormik({
+        initialValues: {
+            nodeGroupName: "",
+            controlPlane: "",
+            instanceTypes: "",
+            maxSize: "",
+            minSize: "",
+            desiredSize: "",
+            volumeSize: "",
+            imageId: "",
+        },
+        onSubmit: (values, actions) => {
+            const SelectedRegion: any = data.find((r: any) => r.region === region);
+            const regionId = SelectedRegion.id;
+            const newNodeGroup: NodeGroup = {
+                nodeGroupName: values.nodeGroupName,
+                controlPlane: parseInt(values.controlPlane),
+                nodeInstanceType: values.instanceTypes,
+                nodeGroupMaxSize: parseInt(values.maxSize),
+                nodeGroupMinSize: parseInt(values.minSize),
+                nodeImageId: values.imageId,
+                nodeVolumeSize: parseInt(values.volumeSize),
+                nodeGroupDesiredSize: parseInt(values.desiredSize),
+                region: regionId,
+            };
+            console.log(newNodeGroup);
+            addNodeGroup(newNodeGroup)
+                .then((response: any) => {
+                    if (response.data) {
+                        actions.resetForm();
+                        onClose();
+                        toast({
+                            title: "Success",
+                            description: response.data.message,
+                            status: "success",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "top",
+                            variant: "left-accent",
+                            icon: <CheckIcon/>,
+                        });
+                    }
+                    if (response.error) {
+                        onClose();
+                        toast({
+                            title: "Error",
+                            description: response.error.data.message,
+                            status: "error",
+                            duration: 9000,
+                            isClosable: true,
+                            position: "top",
+                            variant: "left-accent",
+                            icon: <WarningIcon/>,
+                        });
+                    }
+                })
+                .catch((error: any) => {
+                    console.log(error);
+                });
+        },
+        validationSchema: Yup.object({
+            nodeGroupName: Yup.string().required("Node Group Name is required"),
+            controlPlane: Yup.string().required("Control Plane is required"),
+            instanceTypes: Yup.string().required("Instance Type is required"),
+            maxSize: Yup.number().required("Max Size is required"),
+            minSize: Yup.number().required("Min Size is required"),
+            desiredSize: Yup.number().required("Desired Size is required"),
+            volumeSize: Yup.number().required("Volume Size is required"),
+            imageId: Yup.string().required("Image Id is required"),
+        }),
+    });
 
-  const handleChangeControlPlane = (event: any) => {
-    Formik.handleChange(event);
-    const id = parseInt(event.target.value);
-    const SelectedControlPlane: any = props.controlPlane.find(
-      (cp: any) => cp.id === id
-    );
-    setRegion(SelectedControlPlane.region);
-  };
+    const handleChangeControlPlane = (event: any) => {
+        Formik.handleChange(event);
+        const id = parseInt(event.target.value);
+        const SelectedControlPlane: any = props.controlPlane.find(
+            (cp: any) => cp.id === id
+        );
+        setRegion(SelectedControlPlane.region);
+    };
 
-  const handleCancelForm = () => {
-    onClose();
-    Formik.resetForm();
-    setRegion("");
-  };
+    const handleCancelForm = () => {
+        onClose();
+        Formik.resetForm();
+        setRegion("");
+    };
 
   useEffect(() => {
     // console.log(props.controlPlane)
@@ -252,7 +254,7 @@ export default function CreateNodeGroupForm(props: Props) {
                 w={"45%"}
                 my={1}
                 isInvalid={!!(Formik.touched.imageId && Formik.errors.imageId)}>
-                <FormLabel>Image ID(hardCodded)</FormLabel>
+                <FormLabel>Image ID</FormLabel>
                 <Select
                   {...Formik.getFieldProps("imageId")}
                   placeholder="Image ID">

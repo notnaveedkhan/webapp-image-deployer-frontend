@@ -33,7 +33,7 @@ export const links: Links[] = [
 export const adminLinks: Links[] = [
     {
         text: 'Admin Dashboard',
-        url: '/dashboard'
+        url: '/'
     },
     {
         text: 'Announcements',

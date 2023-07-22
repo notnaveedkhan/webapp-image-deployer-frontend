@@ -3,8 +3,12 @@ import { FcIdea } from "react-icons/fc";
 import { HiOutlineDotsVertical, HiOutlineExternalLink } from "react-icons/hi";
 import { RxDragHandleDots1, RxRocket } from "react-icons/rx";
 import { TbCertificate } from "react-icons/tb";
+import {useNavigate} from "react-router-dom";
 
 export default function WelcomeToWaidk8() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="md:col-span-4 col-span-12 border  rounded-md border-gray-300">
       <Box
@@ -25,13 +29,12 @@ export default function WelcomeToWaidk8() {
         <Box>
           <Flex cursor={"pointer"}>
             <Heading fontSize={"lg"} color={"blue.500"}>
-              <Link>Getting Started With Waidk8</Link>
+              <Link onClick={()=> navigate('/blog/4')}>Getting Started With Waidk8</Link>
             </Heading>{" "}
             <HiOutlineExternalLink color="blue" />
           </Flex>
           <Text as={"p"}>
-            Hi, how do i change the placeholder color for a variant style? I
-            tried this in the extendTheme configs:
+            A powerful tool designed to simplify web application deployment on Kubernetes clusters without the need for specialized DevOps knowledge.
           </Text>
         </Box>
       </Box>

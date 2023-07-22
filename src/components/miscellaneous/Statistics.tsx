@@ -94,19 +94,14 @@ export default function Statistics() {
     return (
         <div className="md:col-span-12 col-span-12 border rounded-md border-gray-300">
             <Box
-                className="bg-blue-900 text-white rounded-md"
+                className="bg-blue-900 text-white rounded-md px-[145px]"
                 p={3}
                 display={"flex"}
                 justifyContent={"space-between"}
                 alignItems="center">
-                <Box display={"flex"} alignItems="center" gap={2}>
-                    <RxDragHandleDots1 fontSize={"20px"}/>
-                    <Text>Statistics</Text>
-                    <Text fontSize={"x-small"} color="blue.500">
-                        info
-                    </Text>
-                </Box>
-                <HiOutlineDotsVertical/>
+                <Text>Blog Statistics</Text>
+                <Text>Deployment Statistics</Text>
+                <Text>Cluster Statistics</Text>
             </Box>
             <Box display={"flex"} className={"flex-row"}>
                 <Chart data={blogChartData}/>

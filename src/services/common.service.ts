@@ -8,6 +8,11 @@ export interface BuildDetails {
     buildTimestamp: string
 }
 
+export interface StatisticsResponse {
+    dateTime: string;
+    count: number;
+}
+
 
 const commonApi = createApi({
     reducerPath: 'commonApi',
@@ -24,7 +29,21 @@ const commonApi = createApi({
 
         getKubernetesServiceBuildDetails: builder.query<BuildDetails, void>({
             query: () => '/api/v1/kube/public/common/build-detail'
-        })
+        }),
+
+        blogStatistics: builder.query<StatisticsResponse[], void>({
+            query: () => '/api/v1/auth/private/blog/statistics'
+        }),
+
+        deploymentsStatistics: builder.query<StatisticsResponse[], void>({
+            query: () => '/api/v1/kube/web/app/deployment/statistics'
+        }),
+
+        controlPlaneStatistics: builder.query<StatisticsResponse[], void>({
+            query: () => '/api/v1/auth/private/control-plane/statistics'
+        }),
+
+
     }),
 
 });
@@ -35,5 +54,8 @@ export default commonApi;
 export const {
     useGetAuthenticationServiceBuildDetailsQuery,
     useGetAwsServiceBuildDetailsQuery,
-    useGetKubernetesServiceBuildDetailsQuery
+    useGetKubernetesServiceBuildDetailsQuery,
+    useBlogStatisticsQuery,
+    useDeploymentsStatisticsQuery,
+    useControlPlaneStatisticsQuery
 } = commonApi

@@ -1,8 +1,39 @@
-import { Box, Divider, Text, Link } from "@chakra-ui/react";
+import { Box, Divider, Text, Link, useToast } from "@chakra-ui/react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { RxDragHandleDots1 } from "react-icons/rx";
+import Chart from "../Chart/Chart";
+import { useState, useEffect } from "react";
+import {
+  StatisticsResponse,
+  useBlogStatisticsQuery,
+} from "../../services/common.service";
+import { isApiResponse } from "../../Helper/isApiErrorResponce";
 
 export default function Statistics() {
+  const [chatData, setChatData] = useState<StatisticsResponse[]>([]);
+
+  const { data, isLoading, isSuccess, isError, error } =
+    useBlogStatisticsQuery();
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setChatData(data);
+    }
+
+    if (isApiResponse(error)) {
+      toast({
+        title: "Error Occured",
+        description: error.data?.message,
+        status: "error",
+        position: "top",
+        duration: 5000,
+        variant: "left-accent",
+      });
+    }
+  }, [data, isLoading, isSuccess, isError, error]);
+
   return (
     <div className="md:col-span-6 col-span-12 border rounded-md border-gray-300">
       <Box
@@ -20,15 +51,8 @@ export default function Statistics() {
         </Box>
         <HiOutlineDotsVertical />
       </Box>
-      <Divider />
-      <Link
-        paddingY={3}
-        display="flex"
-        justifyContent={"center"}
-        alignSelf={"flex-end"}
-        color={"blue.500"}>
-        GO AWS Cost Management
-      </Link>
+
+      <Chart data={chatData} />
     </div>
   );
 }
